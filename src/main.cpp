@@ -6,49 +6,33 @@
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
 
+#include "core/Core.h"
+#include "model/NodeManager.h"
+
+#include "model/type/NodeBoolean.h"
+#include "model/type/NodeImage.h"
+
 #include "models.hpp"
 
-using QtNodes::DataModelRegistry;
-using QtNodes::FlowScene;
-using QtNodes::FlowView;
-using QtNodes::ConnectionStyle;
-
-static std::shared_ptr<DataModelRegistry> registerDataModels()
-{
-  auto ret = std::make_shared<DataModelRegistry>();
-
-  ret->registerModel<NaiveDataModel>();
-
-  return ret;
-}
-
-
-static void setStyle()
-{
-  ConnectionStyle::setConnectionStyle(
-    R"(
-  {
-    "ConnectionStyle": {
-      "UseDataDefinedColors": true
-    }
-  }
-  )");
-}
-
-
-//------------------------------------------------------------------------------
 
 int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
 
-  setStyle();
+  ShaderGraph::NodeManager nodeManager;
 
-  FlowScene scene(registerDataModels());
+  nodeManager.registry()->registerModel<ShaderGraph::BooleanNode>();
+  nodeManager.registry()->registerModel<ShaderGraph::ImageNode>();
 
-  FlowView view(&scene);
+  nodeManager.registry()->registerModel<NaiveDataModel>();
 
-  view.setWindowTitle("Node-based flow editor");
+  // The node style is from the nodeeditor example "calculator".
+  nodeManager.loadNodeStyle("../nodestyle.txt");
+
+  QtNodes::FlowScene scene(nodeManager.registry());
+  QtNodes::FlowView view(&scene);
+
+  view.setWindowTitle("ShaderGraph");
   view.resize(800, 600);
   view.show();
 

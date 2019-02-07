@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 # version 3.4 is required as other do not work with C++14 and clang
 
-project(NodeEditor CXX)
+project(ShaderGraph CXX)
 
 if(APPLE AND EXISTS /usr/local/opt/qt5)
 	# Homebrew installs Qt5 (up to at least 5.9.1) in

@@ -1,0 +1,8 @@
+(
+    {
+     "ConnectionStyle":
+     {
+       "UseDataDefinedColors": true
+     }
+    }
+)

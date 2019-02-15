@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Example Application
+Comment=This is an example application for C++
+Keywords=cpp;cmake;example;
+Exec=ShaderGraph
+Icon=ShaderGraph.png
+Terminal=true
+Type=Application
+Categories=Utility;Photography;GNOME;GTK;

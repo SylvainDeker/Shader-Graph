@@ -1,0 +1,741 @@
+/* The standard CSS for doxygen 
+modified by RossCairns.com https://bitbucket.org/rc1/doxygen-style/wiki/Home,
+then modified by kracejic https://github.com/kracejic/cleanCppProject.
+
+Headers/top:     #42657B
+Link             #366495
+
+Text color:      #3E3E3E
+Background:      white
+
+Code-background  #f5f5f5
+Gray-borders     #CCCCCC
+
+Code             #826542
+
+ */
+
+.container {
+    margin:0 auto;
+    max-width: 1000px;
+    background-color: white;
+}
+
+body, table, div, p, dl {
+    font-family: sans-serif;
+    font: 400 14px/22px sans-serif;
+}
+
+p, div, dl {
+    color:#3E3E3E;
+}
+
+dl {
+    margin-top:0px;
+    margin-bottom:0px;
+}
+
+div.contents p {
+    font-family: sans-serif;
+    margin-top: 0.0em;
+    margin-bottom: 0.2em;
+
+}
+
+/* @group Heading Levels */
+
+h1, h1.groupheader {
+    margin-top:10px;
+    margin-bottom: 0px;
+    font-size: 22px;
+    color:#42657B;
+    padding: 0px 0px 20px 0px ;
+
+}
+
+h2, h2.groupheader  {
+    padding-top: 10px;
+    font-size: 17px;
+    color:#42657B;
+    font-family: sans-serif;
+}
+
+h3, h3.groupheader  {
+    font-size: 15px;
+    color:#42657B;
+    font-family: sans-serif;
+}
+
+h4, h4.groupheader  {
+    font-size: 14px;
+    color:#42657B;
+    font-family: sans-serif;
+}
+
+/* class help */
+h2.groupheader  {
+    border-bottom:1px solid #CCCCCC;
+}
+
+dt {
+    font-weight: bold;
+}
+
+div.multicol {
+    -moz-column-gap: 1em;
+    -webkit-column-gap: 1em;
+    -moz-column-count: 3;
+    -webkit-column-count: 3;
+}
+
+p.startli, p.startdd, p.starttd {
+    margin-top: 2px;
+}
+
+p.endli {
+    margin-bottom: 0px;
+}
+
+p.enddd {
+    margin-bottom: 4px;
+}
+
+p.endtd {
+    margin-bottom: 2px;
+}
+
+/* @end */
+
+caption {
+    font-weight: bold;
+}
+
+span.legend {
+    font-size: 70%;
+    text-align: center;
+}
+
+h3.version {
+    font-size: 90%;
+    padding-bottom:10px;
+}
+
+div#main-nav li, div#navrow1 li {
+    border: none;
+}
+div#main-nav li a:hover,
+div#main-nav li.current,
+div#navrow1 li a:hover, div#navrow1 li.current,
+div#navrow2 li a:hover, div#navrow2 li.current,
+div#navrow3 li a:hover, div#navrow3 li.current,
+div#navrow4 li a:hover, div#navrow4 li.current
+{
+    border: none;
+    background-color:#384F5D;
+}
+div#main-nav ul, div#main-nav a, div#main-nav a:hover, 
+div#nav-path.navpath ul, #nav-path a,
+div#navrow1 a, div#navrow1, div#navrow1 li,
+div#navrow2 a, div#navrow2, div#navrow2 li,
+div#navrow3 a, div#navrow3, div#navrow3 li,
+div#navrow4 a, div#navrow4, div#navrow4 li
+{
+    background-image:none;
+    color:white;
+    text-shadow:none;
+}
+div#navrow1.tabs,
+div#navrow2.tabs2,
+div#navrow3.tabs2,
+div#navrow4.tabs3
+{
+    border-bottom:1px solid #CCCCCC;
+}
+
+.navpath li
+{
+    background-image:none;
+    border-right:1px solid white;
+    border-radius:1.4em;
+}
+#side-nav #nav-sync {
+    top: 0px;
+    right: 8px;
+}
+
+
+div#top, div#projectname, div#main-nav ul , div#main-nav li a {
+    background-color:#42657B;
+    color:white;
+}
+.sm-dox a span.sub-arrow {
+    background-color:transparent;
+    color:white;
+    border-color:white transparent transparent transparent;
+}
+.sm-dox ul a span.sub-arrow {
+    background-color:transparent;
+    color:white;
+    border-color:transparent transparent transparent white;
+}
+
+.ui-resizable-e {
+    background-image: none;
+    background-color: #f5f5f5;
+    width: 4px;
+}
+div#nav-tree, #nav-tree .label {
+    background-image:none;
+    background-color:#f5f5f5;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+div#side-nav {
+    position:relative;
+    float:left;
+    margin: 0px;
+    width:200px;
+    padding: 0px;
+    clear:none;
+}
+#nav-tree .selected, #nav-tree .selected a {
+    text-shadow:none;
+    background-image:none;
+    color: #3E3E3E;
+    font-weight: bold;
+}
+
+
+div.qindex, div.navtab{
+    background-color: #e8eef2;
+    border: 1px solid #84b0c7;
+    text-align: center;
+    margin: 2px;
+    padding: 2px;
+}
+
+div.qindex, div.navpath {
+    width: 100%;
+    line-height: 140%;
+}
+
+div.navtab {
+    margin-right: 15px;
+}
+
+#titlearea {
+    border-bottom:1px solid white;
+    padding-left:6px;
+}
+
+/* @group Link Styling */
+
+a {
+    color: #366495;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.contents a:visited {
+    color: #366495;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a.qindex {
+    font-weight: bold;
+}
+
+a.qindexHL {
+    font-weight: bold;
+    background-color: #366495;
+    color: #ffffff;
+    border: 1px double #CCCCCC;
+}
+
+.contents a.qindexHL:visited {
+    color: #ffffff;
+}
+
+a.el {
+    font-weight: normal;
+}
+
+a.elRef {
+}
+
+a.code {
+    color: #366495;
+}
+
+a.codeRef {
+    color: #366495;
+}
+
+/* @end */
+
+dl.el {
+    margin-left: -1cm;
+}
+
+.fragment {
+    font-family: monospace, fixed;
+    padding: 0.8rem 0.8rem;
+    margin: 0.5rem 2px 0.5rem 2px;
+    background-color: #f5f5f5;
+    border: none;
+}
+
+pre.fragment, div.fragment {
+    border: 1px solid #CCCCCC;
+    background-color: #f5f5f5;
+    padding: 8px 8px;
+    margin: 8px 8px 8px 2px;
+    overflow: auto;
+    word-wrap: break-word;
+    line-height: 125%;
+}
+
+div.ah {
+    background-color: black;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 3px;
+    margin-top: 3px
+}
+
+div.headertitle {
+    margin-top:1em;
+    margin-left:12px;
+    padding: 0px;
+
+}
+div.groupHeader, div.title, div.header {
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0px;
+    color:#42657B;
+    font-weight: bold;
+    font-size:24px;
+    font-family: sans-serif;
+    background-image:none;
+    background-color:white;
+    text-shadow:none;
+    border-bottom:1px;
+}
+
+div.groupText {
+    margin-left: 16px;
+    font-style: italic;
+}
+
+body {
+    background: white;
+    color: black;
+}
+
+td.indexkey {
+    background-color: #F1F5F9;
+    font-weight: bold;
+    border: 1px solid #CCCCCC;
+    margin: 2px 0px 2px 0;
+    padding: 2px 10px;
+}
+
+td.indexvalue {
+    background-color: #F1F5F9;
+    border: 1px solid #CCCCCC;
+    padding: 2px 10px;
+    margin: 2px 0px;
+}
+
+tr.memlist {
+    background-color: #f0f0f0;
+}
+
+p.formulaDsp {
+    text-align: center;
+}
+
+img.formulaDsp {
+
+}
+
+img.formulaInl {
+    vertical-align: middle;
+}
+
+div.center {
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+div.center img {
+    border: 0px;
+}
+
+img.footer {
+    border: 0px;
+    vertical-align: middle;
+}
+
+code {
+    color:#826542;
+}
+
+/* @group Code Colorization */
+
+span.keyword {
+    color: #008000
+}
+
+span.keywordtype {
+    color: #604020
+}
+
+span.keywordflow {
+    color: #e08000
+}
+
+span.comment {
+    color: #800000
+}
+
+span.preprocessor {
+    color: #806020
+}
+
+span.stringliteral {
+    color: #002080
+}
+
+span.charliteral {
+    color: #008080
+}
+
+span.vhdldigit { 
+    color: #ff00ff 
+}
+
+span.vhdlchar { 
+    color: #000000 
+}
+
+span.vhdlkeyword { 
+    color: #700070 
+}
+
+span.vhdllogic { 
+    color: #ff0000 
+}
+
+/* @end */
+
+.search {
+    color: #003399;
+    font-weight: bold;
+}
+
+form.search {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+input.search {
+    font-size: 75%;
+    color: #000080;
+    font-weight: normal;
+    background-color: #F1F5F9;
+}
+
+#MSearchBox {
+    position:relative;
+    text-align: right;
+    float:right;
+    widows: 100%;
+}
+
+td.tiny {
+    font-size: 75%;
+}
+
+.dirtab {
+    padding: 4px;
+    border-collapse: collapse;
+    border: 1px solid #84b0c7;
+}
+
+th.dirtab {
+    background: #F1F5F9;
+    font-weight: bold;
+}
+
+hr {
+    height: 0;
+}
+
+div .plantumlgraph {
+    text-align:left;
+    transform:scale(0.85) translateX(-10%);
+}
+
+/* @group Member Descriptions */
+
+.mdescLeft, .mdescRight,
+.memItemLeft, .memItemRight,
+.memTemplItemLeft, .memTemplItemRight, .memTemplParams {
+    background-color: #FAFAFA;
+    border: none;
+    margin: 4px;
+    padding: 1px 0 0 8px;
+}
+
+.mdescLeft, .mdescRight {
+    padding: 0px 8px 4px 8px;
+    color: #555;
+}
+
+.memItemLeft, .memItemRight, .memTemplParams {
+    border-top: 1px solid #ccc;
+    background-color: #F9F9F9;
+}
+
+.memItemLeft, .memTemplItemLeft {
+    white-space: nowrap;
+}
+
+.memTemplParams {
+    color: #606060;
+    white-space: nowrap;
+}
+
+/* @end */
+
+/* @group Member Details */
+
+/* Styles for detailed member documentation */
+
+.memtitle {
+    display: none;
+}
+
+.memtemplate {
+    font-size: 80%;
+    color: #606060;
+    font-weight: normal;
+    margin-left: 3px;
+}
+
+.memnav {
+    background-color: #F1F5F9;
+    border: 1px solid #84b0c7;
+    text-align: center;
+    margin: 2px;
+    margin-right: 15px;
+    padding: 2px;
+}
+
+.memitem {
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.memname {
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 16px;
+    color:#42657B;
+    margin-left:0px;
+    border-collapse: collapse;
+}
+
+.memname td {
+    padding:0.0em 0px 0.5em 0px;
+}
+
+.memproto, .memdoc {
+    border: none;
+}
+
+.memproto {
+    padding: 0;
+    background-color: white;
+    background-image: none;
+    font-weight: bold;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    text-shadow: none;
+
+
+}
+
+.memdoc {
+    padding: 0px;
+    background-color: #FFFFFF;
+    background-image: none;
+    border-top-width: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.paramkey {
+    text-align: right;
+}
+
+.paramtype {
+    white-space: nowrap;
+}
+
+.paramname {
+    color: #885656;
+    white-space: nowrap;
+}
+.paramname em {
+    font-style: normal;
+}
+
+/* @end */
+
+/* @group Directory (tree) */
+
+/* for the tree view */
+
+.ftvtree {
+    font-family: sans-serif;
+    margin: 0.5em;
+}
+
+/* these are for tree view when used as main index */
+
+.directory {
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.directory h3 {
+    margin: 0px;
+    margin-top: 1em;
+    font-size: 11pt;
+}
+
+/*
+The following two styles can be used to replace the root node title
+with an image of your choice.  Simply uncomment the next two styles,
+specify the name of your image and be sure to set 'height' to the
+proper pixel height of your image.
+ */
+
+/*
+.directory h3.swap {
+height: 61px;
+background-repeat: no-repeat;
+background-image: url("yourimage.gif");
+}
+.directory h3.swap span {
+display: none;
+}
+ */
+
+.directory > h3 {
+    margin-top: 0;
+}
+
+.directory p {
+    margin: 0px;
+    white-space: nowrap;
+}
+
+.directory div {
+    display: none;
+    margin: 0px;
+}
+
+.directory img {
+    vertical-align: -30%;
+}
+
+/* these are for tree view when not used as main index */
+
+.directory-alt {
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.directory-alt h3 {
+    margin: 0px;
+    margin-top: 1em;
+    font-size: 11pt;
+}
+
+.directory-alt > h3 {
+    margin-top: 0;
+}
+
+.directory-alt p {
+    margin: 0px;
+    white-space: nowrap;
+}
+
+.directory-alt div {
+    display: none;
+    margin: 0px;
+}
+
+.directory-alt img {
+    vertical-align: -30%;
+}
+
+/* @end */
+
+address {
+    font-style: normal;
+    color: #333;
+}
+
+table.doxtable {
+    border-collapse:collapse;
+}
+
+table.doxtable td, table.doxtable th {
+    border: 1px solid #153788;
+    padding: 3px 7px 2px;
+}
+
+table.doxtable th {
+    background-color: #254798;
+    color: #FFFFFF;
+    font-size: 110%;
+    padding-bottom: 4px;
+    padding-top: 5px;
+    text-align:left;
+}
+
+dl.reflist dt, dl.reflist dd {
+    background-color:transparent;
+    background-image:none;
+    border:none;
+    box-shadow:none;
+    border-left:1px solid black;
+    border-bottom-left-radius:0px;
+}
+
+
+hr {
+    border-top:none;
+    border-bottom:1px solid #CCCCCC;
+    margin-top:30px;
+    padding-top:10px;
+}
+
+.contents {
+    padding-top: 0px;
+}
+
+.contents .dynsection {
+    margin-top:10px;
+}

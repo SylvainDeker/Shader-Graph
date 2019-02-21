@@ -36,6 +36,10 @@ elseif (APPLE) #osx icon ressource file, provided from /packaging directory
     set(ICON_RESOURCE "${PROJECT_SOURCE_DIR}/packaging/ShaderGraph.icns")
 endif()
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 file(GLOB_RECURSE CPPS  ./*.cpp )
 
 add_executable(ShaderGraph MACOSX_BUNDLE

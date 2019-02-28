@@ -40,7 +40,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-file(GLOB_RECURSE CPPS  ./*.cpp )
+file(GLOB_RECURSE CPPS  ./*.cpp)
 
 add_executable(ShaderGraph MACOSX_BUNDLE
     ${ICON_RESOURCE}

@@ -4,21 +4,21 @@ endif()
 
 set(run 0)
 
-if("/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch-stamp/Catch-gitinfo.txt" IS_NEWER_THAN "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt")
+if("/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch-stamp/Catch-gitinfo.txt" IS_NEWER_THAN "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt")
   set(run 1)
 endif()
 
 if(NOT run)
-  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt'")
+  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt'")
   return()
 endif()
 
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E remove_directory "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to remove directory: '/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch'")
+  message(FATAL_ERROR "Failed to remove directory: '/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch'")
 endif()
 
 set(git_options)
@@ -53,7 +53,7 @@ set(number_of_tries 0)
 while(error_code AND number_of_tries LESS 3)
   execute_process(
     COMMAND "/usr/local/bin/git" ${git_options} clone ${git_clone_options} --origin "origin" "https://github.com/catchorg/Catch2.git" "Catch"
-    WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src"
+    WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src"
     RESULT_VARIABLE error_code
     )
   math(EXPR number_of_tries "${number_of_tries} + 1")
@@ -68,7 +68,7 @@ endif()
 
 execute_process(
   COMMAND "/usr/local/bin/git" ${git_options} checkout master --
-  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch"
+  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch"
   RESULT_VARIABLE error_code
   )
 if(error_code)
@@ -77,32 +77,32 @@ endif()
 
 execute_process(
   COMMAND "/usr/local/bin/git" ${git_options} submodule init 
-  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch"
+  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to init submodules in: '/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch'")
+  message(FATAL_ERROR "Failed to init submodules in: '/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch'")
 endif()
 
 execute_process(
   COMMAND "/usr/local/bin/git" ${git_options} submodule update --recursive --init 
-  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch"
+  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to update submodules in: '/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch'")
+  message(FATAL_ERROR "Failed to update submodules in: '/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch'")
 endif()
 
 # Complete success, update the script-last-run stamp file:
 #
 execute_process(
   COMMAND ${CMAKE_COMMAND} -E copy
-    "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch-stamp/Catch-gitinfo.txt"
-    "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt"
-  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch"
+    "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch-stamp/Catch-gitinfo.txt"
+    "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt"
+  WORKING_DIRECTORY "/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/Users/valentin/Desktop/Workspace/Dummy/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt'")
+  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/Users/valentin/Desktop/Workspace/Shader-Graph/external/Catch/src/Catch-stamp/Catch-gitclone-lastrun.txt'")
 endif()
 

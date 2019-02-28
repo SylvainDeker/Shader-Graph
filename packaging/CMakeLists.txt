@@ -111,7 +111,6 @@ else()
         message(STATUS "   + RPM                                  NO ")
     endif()
 
-    # TODO do this better
     set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
     set(CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION TRUE)
     set(CPACK_DEBIAN_PACKAGE_HOMEPAGE "${HOMEPAGE}")

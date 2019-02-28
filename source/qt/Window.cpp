@@ -1,23 +1,34 @@
 #include "Window.h"
 
+#include <vector>
+#include <memory>
+#include <string>
+
+#include <QComboBox>
 #include <QSurfaceFormat>
+
+#include <core/Core.h>
 
 #include "ui_Window.h"
 
-Window::Window(QWidget * Parent) : 
-    QMainWindow(Parent), 
+Window::Window(QWidget * Parent) :
+    QMainWindow(Parent),
     ui(new Ui::Window)
 {
-    /* Setup the UI */
+    // Step 1 : Setup the user interface
     ui->setupUi(this);
-    ui->nodeEditor->setFocus();
-    this->setCentralWidget(ui->widget);
+    setCentralWidget(ui->widget);
 
-    ui->logPanel->append("<Log Init>");
-    ui->logPanel->append("<Log> ...");
+    // Step 2 : Setup the logger
+    LOG_INIT("../data/ShaderGraph.log", ui->logPanel);
+
+    connect(ui->logLevelSelector, SIGNAL(currentIndexChanged(int)),
+            &ShaderGraph::LOGGER, SLOT(setLevel(int)));
+
+    SET_LOG_LEVEL_TO_DEBUG();
 }
 
-Window::~Window() 
+Window::~Window()
 {
     delete ui;
 }

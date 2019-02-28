@@ -4,6 +4,8 @@
 #include <nodes/NodeData>
 #include <nodes/NodeDataModel>
 
+#include "../../core/Core.h"
+
 #include "../Node.h"
 
 namespace ShaderGraph

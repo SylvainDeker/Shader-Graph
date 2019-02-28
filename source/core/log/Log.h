@@ -1,63 +1,133 @@
 #ifndef SHADERGRAPH_LOG_H
 #define SHADERGRAPH_LOG_H
 
-#include <fstream>
+#include <string>
+#include <memory>
+#include <cstdlib>
 #include <iostream>
 
-#include <QTextBrowser>
+#include <QTimer>
+#include <QObject>
+#include <QTextEdit>
+#include <QTextStream>
+#include <QPlainTextEdit>
+
+#include <vendor/spdlog/spdlog.h>
+#include <vendor/spdlog/sinks/basic_file_sink.h>
+#include <vendor/spdlog/sinks/stdout_color_sinks.h>
+#include <vendor/spdlog/details/fmt_helper.h>
+
+#define LOGGER_FLUSH_DELAY 500
 
 namespace ShaderGraph
 {
-    enum ELogLevel { ERROR = 0, WARN = 1, INFO = 2, DEBUG = 3 };
-
-    class Log
+    class Logger : public QObject
     {
+        Q_OBJECT
+
     public:
-        /// Constructor.
-        Log(QTextBrowser * logPanel, QString logFile = "ShaderGraph.log");
-        ~Log() = default;
+        Logger() = default;
+        ~Logger() = default;
 
-        /// Restore the std::clog that was redirected in the constructor.
-        inline void restoreCLog() { std::clog.rdbuf(m_clogbuf); }
+        void init(const char * file, QTextEdit * logPanel);
 
-        /// Redirect the std::clog to logFile.
-        void redirectCLog(QString logFile);
-//        {
-//            m_logFile = std::ofstream(logFile.toStdString());
-//
-//            if (m_logFile.is_open())
-//            {
-//                m_clogbuf = std::clog.rdbuf(); // save old buf
-//                std::clog.rdbuf(m_logFile.rdbuf()); // redirect std::clog to m_logFile
-//            } else {
-//                // TODO : Log error
-//            }
-//        }
+    public slots:
+        void setLevel(int lvl);
 
-        /// Log function.
-        void log(ELogLevel logLevel, QString message, bool hideToClient = false);
-
-        /// Get the maximum log level.
-        inline const ELogLevel & getLogLevel()  const { return m_logLevel; }
-
-        /// Set the maximum log level.
-        /// @logLevel : the new maximum log level.
-        inline void  setLogLevel(ELogLevel logLevel)  { m_logLevel = logLevel; }
+    protected:
+        void timerEvent(QTimerEvent *event);
 
     private:
+        /// A QtTimer id, use to flush every second the logger.
+        int m_timerId;
 
-        /// The UI Where the client log will be display.
-        QTextBrowser * m_logPanel;
+        /// A logger from spdlog.
+        std::shared_ptr<spdlog::logger> m_logger;
 
-        /// The file where the core log will be redirect.
-        std::ofstream m_logFile;
+        /// The path to where the log should be write.
+        const char * m_file;
 
-        /// Where the default clog file will be save.
-        std::streambuf * m_clogbuf;
-
-        /// Only the log level greater or equals to this ELogLevel will be display.
-        ELogLevel m_logLevel;
+        /// The GUI where the log are displayed.
+        QTextEdit * m_logPanel = nullptr;
     };
+
+    static Logger g_logger;
 }
+
+#define LOGGER g_logger
+
+#define LOG_INIT(_file_, _logpanel_) \
+do \
+{ \
+    ShaderGraph::g_logger.init(_file_, _logpanel_); \
+} while(false)
+
+#define LOG_DEBUG(...) \
+do \
+{ \
+    spdlog::debug(__VA_ARGS__); \
+} while(false)
+
+#define LOG_INFO(...) \
+do \
+{ \
+    spdlog::info(__VA_ARGS__); \
+} while(false)
+
+#define LOG_WARN(...) \
+do \
+{ \
+    spdlog::warn(__VA_ARGS__); \
+} while(false)
+
+#define LOG_ERROR(...) \
+do \
+{ \
+    spdlog::error(__VA_ARGS__); \
+} while(false)
+
+#define LOG_CRITICAL(...) \
+do \
+{ \
+    spdlog::critical(__VA_ARGS__); \
+    exit(EXIT_FAILURE); \
+} while(false)
+
+
+#define SET_LOG_LEVEL_TO_DEBUG() \
+do \
+{ \
+    spdlog::set_level(spdlog::level::debug); \
+} while(false)
+
+#define SET_LOG_LEVEL_TO_INFO() \
+do \
+{ \
+    spdlog::set_level(spdlog::level::info); \
+} while(false)
+
+#define SET_LOG_LEVEL_TO_WARN() \
+do \
+{ \
+    spdlog::set_level(spdlog::level::warn); \
+} while(false)
+
+#define SET_LOG_LEVEL_TO_ERROR() \
+do \
+{ \
+    spdlog::set_level(spdlog::level::err); \
+} while(false)
+
+#define SET_LOG_LEVEL_TO_CRITICAL() \
+do \
+{ \
+    spdlog::set_level(spdlog::level::critical); \
+} while(false)
+
+#define DISABLE_LOG() \
+do \
+{ \
+    spdlog::set_level(spdlog::level::off); \
+} while(false)
 
 #endif //SHADERGRAPH_LOG_H

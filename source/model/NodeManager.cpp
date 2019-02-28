@@ -22,7 +22,7 @@ bool ShaderGraph::NodeManager::loadNodeStyle(const QString filename)
 
         if (!file.open(QFile::ReadOnly | QFile::Text)) // the file cannot be read
         {
-            LOG_ERROR << "Unable to open the file : " << filename.toStdString() << NEWLINE;
+            // LOG_ERROR << "Unable to open the file : " << filename.toStdString() << NEWLINE;
             return false;
 
         } else { // file opened and ready to read from
@@ -34,6 +34,6 @@ bool ShaderGraph::NodeManager::loadNodeStyle(const QString filename)
         return true;
     }
 
-    LOG_ERROR << "Unable to find the file : " << filename.toStdString() << NEWLINE;
+    // LOG_ERROR << "Unable to find the file : " << filename.toStdString() << NEWLINE;
     return false;
 }

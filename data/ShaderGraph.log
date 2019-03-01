@@ -1,6 +1,2 @@
-[2019-02-28 18:05:12.440] [Logger] [info] Log system : [OK]
-[2019-02-28 18:05:15.754] [Logger] [debug] BooleanNode !!
-[2019-02-28 18:05:17.527] [Logger] [debug] BooleanNode !!
-[2019-02-28 18:05:19.215] [Logger] [debug] BooleanNode !!
-[2019-02-28 18:05:21.070] [Logger] [debug] BooleanNode !!
-[2019-02-28 18:05:29.671] [Logger] [debug] BooleanNode !!
+[2019-03-01 22:32:47.886] [Logger] [info] Log system : [OK]
+[2019-03-01 22:32:47.967] [Logger] [info] OpenGL initialization [OK]

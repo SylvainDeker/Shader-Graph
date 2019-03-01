@@ -118,6 +118,37 @@ find_package(
         Gui
         OpenGL)
 
+###########################
+# Configure QT
+###########################
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+include_directories(
+        ${Qt5Widgets_INCLUDES}
+        ${Qt5OpenGL_INCLUDES}
+)
+
+add_definitions(${Qt5Widgets_DEFINITIONS})
+add_definitions(${Qt5OpenGL_DEFINITIONS})
+
+###########################
+# Packages
+###########################
+
+find_package(OpenGL REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5OpenGL REQUIRED)
+
+###########################
+# OpenGL
+###########################
+
+target_link_libraries(ShaderGraph ${OPENGL_gl_LIBRARY})
+target_link_libraries(ShaderGraph ${OPENGL_glu_LIBRARY})
+
 #------------------------------------------------------------------------------
 # Unit tests
 
@@ -143,7 +174,6 @@ if(MINGW)
         DESTINATION ./bin/
     )
 endif(MINGW)
-
 
 #------------------------------------------------------------------------------
 # Other MISC targets

@@ -1,7 +1,3 @@
-//
-// Created by Valentin on 2019-01-31.
-//
-
 #ifndef SHADERGRAPH_WINDOW_H
 #define SHADERGRAPH_WINDOW_H
 
@@ -24,6 +20,8 @@ public:
 
 private:
     Ui::Window * ui;
+
+    QTimer * timer;
 };
 
 #endif // SHADERGRAPH_WINDOW_H

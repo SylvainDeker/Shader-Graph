@@ -125,7 +125,7 @@
       <item>
        <layout class="QVBoxLayout" name="leftLayout">
         <item>
-         <widget class="QWidget" name="preview" native="true">
+         <widget class="GLWidget" name="preview" native="true">
           <property name="minimumSize">
            <size>
             <width>256</width>
@@ -305,6 +305,12 @@
    <class>WidgetNodeEditor</class>
    <extends>QWidget</extends>
    <header location="global">qt/WidgetNodeEditor.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>GLWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">qt/GLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -13,8 +13,6 @@ namespace ShaderGraph
     {
         m_name      = "BooleanNode";
         m_caption   = "BooleanNode";
-
-        LOG_DEBUG("BooleanNode !!");
     }
 
     /// Give for a specified port, the number of data.

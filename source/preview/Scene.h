@@ -5,6 +5,7 @@
 
 #include "OpenGL.h"
 #include "Camera.h"
+#include "Shader.h"
 
 namespace ShaderGraph
 {
@@ -28,19 +29,43 @@ namespace ShaderGraph
         /* ==================================================================================== */
         /* Mouse management */
         /* ==================================================================================== */
-        float  m_mouseX = 0;
-        float  m_mouseY = 0;
+        float m_button = 0;
+        float m_mouseX = 0;
+        float m_mouseY = 0;
 
         /* ==================================================================================== */
         /* Managers */
         /* ==================================================================================== */
         // TODO : add managers
 
+        Shader * m_shader;
+
         /* ==================================================================================== */
         /* World stuffs */
         /* ==================================================================================== */
         Camera *    m_camera;
         glm::mat4   m_projection;
+
+
+        /* ==================================================================================== */
+        /* World stuffs */
+        /* ==================================================================================== */
+
+        // A simple geometry
+        std::vector<float> m_vertices;
+        std::vector<float> m_normals;
+        std::vector<unsigned int>  m_indices;
+
+        // OpenGL object for geometry
+
+        // Vertex Array Buffer
+        unsigned int m_vao;
+        // Vertex Buffer Object
+        unsigned int m_vbo;
+        // Normal buffer
+        unsigned int m_nbo;
+        // Face buffer
+        unsigned int m_ibo;
     };
 };
 

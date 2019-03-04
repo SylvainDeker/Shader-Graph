@@ -2,6 +2,8 @@
 
 #include <QKeyEvent>
 
+#include "Shader.h"
+
 namespace ShaderGraph
 {
     Scene::Scene(unsigned int width, unsigned int height) :
@@ -41,15 +43,74 @@ namespace ShaderGraph
         /* Step 5 : Build static mesh */
         /* ============================================================ */
 
+        // Initialise geometric data
+        m_vertices = {
+                0.5f,  0.5f, 0.0f,  // Top Right
+                0.5f, -0.5f, 0.0f,  // Bottom Right
+                -0.5f, -0.5f, 0.0f,  // Bottom Left
+                -0.5f,  0.5f, 0.0f   // Top Left
+        };
+
+        m_normals = {
+                0.577350269189626f, 0.577350269189626f, 0.577350269189626f,
+                0.577350269189626f, -0.577350269189626f, 0.577350269189626f,
+                -0.577350269189626f, -0.577350269189626f, 0.577350269189626f,
+                -0.577350269189626f, 0.577350269189626f, 0.577350269189626f
+        };
+
+        m_indices = {
+                // Note that we start from 0!
+                0, 1, 3,   // First Triangle
+                1, 2, 3    // Second Triangle
+        };
+
+        // Initialize the geometry
+        // 1. Generate geometry buffers
+        glGenBuffers(1, &m_vbo) ;
+        glGenBuffers(1, &m_nbo) ;
+        glGenBuffers(1, &m_ibo) ;
+        glGenVertexArrays(1, &m_vao) ;
+
+        // 2. Bind Vertex Array Object
+        glBindVertexArray(m_vao);
+
+        // 3. Copy our vertices array in a buffer for OpenGL to use
+        glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+        glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof (float), m_vertices.data(), GL_STATIC_DRAW);
+
+        // 4. Then set our vertex attributes pointers
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+
+        // 5. Copy our normals array in a buffer for OpenGL to use
+        glBindBuffer(GL_ARRAY_BUFFER, m_nbo);
+        glBufferData(GL_ARRAY_BUFFER, m_normals.size()*sizeof (float), m_normals.data(), GL_STATIC_DRAW);
+
+        // 6. Copy our vertices array in a buffer for OpenGL to use
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+
+        // 7. Copy our index array in a element buffer for OpenGL to use
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof (float), m_indices.data(), GL_STATIC_DRAW);
+
+        //6. Unbind the VAO
+        glBindVertexArray(0);
+
         /* ============================================================ */
         /* Step 6 : Compile shaders */
         /* ============================================================ */
-
-}
+        m_shader = new Shader("../data/shaders/RedShader.glsl");
+    }
 
     Scene::~Scene()
     {
+        glDeleteBuffers(1, &m_vbo);
+        glDeleteBuffers(1, &m_nbo);
+        glDeleteBuffers(1, &m_ibo);
+        glDeleteVertexArrays(1, &m_vao) ;
 
+        delete m_shader;
     }
 
     void Scene::resize(unsigned int width, unsigned int height)
@@ -70,23 +131,31 @@ namespace ShaderGraph
         /* ============================================================ */
         /* Step 1 : Prepare each shader for the rendering */
         /* ============================================================ */
+        m_shader->bind();
 
         /* ============================================================ */
         /* Step 2 : Rendering */
         /* ============================================================ */
+        glBindVertexArray(m_vao);
+        glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+
+        m_shader->unbind();
+        glBindVertexArray(0);
 
     }
 
     void Scene::mouseClick(int button, float xpos, float ypos)
     {
-        (void) button;
         m_mouseX = xpos;
         m_mouseY = ypos;
+        m_button = button;
+        m_camera->processMouseClick(button, xpos, ypos);
     }
 
     void Scene::mouseMove(float xpos, float ypos)
     {
         m_mouseX = xpos;
         m_mouseY = ypos;
+        m_camera->processMouseMovement(m_button, xpos, ypos);
     }
 }

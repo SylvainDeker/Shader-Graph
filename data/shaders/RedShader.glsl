@@ -14,7 +14,7 @@ uniform mat4 u_Projection;
 
 void main()
 {
-    gl_Position = u_Projection * u_View * worldPosition;
+    gl_Position = position;
 }
 
 

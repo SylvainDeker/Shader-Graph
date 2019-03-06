@@ -36,8 +36,7 @@ Window::Window(QWidget * Parent) :
     // Step 3 : Update the GL-Widget
     // FIXME : for some reason, a simple ui->preview->update doesn't "work".
     //         It needs a bit a delay to display the build scene.
-    QTimer::singleShot(10, ui->preview, SLOT(update()));
-    ;
+    QTimer::singleShot(100, ui->preview, SLOT(update()));
 }
 
 Window::~Window()

@@ -1,21 +1,26 @@
 #ifndef SHADERGRAPH_DATA_H
 #define SHADERGRAPH_DATA_H
 
+#include <memory>
+
 #include <nodes/NodeData>
 #include <nodes/NodeDataModel>
-#include <memory>
+
+#define PIN std::shared_ptr<GenType>
 
 namespace ShaderGraph
 {
-    class BooleanNodeData : public QtNodes::NodeData
+    using GenType = QtNodes::NodeData;
+
+    class Boolean : public QtNodes::NodeData
     {
     public:
 
         /// Default constructor.
-        BooleanNodeData() : m_value(false) {};
+        Boolean() : m_value(false) {};
 
         /// Constructor.
-        BooleanNodeData(bool value) : m_value(value) {};
+        Boolean(bool value) : m_value(value) {};
 
         /// Getter only of the value.
         inline bool value() const
@@ -33,15 +38,15 @@ namespace ShaderGraph
         bool m_value;
     };
 
-    class FloatNodeData : public QtNodes::NodeData
+    class Float : public QtNodes::NodeData
     {
     public:
 
         /// Default constructor.
-        inline FloatNodeData() : m_value(0.0f) {};
+        inline Float() : m_value(0.0f) {};
 
         /// Constructor.
-        inline FloatNodeData(float value) : m_value(value) {};
+        inline Float(float value) : m_value(value) {};
 
         /// Getter only of the value.
         inline float value() const
@@ -59,15 +64,15 @@ namespace ShaderGraph
         float m_value;
     };
 
-    class Vector2NodeData : public QtNodes::NodeData
+    class Vector2 : public QtNodes::NodeData
     {
     public:
 
         /// Default constructor.
-        inline Vector2NodeData() : m_value(glm::vec2(0.0f)) {};
+        inline Vector2() : m_value(glm::vec2(0.0f)) {};
 
         /// Constructor.
-        inline Vector2NodeData(glm::vec2 value) : m_value(value) {};
+        inline Vector2(glm::vec2 value) : m_value(value) {};
 
         /// Getter only of the value.
         inline glm::vec2 value() const
@@ -85,15 +90,15 @@ namespace ShaderGraph
         glm::vec2 m_value;
     };
 
-    class Vector3NodeData : public QtNodes::NodeData
+    class Vector3 : public QtNodes::NodeData
     {
     public:
 
         /// Default constructor.
-        inline Vector3NodeData() : m_value(glm::vec3(0.0f)) {};
+        inline Vector3() : m_value(glm::vec3(0.0f)) {};
 
         /// Constructor.
-        inline Vector3NodeData(glm::vec3 value) : m_value(value) {};
+        inline Vector3(glm::vec3 value) : m_value(value) {};
 
         /// Getter only of the value.
         inline glm::vec3 value() const
@@ -111,15 +116,15 @@ namespace ShaderGraph
         glm::vec3 m_value;
     };
 
-    class Vector4NodeData : public QtNodes::NodeData
+    class Vector4 : public QtNodes::NodeData
     {
     public:
 
         /// Default constructor.
-        inline Vector4NodeData() : m_value(glm::vec4(0.0f)) {};
+        inline Vector4() : m_value(glm::vec4(0.0f)) {};
 
         /// Constructor.
-        inline Vector4NodeData(glm::vec4 value) : m_value(value) {};
+        inline Vector4(glm::vec4 value) : m_value(value) {};
 
         /// Getter only of the value.
         inline glm::vec4 value() const

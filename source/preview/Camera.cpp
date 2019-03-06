@@ -80,7 +80,6 @@ TrackballCamera::~TrackballCamera()
 void TrackballCamera::processMouseClick(int button, float xpos, float ypos)
 {
     Camera::processMouseClick(button, xpos, ypos);
-
     switch (m_mouseButton)
     {
         case 0:
@@ -106,7 +105,6 @@ void TrackballCamera::processMouseClick(int button, float xpos, float ypos)
 
 void TrackballCamera::processMouseMovement(int button, float xpos, float ypos, bool constrainPitch)
 {
-    // shutdown warning
     (void)button;
     (void)constrainPitch;
 
@@ -137,9 +135,6 @@ void TrackballCamera::processMouseScroll(float yoffset)
 {
     (void) yoffset;
 }
-
-
-#define SQRT1_2  0.7071067811865476
 
 glm::vec3 TrackballCamera::getMouseProjectionOnBall(float xpos, float ypos)
 {

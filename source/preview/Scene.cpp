@@ -25,7 +25,7 @@ namespace ShaderGraph
         m_camera = new TrackballCamera();
         m_camera->setViewport(glm::vec4(0.f, 0.f, width, height));
 
-        m_projection = glm::perspective(m_camera->zoom(), (float)width / (float)height,  0.1f, 100.0f);
+        m_projection = glm::perspective(m_camera->zoom(), float(m_width) / m_height, 0.1f, 100.0f);
 
         /* ============================================================ */
         /* Step 2 : Load textures */
@@ -132,6 +132,8 @@ namespace ShaderGraph
         /* Step 1 : Prepare each shader for the rendering */
         /* ============================================================ */
         m_shader->bind();
+
+
 
         /* ============================================================ */
         /* Step 2 : Rendering */

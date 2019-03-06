@@ -33,7 +33,7 @@ namespace ShaderGraph
         Camera( glm::vec3 position  = glm::vec3(0.f, 0.f, 1.f),
                 glm::vec3 up        = glm::vec3(0.f, 1.f, 0.f),
                 glm::vec3 look      = glm::vec3(0.f, 0.f, 0.f),
-                float zoom          = 45.f );
+                float zoom          = ZOOM );
 
         virtual ~Camera();
 
@@ -76,8 +76,8 @@ namespace ShaderGraph
     class TrackballCamera : public Camera
     {
     public:
-        TrackballCamera( glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
-                         glm::vec3 up       = glm::vec3(0.0f, 1.0f, 0.0f),
+        TrackballCamera( glm::vec3 position = glm::vec3(0.0f, 0.0f,  0.0f),
+                         glm::vec3 up       = glm::vec3(0.0f, 1.0f,  0.0f),
                          glm::vec3 center   = glm::vec3(0.0f, 0.0f, -1.0f) );
 
         ~TrackballCamera();
@@ -124,9 +124,6 @@ namespace ShaderGraph
         /* ==================================================================================== */
         glm::vec3 getMouseProjectionOnBall(float xpos, float ypos);
         glm::vec2 getMouseOnScreen(float xpos, float ypos);
-
-
-
     };
 }
 

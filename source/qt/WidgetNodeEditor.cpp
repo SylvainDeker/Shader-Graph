@@ -5,16 +5,17 @@
 #include "WidgetNodeEditor.h"
 
 #include "../model/NodeManager.h"
-#include "../model/input/BooleanNode.h"
 
+#include "../model/Example.h"
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
-        QWidget(parent)
+    QWidget(parent)
 {
     ShaderGraph::NodeManager nodeManager;
-    nodeManager.registry()->registerModel<ShaderGraph::BooleanNode>();
 
     nodeManager.loadNodeStyle("../data/nodestyle.txt");
+
+    nodeManager.registry()->registerModel<ShaderGraph::Example>();
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);

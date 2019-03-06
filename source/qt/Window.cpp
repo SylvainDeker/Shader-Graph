@@ -13,7 +13,6 @@
 
 #define FORMAT_VERSION 4, 1
 #define FORMAT_DEPTH_BUFFER_SIZE 24
-#define FPS 60
 
 Window::Window(QWidget * Parent) :
     QMainWindow(Parent),
@@ -32,19 +31,17 @@ Window::Window(QWidget * Parent) :
 
     // Step 2 : Setup the logger
     LOG_INIT("../data/ShaderGraph.log", ui->logPanel);
+    LOG_CONNECT(ui->logLevelSelector);
 
-    connect(ui->logLevelSelector, SIGNAL(currentIndexChanged(int)),
-            &ShaderGraph::LOGGER, SLOT(setLevel(int)));
-
-    SET_LOG_LEVEL_TO_DEBUG();
-
-    // Step 3 : Initialize the timer that will update the GLWidget every tick
-    timer = new QTimer(ui->preview);
-    connect(timer, SIGNAL(timeout()), ui->preview, SLOT(update()));
-    timer->start(1000 / FPS);
+    // Step 3 : Update the GL-Widget
+    // FIXME : for some reason, a simple ui->preview->update doesn't "work".
+    //         It needs a bit a delay to display the build scene.
+    QTimer::singleShot(10, ui->preview, SLOT(update()));
+    ;
 }
 
 Window::~Window()
 {
+    LOG_DESTROY; // Destroy the log system.
     delete ui;
 }

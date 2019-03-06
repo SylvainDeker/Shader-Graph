@@ -1,6 +1,7 @@
 #ifndef SHADERGRAPH_LOG_H
 #define SHADERGRAPH_LOG_H
 
+#include <queue>
 #include <string>
 #include <memory>
 #include <cstdlib>
@@ -17,7 +18,7 @@
 #include <vendor/spdlog/sinks/stdout_color_sinks.h>
 #include <vendor/spdlog/details/fmt_helper.h>
 
-#define LOGGER_FLUSH_DELAY 500
+#define LOGGER_FLUSH_DELAY 1000
 
 namespace ShaderGraph
 {
@@ -29,105 +30,202 @@ namespace ShaderGraph
         Logger() = default;
         ~Logger() = default;
 
+        /// Initialize the logger.
+        /// @file : The path to where the log should be write.
+        /// @logPanel : The GUI where the log are displayed.
         void init(const char * file, QTextEdit * logPanel);
 
+        /// Log a debug message.
+        /// @fmt : The log message.
+        template<typename T>
+        inline void debug(const T& message)
+        {
+            log(spdlog::level::debug, message);
+        }
+
+        /// Log a info message.
+        /// @fmt : The log message
+        template<typename T>
+        inline void info(const T& message)
+        {
+            log(spdlog::level::info, message);
+        }
+
+        /// Log a warning message.
+        /// @fmt : The log message.
+        template<typename T>
+        inline void warn(const T& message)
+        {
+            log(spdlog::level::warn, message);
+        }
+
+        /// Log a error message.
+        /// @fmt : The log message.
+        template<typename T>
+        inline void error(const T& message)
+        {
+            log(spdlog::level::err, message);
+        }
+
+        /// Log a critical message.
+        /// @fmt : The log message.
+        /// @warning : A critical log exit the program.
+        template<typename T>
+        inline void critical(const T& message)
+        {
+            log(spdlog::level::critical, message);
+        }
+
+        /// Log a debug message.
+        /// @fmt : The format of the log message.
+        ///        The format uses "{<index>}" to make a reference to the argument at the index <index>.
+        ///        The argument index start with 0.
+        /// @args : A list of arguments, can be empty.
+        template<typename ... Args>
+        inline void debug(const char * fmt, const Args&... args)
+        {
+            log(spdlog::level::debug, fmt, args...);
+        }
+
+        /// Log a info message.
+        /// @fmt : The format of the log message.
+        ///        The format uses "{<index>}" to make a reference to the argument at the index <index>.
+        ///        The argument index start with 0.
+        /// @args : A list of arguments, can be empty.
+        template<typename ... Args>
+        inline void info(const char * fmt, const Args&... args)
+        {
+            log(spdlog::level::info, fmt, args...);
+        }
+
+        /// Log a warning message.
+        /// @fmt : The format of the log message.
+        ///        The format uses "{<index>}" to make a reference to the argument at the index <index>.
+        ///        The argument index start with 0.
+        /// @args : A list of arguments, can be empty.
+        template<typename ... Args>
+        inline void warn(const char * fmt, const Args&... args)
+        {
+            log(spdlog::level::warn, fmt, args...);
+        }
+
+        /// Log a error message.
+        /// @fmt : The format of the log message.
+        ///        The format uses "{<index>}" to make a reference to the argument at the index <index>.
+        ///        The argument index start with 0.
+        /// @args : A list of arguments, can be empty.
+        template<typename ... Args>
+        inline void error(const char * fmt, const Args&... args)
+        {
+            log(spdlog::level::err, fmt, args...);
+        }
+
+        /// Log a critical message.
+        /// @fmt : The format of the log message.
+        ///        The format uses "{<index>}" to make a reference to the argument at the index <index>.
+        ///        The argument index start with 0.
+        /// @args : A list of arguments, can be empty.
+        /// @warning : A critical log exit the program.
+        template<typename ... Args>
+        inline void critical(const char * fmt, const Args&... args)
+        {
+            log(spdlog::level::critical, fmt, args...);
+            exit(EXIT_FAILURE);
+        }
+
     public slots:
+        /// Set the log level to @lvl.
+        /// This mean that all the log with a level greater will be ignored.
         void setLevel(int lvl);
 
-    protected:
-        void timerEvent(QTimerEvent *event);
-
     private:
-        /// A QtTimer id, use to flush every second the logger.
-        int m_timerId;
+        /// The path to where the log messages should be written.
+        const char * m_file;
 
         /// A logger from spdlog.
         std::shared_ptr<spdlog::logger> m_logger;
 
-        /// The path to where the log should be write.
-        const char * m_file;
-
         /// The GUI where the log are displayed.
         QTextEdit * m_logPanel = nullptr;
+
+        /// Log a message.
+        template<typename T>
+        void log(spdlog::level::level_enum lvl, const T& message)
+        {
+            m_logger->log(lvl, message);
+
+            std::string header; buildHeader(lvl, header);
+            std::string formattedMessage = header + message;
+
+            // Display the log message on the log panel.
+            const QString qMessage = QString::fromLocal8Bit(formattedMessage.c_str());
+            if (m_logPanel) m_logPanel->append(qMessage);
+        }
+
+        /// Log a variadic log message.
+        template<typename... Args>
+        void log(spdlog::level::level_enum lvl, const char * fmt, const Args &... args)
+        {
+            fmt::memory_buffer membuf;
+            format_to(membuf, fmt, args...);
+            std::string message = to_string(membuf);
+
+            m_logger->log(lvl, message);
+
+            std::string header; buildHeader(lvl, header);
+            std::string formattedMessage = header + message;
+
+            // Display the log message on the log panel.
+            const QString qMessage = QString::fromLocal8Bit(formattedMessage.c_str());
+            if (m_logPanel) m_logPanel->append(qMessage);
+        }
+
+        /// Build the log header (for the log panel only).
+        /// Format : [day-month-year h:m:s] [level].
+        void buildHeader(spdlog::level::level_enum lvl, std::string& header);
     };
 
-    static Logger g_logger;
+    extern Logger * g_logger;
 }
 
-#define LOGGER g_logger
+/* ============================================================ */
+/* The logger */
+/* ============================================================ */
+#define LOGGER ShaderGraph::g_logger
 
-#define LOG_INIT(_file_, _logpanel_) \
+#define LOG_INIT(_file_, _panel_) \
 do \
 { \
-    ShaderGraph::g_logger.init(_file_, _logpanel_); \
-} while(false)
+   LOGGER = new ShaderGraph::Logger(); \
+   LOGGER->init(_file_, _panel_); \
+   SET_LOG_LEVEL_TO_DEBUG; \
+   LOG_INFO("Log system : [OK]"); \
+} while(false) \
 
-#define LOG_DEBUG(...) \
-do \
-{ \
-    spdlog::debug(__VA_ARGS__); \
-} while(false)
+#define LOG_DESTROY delete LOGGER;
 
-#define LOG_INFO(...) \
-do \
-{ \
-    spdlog::info(__VA_ARGS__); \
-} while(false)
+#define LOG_CONNECT(_combo_box_) \
+    connect(_combo_box_, SIGNAL(currentIndexChanged(int)), \
+            LOGGER,              SLOT(setLevel(int)));
 
-#define LOG_WARN(...) \
-do \
-{ \
-    spdlog::warn(__VA_ARGS__); \
-} while(false)
+/* ============================================================ */
+/* Log */
+/* ============================================================ */
+#define LOG_DEBUG(...)      if (LOGGER != nullptr) LOGGER->debug(__VA_ARGS__);
+#define LOG_INFO(...)       if (LOGGER != nullptr) LOGGER->info(__VA_ARGS__);
+#define LOG_WARN(...)       if (LOGGER != nullptr) LOGGER->warn(__VA_ARGS__);
+#define LOG_ERROR(...)      if (LOGGER != nullptr) LOGGER->error(__VA_ARGS__);
+#define LOG_CRITICAL(...)   if (LOGGER != nullptr) LOGGER->critical(__VA_ARGS__);
 
-#define LOG_ERROR(...) \
-do \
-{ \
-    spdlog::error(__VA_ARGS__); \
-} while(false)
+/* ============================================================ */
+/* Set Log Level */
+/* ============================================================ */
 
-#define LOG_CRITICAL(...) \
-do \
-{ \
-    spdlog::critical(__VA_ARGS__); \
-    exit(EXIT_FAILURE); \
-} while(false)
-
-
-#define SET_LOG_LEVEL_TO_DEBUG() \
-do \
-{ \
-    spdlog::set_level(spdlog::level::debug); \
-} while(false)
-
-#define SET_LOG_LEVEL_TO_INFO() \
-do \
-{ \
-    spdlog::set_level(spdlog::level::info); \
-} while(false)
-
-#define SET_LOG_LEVEL_TO_WARN() \
-do \
-{ \
-    spdlog::set_level(spdlog::level::warn); \
-} while(false)
-
-#define SET_LOG_LEVEL_TO_ERROR() \
-do \
-{ \
-    spdlog::set_level(spdlog::level::err); \
-} while(false)
-
-#define SET_LOG_LEVEL_TO_CRITICAL() \
-do \
-{ \
-    spdlog::set_level(spdlog::level::critical); \
-} while(false)
-
-#define DISABLE_LOG() \
-do \
-{ \
-    spdlog::set_level(spdlog::level::off); \
-} while(false)
+#define SET_LOG_LEVEL_TO_DEBUG    spdlog::set_level(spdlog::level::debug);
+#define SET_LOG_LEVEL_TO_INFO     spdlog::set_level(spdlog::level::info);
+#define SET_LOG_LEVEL_TO_WARN     spdlog::set_level(spdlog::level::warn);
+#define SET_LOG_LEVEL_TO_ERROR    spdlog::set_level(spdlog::level::err);
+#define SET_LOG_LEVEL_TO_CRITICAL spdlog::set_level(spdlog::level::critical);
+#define SET_LOG_LEVEL_TO_OFF      spdlog::set_level(spdlog::level::off);
 
 #endif //SHADERGRAPH_LOG_H

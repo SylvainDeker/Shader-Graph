@@ -36,7 +36,7 @@ namespace ShaderGraph
 
         if (!stream.is_open())
         {
-            LOG_CRITICAL("Shader::parseShaderFile : file not found : {0}", filename);
+             LOG_CRITICAL("Shader::parseShaderFile : file not found : {0}", filename);
         }
 
 
@@ -80,8 +80,7 @@ namespace ShaderGraph
             glGetShaderInfoLog(shaderId, len, &len, errmsg);
 
             LOG_ERROR("Shader::CompileShader : {0}, compilation failed with {1}",
-                      (type == GL_VERTEX_SHADER ? "vertex" : "fragment"),
-                      errmsg);
+                      (type == GL_VERTEX_SHADER ? "vertex" : "fragment"), errmsg);
 
             return -1;
         }
@@ -115,7 +114,7 @@ namespace ShaderGraph
 
         if (kLocation == kUndefinedLocation)
         {
-            LOG_ERROR("Shader::getUniformLocation, uniform : {0} not found.", name);
+             LOG_ERROR("Shader::getUniformLocation, uniform : {0} not found.", name);
         }
         
         return kLocation;
@@ -128,7 +127,7 @@ namespace ShaderGraph
 
         if (kLocation == kUndefinedLocation)
         {
-            LOG_ERROR("Shader::getUniformLocation, uniform : {0} not found.", name);
+             LOG_ERROR("Shader::getUniformLocation, uniform : {0} not found.", name);
         }
 
         return kLocation;

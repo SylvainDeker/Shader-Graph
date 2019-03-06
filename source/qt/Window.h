@@ -20,8 +20,6 @@ public:
 
 private:
     Ui::Window * ui;
-
-    QTimer * timer;
 };
 
 #endif // SHADERGRAPH_WINDOW_H

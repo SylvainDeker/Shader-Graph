@@ -17,11 +17,9 @@ void GLWidget::initializeGL()
 {
     if (!initializeOpenGLFunctions())
     {
-        LOG_CRITICAL("GLWidget::initializeGL : Cannot initialize OpenGL functions");
+         LOG_CRITICAL("GLWidget::initializeGL : Cannot initialize OpenGL functions");
     }
     m_scene = new ShaderGraph::Scene(WIDTH, HEIGHT);
-
-    LOG_INFO("OpenGL initialization : [OK]");
 }
 
 void GLWidget::paintGL()

@@ -15,10 +15,7 @@ namespace ShaderGraph
             isGlErrorBufferEmpty = false; // there is at least one error
 
             LOG_ERROR("OpenGL error : {0}. \n\tfile : {1} at the line : {2} \n\t function : {3}",
-                      gLErrorToString(error),
-                      file,
-                      line,
-                      function);
+                      glErrorToString(error), file, line, function);
         }
         return isGlErrorBufferEmpty;
     }

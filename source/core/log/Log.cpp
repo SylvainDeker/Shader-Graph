@@ -1,7 +1,7 @@
 #include "Log.h"
 
-#include <vector>
 #include <string>
+#include <fstream>
 
 #include <QtGui>
 
@@ -16,41 +16,17 @@ namespace ShaderGraph
         // Step 1 : Setup the console for logging event.
         auto consoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 
-        // Step 2 :Setup the file sink (clear the file and link it) for logging event.
-        QFile qfile(m_file);
-        qfile.open(QFile::WriteOnly | QFile::Text);
-        qfile.resize(0); // clear the content of the log file.
+        // Step 2 : Setup the file sink (clear the file and link it) for logging event.
+        std::fstream ofs;
+        ofs.open(file, std::ios::out | std::ios::trunc);
+        ofs.close(); // clear the file
         auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(file, true);
 
         // Step 3 : Setup the spdlog::logger
         m_logger = std::make_shared<spdlog::logger>("Logger", consoleSink);
         m_logger->sinks().push_back(fileSink); // Register the file sink.
         spdlog::set_default_logger(m_logger); // Set this logger has the default logger.
-
-        // Step 4 : Start a new timer that will flush every LOGGER_FLUSH_DELAY the logger.
-        m_timerId = startTimer(LOGGER_FLUSH_DELAY);
-
-        spdlog::info("Log system : [OK]", 12);
-    }
-
-    void  Logger::timerEvent(QTimerEvent *event)
-    {
-        (void) event; // shutdown the warning
-
-        // Step 1 : Flush the logger content in the file.
-        m_logger->flush();
-
-        // Step 2 : "Flush" the GUI, if it exists.
-        if (m_logPanel != nullptr)
-        {
-            QFile file(m_file);
-            file.open(QFile::ReadOnly | QFile::Text);
-            QTextStream readFile(&file);
-            m_logPanel->setText(readFile.readAll());
-
-            // FIXME : impossible to scroll the logPanel
-            m_logPanel->moveCursor(QTextCursor::End);
-        }
+        spdlog::flush_every(std::chrono::seconds(LOGGER_FLUSH_DELAY)); // Flush the every LOGGER_FLUSH_DELAY.
     }
 
     void Logger::setLevel(int lvl)
@@ -59,33 +35,45 @@ namespace ShaderGraph
         switch (lvl)
         {
             case 0 :
-                SET_LOG_LEVEL_TO_DEBUG();
+                SET_LOG_LEVEL_TO_DEBUG;
                 break;
 
             case 1 :
-                SET_LOG_LEVEL_TO_INFO();
+                SET_LOG_LEVEL_TO_INFO;
                 break;
 
             case 2 :
-                SET_LOG_LEVEL_TO_WARN();
+                SET_LOG_LEVEL_TO_WARN;
                 break;
 
             case 3:
-                SET_LOG_LEVEL_TO_ERROR();
+                SET_LOG_LEVEL_TO_ERROR;
                 break;
             case 4 :
-                SET_LOG_LEVEL_TO_CRITICAL();
+                SET_LOG_LEVEL_TO_CRITICAL;
                 break;
 
             case 5 :
-                DISABLE_LOG();
+                SET_LOG_LEVEL_TO_OFF;
                 break;
 
             default:
-                SET_LOG_LEVEL_TO_INFO();
-                LOG_ERROR("Invalid log level : {0}, set to <Info> by default.", lvl);
+                SET_LOG_LEVEL_TO_INFO;
                 break;
         }
     }
-}
 
+    void Logger::buildHeader(spdlog::level::level_enum lvl, std::string& header)
+    {
+        char buffer[80];
+        time_t rawTime; time(&rawTime);
+        struct tm * timeInfo = localtime(&rawTime);
+        strftime(buffer,sizeof(buffer),"%Y-%m-%d %H:%M:%S", timeInfo);
+
+        // TODO : Use the spdlog formatter.
+        header = "[" + std::string(buffer) + "] " +
+                 "[" + to_string(spdlog::level::to_string_view(lvl)) + "] ";
+    }
+
+    Logger * g_logger;
+}

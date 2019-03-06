@@ -19,7 +19,7 @@
 namespace ShaderGraph
 {
     /// Cast a GLError to a string
-    inline std::string gLErrorToString(GLenum Error)
+    inline std::string glErrorToString(GLenum Error)
     {
         switch (Error) {
             case GL_NO_ERROR:

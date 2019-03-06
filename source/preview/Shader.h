@@ -22,7 +22,7 @@ namespace ShaderGraph
         void unbind() const;
 
         /// Set a uniform of the type : int.
-        void setInt(const std::string &name, const int v);
+        void setInt(const std::string &name, int v);
 
         /// Set a uniform of the type : float.
         void setFloat(const std::string &name, const float v);

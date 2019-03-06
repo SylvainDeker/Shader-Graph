@@ -34,4 +34,8 @@
 # Folders
 build/
 bin/
+external/Catch/
 .idea/
+
+# Files
+.DS_Store

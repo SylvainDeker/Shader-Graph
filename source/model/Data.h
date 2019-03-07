@@ -6,140 +6,114 @@
 #include <nodes/NodeData>
 #include <nodes/NodeDataModel>
 
-#define PIN std::shared_ptr<GenType>
+#define PIN std::shared_ptr<QtNodes::NodeData>
 
 namespace ShaderGraph
 {
-    using GenType = QtNodes::NodeData;
-
-    class Boolean : public QtNodes::NodeData
+    template<typename T>
+    class GenType : public QtNodes::NodeData
     {
     public:
-
         /// Default constructor.
-        Boolean() : m_value(false) {};
+        GenType() = default;
 
         /// Constructor.
-        Boolean(bool value) : m_value(value) {};
+        GenType(T value, QString name) : m_value(value), m_name(name) {};
+
+        /// Getter only of the name.
+        inline const QString& name() const { return m_name; }
 
         /// Getter only of the value.
-        inline bool value() const
-        {
-            return m_value;
-        }
+        inline const T &value() const { return m_value; }
 
-        /// @return : the id and the name of this data.
-        QtNodes::NodeDataType type() const override
-        {
-            return QtNodes::NodeDataType {"bool", "bool"};
-        }
+        /// Setter only of the value.
+        inline void setValue(const T& value) { m_value = value; }
+
+        QtNodes::NodeDataType type() const override = 0;
 
     private:
-        bool m_value;
+        T m_value;
+        QString m_name;
     };
 
-    class Float : public QtNodes::NodeData
+    class Boolean : public GenType<bool>
     {
     public:
-
         /// Default constructor.
-        inline Float() : m_value(0.0f) {};
+        Boolean(QString name = "bool") : GenType<bool>(false, name){};
 
         /// Constructor.
-        inline Float(float value) : m_value(value) {};
-
-        /// Getter only of the value.
-        inline float value() const
-        {
-            return m_value;
-        }
+        Boolean(bool value, QString name = "bool") : GenType<bool>(value, name) {};
 
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
-            return QtNodes::NodeDataType {"float", "float"};
+            return QtNodes::NodeDataType{"Bool", name()};
         }
-
-    private:
-        float m_value;
     };
 
-    class Vector2 : public QtNodes::NodeData
+    class Float : public GenType<float>
     {
     public:
-
         /// Default constructor.
-        inline Vector2() : m_value(glm::vec2(0.0f)) {};
+        Float(QString name = "float") : GenType<float>(0.0f, name) {};
 
         /// Constructor.
-        inline Vector2(glm::vec2 value) : m_value(value) {};
-
-        /// Getter only of the value.
-        inline glm::vec2 value() const
-        {
-            return m_value;
-        }
+        Float(float value, QString name = "float") : GenType<float>(value, name) {};
 
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
-            return QtNodes::NodeDataType {"vec2", "vec2"};
+            return QtNodes::NodeDataType{"Float", name()};
         }
-
-    private:
-        glm::vec2 m_value;
     };
 
-    class Vector3 : public QtNodes::NodeData
+    class Vector2 : public GenType<glm::vec2>
     {
     public:
-
         /// Default constructor.
-        inline Vector3() : m_value(glm::vec3(0.0f)) {};
+        Vector2(QString name = "vec2") : GenType<glm::vec2>(glm::vec2(0.0f), name) {};
 
         /// Constructor.
-        inline Vector3(glm::vec3 value) : m_value(value) {};
-
-        /// Getter only of the value.
-        inline glm::vec3 value() const
-        {
-            return m_value;
-        }
+        Vector2(glm::vec2 value, QString name = "vec2") : GenType<glm::vec2>(value, name) {};
 
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
-            return QtNodes::NodeDataType {"vec3", "vec3"};
+            return QtNodes::NodeDataType{"Vector2", name()};
         }
-
-    private:
-        glm::vec3 m_value;
     };
 
-    class Vector4 : public QtNodes::NodeData
+    class Vector3 : public GenType<glm::vec3>
     {
     public:
-
         /// Default constructor.
-        inline Vector4() : m_value(glm::vec4(0.0f)) {};
+        Vector3(QString name = "vec3") : GenType<glm::vec3>(glm::vec3(0.0f), name) {};
 
         /// Constructor.
-        inline Vector4(glm::vec4 value) : m_value(value) {};
-
-        /// Getter only of the value.
-        inline glm::vec4 value() const
-        {
-            return m_value;
-        }
+        Vector3(glm::vec3 value, QString name = "vec3") : GenType<glm::vec3>(value, name) {};
 
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
-            return QtNodes::NodeDataType {"vec4", "vec4"};
+            return QtNodes::NodeDataType{"Vector3", name()};
         }
+    };
 
-    private:
-        glm::vec4 m_value;
+    class Vector4 : public GenType<glm::vec4>
+    {
+    public:
+        /// Default constructor.
+        Vector4(QString name = "vec4") : GenType<glm::vec4>(glm::vec4(0.0f), name) {};
+
+        /// Constructor.
+        Vector4(glm::vec4 value, QString name = "vec4") : GenType<glm::vec4>(value, name) {};
+
+        /// @return : the id and the name of this data.
+        QtNodes::NodeDataType type() const override
+        {
+            return QtNodes::NodeDataType{"Vector4", name()};
+        }
     };
 }
 

@@ -1,14 +1,11 @@
-//
-// Created by Valentin on 2019-02-21.
-//
-
 #ifndef SHADERGRAPH_WIDGETNODEEDITOR_H
 #define SHADERGRAPH_WIDGETNODEEDITOR_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QVBoxLayout>
 
 #include <nodes/NodeData>
 #include <nodes/FlowScene>
@@ -17,8 +14,8 @@
 #include <nodes/TypeConverter>
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
-
-#include "../core/Core.h"
+#include <core/Core.h>
+#include "NodeGraphicsView.h"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -30,11 +27,18 @@ class WidgetNodeEditor : public QWidget
     Q_OBJECT
 public:
     WidgetNodeEditor(QWidget *parent = nullptr);
+
     ~WidgetNodeEditor() = default;
+
+    inline FlowScene * getScene()   { return m_scene; }
+    inline FlowView * getFlowView() { return m_graphicsView; }
+
+    void setAssociatedDetailsLayout(QVBoxLayout * layout);
+
 
 private:
     FlowScene   * m_scene;
-    FlowView    * m_graphicsView;
+    NodeGraphicsView    * m_graphicsView;
     QVBoxLayout * m_layout;
 };
 

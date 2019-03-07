@@ -48,6 +48,7 @@ namespace ShaderGraph
             return m_codeStyleFilename;
         }
 
+
     private:
 
         QString m_codeStyleFilename = "the code style doesn't come from a file";

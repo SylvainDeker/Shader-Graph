@@ -146,8 +146,8 @@ find_package(Qt5OpenGL REQUIRED)
 # OpenGL
 ###########################
 
-target_link_libraries(ShaderGraph ${OPENGL_gl_LIBRARY})
-target_link_libraries(ShaderGraph ${OPENGL_glu_LIBRARY})
+target_link_libraries(ShaderGraph ${OPENGL_gl_LIBRARY} -lpthread)
+target_link_libraries(ShaderGraph ${OPENGL_glu_LIBRARY} -lpthread)
 
 #------------------------------------------------------------------------------
 # Unit tests

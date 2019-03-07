@@ -38,4 +38,5 @@ external/Catch/
 .idea/
 
 # Files
+data/ShaderGraph.log
 .DS_Store

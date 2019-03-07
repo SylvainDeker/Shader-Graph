@@ -9,7 +9,7 @@ set(CPACK_PACKAGE_CONTACT "kracejic <kracejic@gmail.com>")
 set(HOMEPAGE "https://github.com/kracejic/cleanCppProject")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY
     "Clean cpp project. This is simple cpp example project build with CMake.")
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/readme.md")
+set(CPACK_PACKAGE_DESCRIPTION_FILE "${PROJECT_SOURCE_DIR}/README.md")
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/license.md")
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})

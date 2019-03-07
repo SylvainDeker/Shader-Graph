@@ -31,6 +31,9 @@
 *.out
 *.app
 
+# Logs
+*.log
+
 # Folders
 build/
 bin/
@@ -38,5 +41,4 @@ external/Catch/
 .idea/
 
 # Files
-data/ShaderGraph.log
 .DS_Store

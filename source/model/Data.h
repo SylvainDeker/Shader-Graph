@@ -28,6 +28,12 @@ namespace ShaderGraph
             return m_value;
         }
 
+        /// Setter only of the value.
+        inline void setValue( const bool value)
+        {
+            m_value = value;
+        }
+
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
@@ -54,6 +60,12 @@ namespace ShaderGraph
             return m_value;
         }
 
+        /// Setter only of the value.
+        inline void setValue( const float value)
+        {
+            m_value = value;
+        }
+
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
@@ -78,6 +90,11 @@ namespace ShaderGraph
         inline glm::vec2 value() const
         {
             return m_value;
+        }
+        /// Setter only of the value.
+        inline void setValue( const glm::vec4 & v2)
+        {
+            m_value = v2;
         }
 
         /// @return : the id and the name of this data.
@@ -106,6 +123,12 @@ namespace ShaderGraph
             return m_value;
         }
 
+        /// Setter only of the value.
+        inline void setValue( const glm::vec4 & v3)
+        {
+            m_value = v3;
+        }
+
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
@@ -130,6 +153,12 @@ namespace ShaderGraph
         inline glm::vec4 value() const
         {
             return m_value;
+        }
+
+        /// Setter only of the value.
+        inline void setValue( const glm::vec4 & v4)
+        {
+            m_value = v4;
         }
 
         /// @return : the id and the name of this data.

@@ -7,6 +7,8 @@
 #include "../model/NodeManager.h"
 
 #include "../model/Example.h"
+#include "../model/ColorNode.h"
+
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     QWidget(parent)
@@ -16,6 +18,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.loadNodeStyle("../data/nodestyle.txt");
 
     nodeManager.registry()->registerModel<ShaderGraph::Example>();
+    nodeManager.registry()->registerModel<ShaderGraph::ColorNode>();
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);

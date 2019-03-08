@@ -12,7 +12,7 @@ namespace ShaderGraph
     class Shader
     {
     public:
-        Shader(const std::string& filename);
+        Shader(const std::string& vertexshaderpath, const std::string& fragmentshaderpath);
         ~Shader();
 
         /// Bind this Shader (aka program).
@@ -36,9 +36,6 @@ namespace ShaderGraph
         /// Set a uniform of the type : mat4.
         void setMat4(const std::string &name, const glm::mat4 mat);
 
-        /// Get the source code (glsl source code).
-        const std::string& filename() const { return m_filename; }
-
         /// Get the id given by openGL.
         const int& id() const { return m_id; }
 
@@ -49,9 +46,6 @@ namespace ShaderGraph
         int getUniformLocation(const std::string&& name);
 
     private:
-        /// The location of the file.
-        std::string m_filename;
-
         /// The id given by openGL.
         int m_id;
 
@@ -62,13 +56,16 @@ namespace ShaderGraph
         };
 
         /// Read a glsl file and extract the vertex code and the fragment code.
-        ShaderProgramSource parseShaderFile(const std::string& filename);
+        ShaderProgramSource parseShaderFile(const std::string& vertexshaderpath, const std::string& fragmentshaderpath);
 
         /// Compile a glsl code depending on its type.
         int compileShader(unsigned int type, const std::string& source);
 
         /// Create a shader from the vertex code and the fragment code.
         int createShader(const std::string& vertexShader, const std::string& fragmentShader);
+
+        /// Read an included glsl file.
+        std::string includeGLSLFile(const std::string& filepath, int level);
     };
 }
 

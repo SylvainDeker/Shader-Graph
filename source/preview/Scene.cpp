@@ -153,7 +153,8 @@ namespace ShaderGraph
         /* ============================================================ */
         /* Step 6 : Compile shaders */
         /* ============================================================ */
-        m_shader = new Shader("../data/shaders/RedShader.glsl");
+        m_shader = new Shader("../data/shaders/DefaultVertexShader.glsl",
+                              "../data/shaders/RedShader.glsl");
     }
 
     Scene::~Scene()

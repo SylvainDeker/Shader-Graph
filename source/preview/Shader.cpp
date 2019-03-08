@@ -2,13 +2,13 @@
 
 #include <fstream> // Read a file with the C API instead of the C++ API is more efficient
 #include <sstream>
+#include <regex>
 
 namespace ShaderGraph
 {
-    Shader::Shader(const std::string& filename) :
-            m_filename(filename)
+    Shader::Shader(const std::string& vertexshaderpath, const std::string& fragmentshaderpath)
     {
-        const ShaderProgramSource shaderProgramSource = parseShaderFile(filename);
+        const ShaderProgramSource shaderProgramSource = parseShaderFile(vertexshaderpath, fragmentshaderpath);
         m_id = createShader(shaderProgramSource.vertex, shaderProgramSource.fragment);
         unbind(); // By default, a shader is unbind after creation.
     }
@@ -28,35 +28,47 @@ namespace ShaderGraph
         GL_ASSERT(glUseProgram(GL_NULL_ID));
     }
 
-    Shader::ShaderProgramSource Shader::parseShaderFile(const std::string& filename)
+    Shader::ShaderProgramSource Shader::parseShaderFile(const std::string& vertexshaderpath, const std::string& fragmentshaderpath)
     {
         std::string line;
-        std::ifstream stream(filename);
+        std::ifstream v_stream(vertexshaderpath);
+        std::ifstream f_stream(fragmentshaderpath);
         std::stringstream ss[2];
 
-        if (!stream.is_open())
+        if (!v_stream.is_open())
         {
-             LOG_CRITICAL("Shader::parseShaderFile : file not found : {0}", filename);
+             LOG_CRITICAL("Shader::parseShaderFile : Vertex shader file not found : {0}", vertexshaderpath);
+        }
+        if (!f_stream.is_open())
+        {
+             LOG_CRITICAL("Shader::parseShaderFile : Fragment shader file not found : {0}", fragmentshaderpath);
         }
 
-
-        enum EShaderType { None = -1, Vertex = 0, Frag = 1 };
-        EShaderType type = EShaderType::None;
-
-        while (std::getline(stream, line))
+        // Extract Vertex Shader
+        while (std::getline(v_stream, line))
         {
-            if (line.find("#shader") != std::string::npos)
+            ss[0] << line << "\n";
+        }
+
+        // Extract Fragment Shader
+
+        static const std::regex reg("^[ ]*#[ ]*include[ ]+[\"<](.*)[\">].*");
+        size_t found = fragmentshaderpath.find_last_of("/");
+        std::string folder = fragmentshaderpath.substr(0, found + 1);
+
+        while (std::getline(f_stream, line))
+        {
+            std::smatch match;
+            if (std::regex_search(line, match, reg))
             {
-                if (line.find("vertex") != std::string::npos)
-                    type = EShaderType::Vertex;
-
-                else if (line.find("fragment") != std::string::npos)
-                    type = EShaderType::Frag;
-
+                std::string includepath = folder + match[1].str();
+                LOG_INFO("Including : {0}", includepath);
+                ss[1] << includeGLSLFile(includepath, 0);
             }
-            else if (type != EShaderType::None)
-                ss[(int)type] << line << "\n";
+            else
+                ss[1] << line << "\n";
         }
+
         return {ss[0].str(), ss[1].str() } ;
     }
 
@@ -107,6 +119,44 @@ namespace ShaderGraph
         return program;
     }
 
+    std::string Shader::includeGLSLFile(const std::string& filepath, int level)
+    {
+        if (level >= 32)
+        {
+            LOG_CRITICAL("Shader::includeGLSLFile : include recursion went too deep");
+        }
+
+        std::ifstream f_stream(filepath);
+
+        if (!f_stream.is_open())
+        {
+             LOG_CRITICAL("Shader::includeGLSLFile : include file not found : {0}", filepath);
+        }
+
+
+        std::stringstream ss;
+        std::string line;
+
+        static const std::regex reg("^[ ]*#[ ]*include[ ]+[\"<](.*)[\">].*");
+        size_t found = filepath.find_last_of("/");
+        std::string folder = filepath.substr(0, found + 1);
+
+        while (std::getline(f_stream, line))
+        {
+            std::smatch match;
+            if (std::regex_search(line, match, reg))
+            {
+                std::string includepath = folder + match[1].str();
+                LOG_INFO("Including : {0}", includepath);
+                ss << includeGLSLFile(includepath, 0);
+            }
+            else
+                ss << line << "\n";
+        }
+
+        return ss.str();
+    }
+
     int Shader::getUniformLocation(const std::string& name)
     {
         const int kUndefinedLocation = -1;
@@ -116,7 +166,7 @@ namespace ShaderGraph
         {
              LOG_ERROR("Shader::getUniformLocation, uniform : {0} not found.", name);
         }
-        
+
         return kLocation;
     }
 

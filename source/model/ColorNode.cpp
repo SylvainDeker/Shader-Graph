@@ -1,7 +1,7 @@
 //
 // Created by Sylvain on 2019-03-07.
 //
-#include <QBoxLayout>
+
 #include <QFrame>
 #include <QPushButton>
 #include <QColorDialog>
@@ -14,26 +14,24 @@ using namespace ShaderGraph;
 
 ColorNode::ColorNode() :
     InputNode("Color","Color"),
-    _mainwidget(new QWidget()),
-    _layout(new QBoxLayout(QBoxLayout::  TopToBottom,_mainwidget)),
-    _color_preview(new QFrame()),
-    _selecter(new QPushButton("Select"))
+    m_color_preview(new QFrame()),
+    m_selecter(new QPushButton("Select"))
 {
 
     outputs() = std::vector<PIN>{
         std::make_shared<Vector4>()
     };
 
-    _layout->addWidget(_selecter);
-    _layout->addWidget(_color_preview);
+    m_layout->addWidget(m_selecter);
+    m_layout->addWidget(m_color_preview);
 
 
-    _color_preview->setFixedSize(75,75);
-    _color_preview->setPalette(QPalette(QColor(Qt::green)));
-    _selecter->setFixedWidth(75);
-    _color_preview->setAutoFillBackground(true);
+    m_color_preview->setFixedSize(75,75);
+    m_color_preview->setPalette(QPalette(QColor(Qt::green)));
+    m_selecter->setFixedWidth(75);
+    m_color_preview->setAutoFillBackground(true);
 
-    connect(_selecter,&QPushButton::pressed,this,&ColorNode::onColor);
+    connect(m_selecter,&QPushButton::pressed,this,&ColorNode::onColor);
 
 
 }
@@ -70,5 +68,5 @@ void ColorNode::setColor(const glm::vec4& color ) {
   c.setGreenF(color[1]);
   c.setBlueF(color[2]);
   c.setAlphaF(color[3]);
-  _color_preview->setPalette(c);
+  m_color_preview->setPalette(c);
 }

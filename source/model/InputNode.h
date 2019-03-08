@@ -2,7 +2,7 @@
 #define SHADERGRAPH_INPUTNODE_H
 
 #include <memory>
-
+#include <QBoxLayout>
 #include "Node.h"
 
 namespace ShaderGraph
@@ -13,6 +13,8 @@ namespace ShaderGraph
 
     protected:
         InputNode(QString name = "Input", QString caption="Input");
+        QWidget * m_mainwidget;
+        QBoxLayout * m_layout;
     };
 }
 

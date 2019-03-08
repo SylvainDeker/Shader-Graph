@@ -17,15 +17,13 @@ namespace ShaderGraph
 
     public:
         ColorNode();
-        QWidget * embeddedWidget() override { return _mainwidget; }
+        QWidget * embeddedWidget() override { return m_mainwidget; }
         glm::vec4 getColor()  ;
         void setColor(const glm::vec4& color ) ;
     private:
-      QWidget * _mainwidget;
-      QBoxLayout * _layout;
-      QFrame * _color_preview;
-      QPushButton * _selecter;
-      
+      QFrame * m_color_preview;
+      QPushButton * m_selecter;
+
     public slots:
       void onColor();
     };

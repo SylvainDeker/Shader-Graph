@@ -17,8 +17,8 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
 
     nodeManager.loadNodeStyle("../data/nodestyle.txt");
 
-    nodeManager.registry()->registerModel<ShaderGraph::Example>();
-    nodeManager.registry()->registerModel<ShaderGraph::ColorNode>();
+    nodeManager.registry()->registerModel<ShaderGraph::Example>("Test");
+    nodeManager.registry()->registerModel<ShaderGraph::ColorNode>("Input");
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);

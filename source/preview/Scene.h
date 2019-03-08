@@ -45,7 +45,8 @@ namespace ShaderGraph
         /* ==================================================================================== */
         Camera *    m_camera;
         glm::mat4   m_projection;
-
+        glm::vec4   m_lightcolor;
+        glm::vec3   m_lightdir;
 
         /* ==================================================================================== */
         /* World stuffs */

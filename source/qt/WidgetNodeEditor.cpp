@@ -8,7 +8,9 @@
 
 #include "../model/Example.h"
 #include "../model/ColorNode.h"
+
 #include "../model/Vec3Node.h"
+#include "../model/Vec4Node.h"
 
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
@@ -21,6 +23,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::Example>("Test");
     nodeManager.registry()->registerModel<ShaderGraph::ColorNode>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::Vec3Node>("Input");
+    nodeManager.registry()->registerModel<ShaderGraph::Vec4Node>("Input");
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);

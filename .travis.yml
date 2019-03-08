@@ -1,40 +1,55 @@
 # Enable C++ support
 sudo: required
-dist: trusty
 language: cpp
 
 matrix:
     include:
     # linux gcc release
-    - os: linux
+    - env:
+        - COMPILER=g++-8
+        - PREFIX_PATH="~/Qt/5.10.0/gcc_64/lib/cmake"
+      os: linux
+      dist: xenial
       compiler: gcc
       addons:
         apt:
         sources:
             - ubuntu-toolchain-r-test
         packages:
+            - cmake
             - g++-8
-        env: COMPILER=g++-8
+
     # macos clang release
-    - os: osx
+    - env:
+        - PREFIX_PATH="/usr/local/opt/qt/lib/cmake"
+      os: osx
       compiler: clang
-      env: COMPILER=clang++-3.7
 
 before_install:
-# install Qt
--
-  if [ "$TRAVIS_OS_NAME" = "linux" ]; then
-      sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install gnu-which && brew install qt; fi
+  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
+  - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
+  - which $CXX
+  - which $CC
+  - $CXX --version
+  - cmake --version
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-xenial
       sudo apt-get --yes update
       sudo apt-get --yes install qt510-meta-minimal qt510svg
-      source /opt/qt510/bin/qt510-env.sh # see https://launchpad.net/~beineri/+archive/ubuntu/opt-qt-5.10.1-trusty
-      sudo apt-get update
+      source /opt/qt510/bin/qt510-env.sh # see https://launchpad.net/~beineri/+archive/ubuntu/opt-qt-5.10.1-xenial
+      sudo apt-get install freeglut3-dev
+    fi;
 
+install:
+  - mkdir build && cd build
+#   - cmake .. && make check && make package
+  - cmake ..
 # Build steps
 script:
-- mkdir build && cd build
-- cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make check && make package
+- make
 
-branches:
-    only:
-    - master
+# branches:
+#   only:
+#   - martin

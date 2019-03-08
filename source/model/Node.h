@@ -59,12 +59,16 @@ namespace ShaderGraph
         std::vector<PIN>& inputs()  { return m_inputs;  }
         std::vector<PIN>& outputs() { return m_outputs; }
 
+        int m_size_widget_node =  75;
+
     private:
         QString m_name;
         QString m_caption;
 
         std::vector<PIN> m_inputs;
         std::vector<PIN> m_outputs;
+
+
     };
 }
 

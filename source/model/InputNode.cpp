@@ -15,3 +15,7 @@ InputNode::InputNode(QString name, QString caption) :
     inputs() = std::vector<PIN>();
 
 }
+
+QWidget * InputNode::embeddedWidget() {
+   return m_mainwidget;
+}

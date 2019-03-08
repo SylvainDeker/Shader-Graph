@@ -10,6 +10,7 @@
 
 #include "ColorNode.h"
 
+
 using namespace ShaderGraph;
 
 ColorNode::ColorNode() :
@@ -25,10 +26,9 @@ ColorNode::ColorNode() :
     m_layout->addWidget(m_selecter);
     m_layout->addWidget(m_color_preview);
 
-
-    m_color_preview->setFixedSize(75,75);
+    m_color_preview->setFixedSize(m_size_widget_node,m_size_widget_node);
     m_color_preview->setPalette(QPalette(QColor(Qt::green)));
-    m_selecter->setFixedWidth(75);
+    m_selecter->setFixedWidth(m_size_widget_node);
     m_color_preview->setAutoFillBackground(true);
 
     connect(m_selecter,&QPushButton::pressed,this,&ColorNode::onColor);

@@ -17,7 +17,6 @@ namespace ShaderGraph
 
     public:
         ColorNode();
-        QWidget * embeddedWidget() override { return m_mainwidget; }
         glm::vec4 getColor()  ;
         void setColor(const glm::vec4& color ) ;
     private:

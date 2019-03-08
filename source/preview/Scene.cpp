@@ -22,9 +22,10 @@ namespace ShaderGraph
         /* ============================================================ */
         /* Step 1 : Setup camera */
         /* ============================================================ */
-        m_camera = new TrackballCamera();
+        m_camera = new TrackballCamera(glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 1.f, 0.f), glm::vec3(0.f, 0.f, 0.f));
         m_camera->setViewport(glm::vec4(0.f, 0.f, width, height));
-
+        
+        m_view = m_camera->viewMatrix();
         m_projection = glm::perspective(m_camera->zoom(), float(m_width) / m_height, 0.1f, 100.0f);
 
         /* ============================================================ */
@@ -128,11 +129,17 @@ namespace ShaderGraph
         /* ============================================================ */
         GL_ASSERT(glClearColor(0.2f, 0.3f, 0.3f, 1.0f));
         GL_ASSERT(glClear(GL_COLOR_BUFFER_BIT));
-
+        
+        m_model = glm::mat4(1.0f);
+        m_view = m_camera->viewMatrix();
         /* ============================================================ */
         /* Step 1 : Prepare each shader for the rendering */
         /* ============================================================ */
         m_shader->bind();
+        
+        m_shader->setMat4("model", m_model);
+        m_shader->setMat4("view", m_view);
+        m_shader->setMat4("projection", m_projection);
 
         m_shader->setVec4("dirlight.color", m_lightcolor);
         m_shader->setVec3("dirlight.direction", m_lightdir);

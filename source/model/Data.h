@@ -92,7 +92,7 @@ namespace ShaderGraph
             return m_value;
         }
         /// Setter only of the value.
-        inline void setValue( const glm::vec4 & v2)
+        inline void setValue( const glm::vec2 & v2)
         {
             m_value = v2;
         }
@@ -124,7 +124,7 @@ namespace ShaderGraph
         }
 
         /// Setter only of the value.
-        inline void setValue( const glm::vec4 & v3)
+        inline void setValue( const glm::vec3 & v3)
         {
             m_value = v3;
         }

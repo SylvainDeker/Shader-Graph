@@ -1,0 +1,40 @@
+# Enable C++ support
+sudo: required
+dist: trusty
+language: cpp
+
+matrix:
+    include:
+    # linux gcc release
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+        sources:
+            - ubuntu-toolchain-r-test
+        packages:
+            - g++-8
+        env: COMPILER=g++-8
+    # macos clang release
+    - os: osx
+      compiler: clang
+      env: COMPILER=clang++-3.7
+
+before_install:
+# install Qt
+-
+  if [ "$TRAVIS_OS_NAME" = "linux" ]; then
+      sudo add-apt-repository --yes ppa:beineri/opt-qt-5.10.1-trusty
+      sudo apt-get --yes update
+      sudo apt-get --yes install qt510-meta-minimal qt510svg
+      source /opt/qt510/bin/qt510-env.sh # see https://launchpad.net/~beineri/+archive/ubuntu/opt-qt-5.10.1-trusty
+      sudo apt-get update
+
+# Build steps
+script:
+- mkdir build && cd build
+- cmake -DCMAKE_CXX_COMPILER=$COMPILER .. && make check && make package
+
+branches:
+    only:
+    - master

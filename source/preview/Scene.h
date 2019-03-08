@@ -55,8 +55,8 @@ namespace ShaderGraph
         /* ==================================================================================== */
 
         // A simple geometry
-        std::vector<float> m_vertices;
-        std::vector<float> m_normals;
+        std::vector<glm::vec3> m_vertices;
+        std::vector<glm::vec3> m_normals;
         std::vector<unsigned int>  m_indices;
 
         // OpenGL object for geometry

@@ -7,6 +7,8 @@
 
 #include "Data.h"
 
+#define WIDGET_NODE_SIZE 75
+
 namespace ShaderGraph
 {
     class Node : public QtNodes::NodeDataModel
@@ -19,6 +21,12 @@ namespace ShaderGraph
 
         /// Default destructor.
         ~Node() = default;
+
+        /// Constructor.
+        Node(QString name, QString caption) : m_name(name), m_caption(caption) {}
+
+        /// Constructor.
+        Node(QString name) : m_name(name), m_caption(name) {}
 
         /// Give for a specified port, the number of data.
         /// @portType : the type of the port.
@@ -52,14 +60,8 @@ namespace ShaderGraph
         QString caption() const override;
 
     protected:
-
-        Node(QString name, QString caption) : m_name(name), m_caption(caption) {}
-        Node(QString name) : m_name(name), m_caption(name) {}
-
         std::vector<PIN>& inputs()  { return m_inputs;  }
         std::vector<PIN>& outputs() { return m_outputs; }
-
-        int m_size_widget_node =  75;
 
     private:
         QString m_name;
@@ -67,8 +69,6 @@ namespace ShaderGraph
 
         std::vector<PIN> m_inputs;
         std::vector<PIN> m_outputs;
-
-
     };
 }
 

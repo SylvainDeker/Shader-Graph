@@ -1,7 +1,3 @@
-//
-// Created by Valentin on 2019-02-21.
-//
-
 #ifndef SHADERGRAPH_WIDGETNODEEDITOR_H
 #define SHADERGRAPH_WIDGETNODEEDITOR_H
 

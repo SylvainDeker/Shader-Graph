@@ -7,11 +7,13 @@
 
 #include "Data.h"
 
-#define WIDGET_NODE_SIZE 75
-#define IMAGE_NODE_SIZE 150
+#define WIDGET_NODE_SIZE    75
+#define IMAGE_NODE_SIZE     150
 
 namespace ShaderGraph
 {
+    using QtNodes::NodeValidationState;
+
     class Node : public QtNodes::NodeDataModel
     {
         Q_OBJECT
@@ -21,13 +23,13 @@ namespace ShaderGraph
         Node() = default;
 
         /// Default destructor.
-        ~Node() = default;
+        ~Node() override = default;
 
         /// Constructor.
-        Node(QString name, QString caption) : m_name(name), m_caption(caption) {}
+        Node(QString name, QString caption) : m_name(std::move(name)), m_caption(std::move(caption)) {}
 
         /// Constructor.
-        Node(QString name) : m_name(name), m_caption(name) {}
+        explicit Node(QString name) : m_name(std::move(name)), m_caption(std::move(name)) {}
 
         /// Give for a specified port, the number of data.
         /// @portType : the type of the port.
@@ -60,9 +62,24 @@ namespace ShaderGraph
         /// Getter to the reference to the caption.
         QString caption() const override;
 
+        NodeValidationState validationState() const override { return m_validationState; }
+
+        QString validationMessage() const override { return m_validationMessage; }
+
     protected:
+        /// Getter to the reference to a vector of inputs.
         std::vector<PIN>& inputs()  { return m_inputs;  }
+
+        /// Getter to the reference to a vector of outputs.
         std::vector<PIN>& outputs() { return m_outputs; }
+
+        /// Update the validation state of this node.
+        /// @warning : if the node is valid, no message will be displayed.
+        void updateNodeValidation(NodeValidationState state, QString message = "No message")
+        {
+            m_validationState = state;
+            m_validationMessage = message;
+        }
 
     private:
         QString m_name;
@@ -70,6 +87,9 @@ namespace ShaderGraph
 
         std::vector<PIN> m_inputs;
         std::vector<PIN> m_outputs;
+
+        QString m_validationMessage;
+        NodeValidationState m_validationState;
     };
 }
 

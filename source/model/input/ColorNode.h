@@ -36,6 +36,7 @@ namespace ShaderGraph
         }
 
     protected:
+        /// The event filter : see Qt documentation.
         bool eventFilter(QObject *object, QEvent *event) override;
 
     private:

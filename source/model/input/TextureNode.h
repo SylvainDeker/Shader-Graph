@@ -25,9 +25,11 @@ namespace ShaderGraph
         /// @return : the widget.
         QWidget * embeddedWidget() override { return m_label; }
 
+        /// Make this node resizable.
         bool resizable() const override { return true; }
 
     protected:
+        /// The event filter: see Qt documentation.
         bool eventFilter(QObject *object, QEvent *event) override;
 
     private:

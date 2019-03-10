@@ -31,7 +31,10 @@ namespace ShaderGraph
         m_label->setFont(font);
 
         m_label->setFixedSize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
+
         m_label->installEventFilter(this);
+
+        updateNodeValidation(NodeValidationState::Warning, "Invalid Texture");
     }
 
     bool TextureNode::eventFilter(QObject * object, QEvent * event)
@@ -55,11 +58,13 @@ namespace ShaderGraph
                 if (!m_pixmap.isNull())
                 {
                     m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
+                    updateNodeValidation(NodeValidationState::Valid);
                 }
                 else
                 {
                     LOG_INFO("TextureNode : No texture or Invalid texture");
                     m_label->setText("Double click \n to load image");
+                    updateNodeValidation(NodeValidationState::Warning, "Invalid Texture");
                 }
 
                 // Update

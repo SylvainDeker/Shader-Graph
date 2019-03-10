@@ -14,6 +14,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::MasterMaterialOutput>("Output");
 
     nodeManager.registry()->registerModel<ShaderGraph::ColorNode>("Input");
+    nodeManager.registry()->registerModel<ShaderGraph::TextureNode>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::ScalarNode>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::Vec2Node>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::Vec3Node>("Input");

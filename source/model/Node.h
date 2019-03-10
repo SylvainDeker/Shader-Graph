@@ -8,6 +8,7 @@
 #include "Data.h"
 
 #define WIDGET_NODE_SIZE 75
+#define IMAGE_NODE_SIZE 150
 
 namespace ShaderGraph
 {

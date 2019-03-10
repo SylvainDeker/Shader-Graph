@@ -5,10 +5,8 @@
 
 #include <memory>
 
-#include <QFrame>
 #include <QWidget>
-#include <QBoxLayout>
-#include <QPushButton>
+#include <QMouseEvent>
 #include <QColorDialog>
 
 namespace ShaderGraph
@@ -37,16 +35,11 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
-    public slots:
-        /// Lets the user define @m_color, with a QColorDialog.
-        void onColor();
+    protected:
+        bool eventFilter(QObject *object, QEvent *event) override;
 
     private:
         QWidget * m_embeddedWidget;
-        QBoxLayout * m_layout;
-
-        QFrame * m_colorPreview;
-        QPushButton * m_selector;
     };
 
 

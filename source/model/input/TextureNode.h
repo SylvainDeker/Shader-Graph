@@ -1,13 +1,16 @@
-#ifndef SHADERGRAPH_TEXTURE_H
-#define SHADERGRAPH_TEXTURE_H
+#ifndef SHADERGRAPH_TEXTURENODE_H
+#define SHADERGRAPH_TEXTURENODE_H
 
-#include "model/InputNode.h"
+#include "model/Node.h"
 
 #include <memory>
 
+#include <QLabel>
+#include <QPixmap>
+
 namespace ShaderGraph
 {
-    class TextureNode : public InputNode
+    class TextureNode : public Node
     {
     Q_OBJECT
 
@@ -29,11 +32,11 @@ namespace ShaderGraph
 
     private:
         QLabel * m_label;
-
+        QPixmap m_pixmap;
     };
 
 
 }
 
 
-#endif //SHADERGRAPH_TEXTURE_H
+#endif //SHADERGRAPH_TEXTURENODE_H

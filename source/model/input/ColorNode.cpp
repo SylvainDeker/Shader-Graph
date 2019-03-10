@@ -8,11 +8,7 @@ namespace ShaderGraph
     ColorNode::ColorNode() :
             InputNode("Color", "Color"),
 
-            m_embeddedWidget(new QWidget()),
-            m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
-
-            m_colorPreview(new QFrame()),
-            m_selector(new QPushButton("Select"))
+            m_embeddedWidget(new QWidget())
     {
         outputs() = std::vector<PIN >{
                 std::make_shared<Vector4>("RGBA"), // RGBA
@@ -22,34 +18,37 @@ namespace ShaderGraph
                 std::make_shared<Float>("A")    // Alpha channel
         };
 
-        m_layout->addWidget(m_selector);
-        m_layout->addWidget(m_colorPreview);
-
-        m_colorPreview->setFixedSize(WIDGET_NODE_SIZE, WIDGET_NODE_SIZE);
-        m_colorPreview->setAutoFillBackground(true);
+        m_embeddedWidget->setFixedSize(WIDGET_NODE_SIZE, WIDGET_NODE_SIZE);
+        m_embeddedWidget->setAutoFillBackground(true);
 
         setColor(glm::vec4(1.f));
-        m_colorPreview->setPalette(QPalette(QColor(Qt::white)));
+        m_embeddedWidget->setPalette(QPalette(QColor(Qt::white)));
 
-        m_selector->setFixedWidth(WIDGET_NODE_SIZE);
-        connect(m_selector, &QPushButton::pressed, this, &ColorNode::onColor);
+        m_embeddedWidget->setFixedSize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
+        m_embeddedWidget->installEventFilter(this);
     }
 
-    void ColorNode::onColor()
+    bool ColorNode::eventFilter(QObject * object, QEvent * event)
     {
-        QPalette p;
-        QColor c;
+        if (object == m_embeddedWidget && event->type() == QEvent::MouseButtonPress)
+        {
+            QPalette p;
+            QColor c;
 
-        glm::vec4 currentColor = getColor();
+            glm::vec4 currentColor = getColor();
 
-        c.setRedF(currentColor[0]);
-        c.setGreenF(currentColor[1]);
-        c.setBlueF(currentColor[2]);
-        c.setAlphaF(currentColor[3]);
+            c.setRedF(currentColor[0]);
+            c.setGreenF(currentColor[1]);
+            c.setBlueF(currentColor[2]);
+            c.setAlphaF(currentColor[3]);
 
-        c = QColorDialog::getColor(c);
+            c = QColorDialog::getColor(c);
 
-        setColor(glm::vec4(c.redF(), c.greenF(), c.blueF(), c.alphaF()));
+            setColor(glm::vec4(c.redF(), c.greenF(), c.blueF(), c.alphaF()));
+
+            return true;
+        }
+        return false;
     }
 
 
@@ -76,7 +75,7 @@ namespace ShaderGraph
             c.setGreenF(color[1]);
             c.setBlueF(color[2]);
             c.setAlphaF(color[3]);
-            m_colorPreview->setPalette(c);
+            m_embeddedWidget->setPalette(c);
         }
     }
 }

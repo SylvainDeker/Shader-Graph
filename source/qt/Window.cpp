@@ -5,11 +5,15 @@
 #include <string>
 
 #include <QComboBox>
+#include <QPushButton>
 #include <QSurfaceFormat>
+
+#include <nodes/FlowScene>
 
 #include <core/Core.h>
 
 #include "ui_Window.h"
+
 
 #define FORMAT_VERSION 4, 1
 #define FORMAT_DEPTH_BUFFER_SIZE 24
@@ -28,6 +32,12 @@ Window::Window(QWidget * Parent) :
     // Step 1 : Setup the user interface
     ui->setupUi(this);
     setCentralWidget(ui->widget);
+
+    QObject::connect(ui->saveButton, &QPushButton::pressed,
+                     ui->nodeEditor->getScene(), &QtNodes::FlowScene::save);
+
+    QObject::connect(ui->loadButton, &QPushButton::pressed,
+                     ui->nodeEditor->getScene(), &QtNodes::FlowScene::load);
 
     // Step 2 : Setup the logger
     LOG_INIT("../data/ShaderGraph.log", ui->logPanel);

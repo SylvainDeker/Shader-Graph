@@ -88,8 +88,8 @@ namespace ShaderGraph
         std::vector<PIN> m_inputs;
         std::vector<PIN> m_outputs;
 
-        QString m_validationMessage;
-        NodeValidationState m_validationState;
+        QString m_validationMessage = "No message";
+        NodeValidationState m_validationState = NodeValidationState::Valid;
     };
 }
 

@@ -6,8 +6,6 @@
 
 #include "../core/Core.h"
 
-#define QSlot slot
-
 namespace Ui { class Window; }
 
 class Window : public QMainWindow

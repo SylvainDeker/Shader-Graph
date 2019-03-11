@@ -2,9 +2,10 @@
 #define SHADERGRAPH_WIDGETNODEEDITOR_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QVBoxLayout>
 
 #include <nodes/NodeData>
 #include <nodes/FlowScene>
@@ -26,7 +27,10 @@ class WidgetNodeEditor : public QWidget
     Q_OBJECT
 public:
     WidgetNodeEditor(QWidget *parent = nullptr);
+
     ~WidgetNodeEditor() = default;
+
+    inline FlowScene * getScene() { return m_scene; }
 
 private:
     FlowScene   * m_scene;

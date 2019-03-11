@@ -3,6 +3,8 @@
 #include "model/manager/NodeManager.h"
 
 #include "model/NodeDecl.h"
+#include "NodeGraphicsView.h"
+
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     QWidget(parent)
@@ -29,7 +31,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);
-    m_graphicsView  = new FlowView(m_scene);
+      m_graphicsView  = new NodeGraphicsView(m_scene);
 
     m_layout->addWidget(m_graphicsView);
 }

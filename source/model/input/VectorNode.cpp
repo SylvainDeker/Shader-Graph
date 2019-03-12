@@ -51,6 +51,10 @@ namespace ShaderGraph
         }
     }
 
+    void ScalarNode::showDetails(QVBoxLayout   * layout){
+      Node::showDetails(layout);
+    }
+
     //====================================================================================================
     // Vector2 Node
     //====================================================================================================
@@ -109,6 +113,9 @@ namespace ShaderGraph
             emit m_spinBoxX->valueChanged(static_cast<double>(value.x));
             emit m_spinBoxY->valueChanged(static_cast<double>(value.y));
         }
+    }
+    void Vec2Node::showDetails(QVBoxLayout   * layout){
+        Node::showDetails(layout);
     }
 
     //====================================================================================================
@@ -179,6 +186,10 @@ namespace ShaderGraph
         emit m_spinBoxY->valueChanged(static_cast<double>(value.y));
         emit m_spinBoxZ->valueChanged(static_cast<double>(value.z));
       }
+    }
+
+    void Vec3Node::showDetails(QVBoxLayout   * layout){
+        Node::showDetails(layout);
     }
 
     //====================================================================================================
@@ -260,4 +271,12 @@ namespace ShaderGraph
             emit m_spinBoxW->valueChanged(static_cast<double>(value.z));
         }
     }
+
+    void Vec4Node::showDetails(QVBoxLayout   * layout){
+        Node::showDetails(layout);
+    }
+
+
+
+
 }

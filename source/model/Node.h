@@ -4,7 +4,9 @@
 #include <vector>
 
 #include <core/Core.h>
-
+#include <QVBoxLayout>
+#include <QLayoutItem>
+#include <QLayout>
 #include "Data.h"
 
 #define WIDGET_NODE_SIZE    75
@@ -66,7 +68,29 @@ namespace ShaderGraph
 
         QString validationMessage() const override { return m_validationMessage; }
 
-    protected:
+        /// Function that display info in the layout (details)
+        virtual void showDetails(QVBoxLayout   * layout);
+
+        /// Getter on the posisition in the layout given by the layout arg in showDetails(layout) function.
+        size_t getIndexLayout() const {   return m_indexLayout;    }
+
+        /// Function to know if a layout has already been set up (for details)
+        bool isLayoutInit() const {  return m_layout_init;      }
+
+      protected:
+
+        /// Set a layout
+        void setLayout(QVBoxLayout * layout){
+          m_layout = layout;
+        }
+
+        /// Set the index of the layout in the previous function.
+        void setIndexLayout(size_t idx){
+          m_indexLayout = idx;
+          m_layout_init = true;
+        }
+
+
         /// Getter to the reference to a vector of inputs.
         std::vector<PIN>& inputs()  { return m_inputs;  }
 
@@ -82,6 +106,11 @@ namespace ShaderGraph
         }
 
     private:
+
+        QVBoxLayout * m_layout;
+        size_t  m_indexLayout;
+        bool m_layout_init = false;
+
         QString m_name;
         QString m_caption;
 

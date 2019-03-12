@@ -14,8 +14,8 @@
 #include <nodes/TypeConverter>
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
-
 #include <core/Core.h>
+#include "NodeGraphicsView.h"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -33,9 +33,12 @@ public:
     inline FlowScene * getScene()   { return m_scene; }
     inline FlowView * getFlowView() { return m_graphicsView; }
 
+    void setAssociatedDetailsLayout(QVBoxLayout * layout);
+
+
 private:
     FlowScene   * m_scene;
-    FlowView    * m_graphicsView;
+    NodeGraphicsView    * m_graphicsView;
     QVBoxLayout * m_layout;
 };
 

@@ -20,6 +20,12 @@ namespace ShaderGraph
                     std::make_shared<Float>("Y")
             };
         }
+
+        void showDetails(QVBoxLayout   * layout) override {
+            Node::showDetails( layout );
+        }
+
+
     };
 
     class MakeVec3Node : public Node
@@ -36,6 +42,10 @@ namespace ShaderGraph
                     std::make_shared<Float>("Y"),
                     std::make_shared<Float>("Z")
             };
+        }
+
+        void showDetails(QVBoxLayout   * layout){
+            Node::showDetails(layout);
         }
     };
 
@@ -55,6 +65,10 @@ namespace ShaderGraph
                     std::make_shared<Float>("A")
             };
         }
+
+        void showDetails(QVBoxLayout   * layout){
+            Node::showDetails(layout);
+        }
     };
 
     class BreakVec2Node : public Node
@@ -70,6 +84,10 @@ namespace ShaderGraph
                 std::make_shared<Float>("X"),
                 std::make_shared<Float>("Y")
             };
+        }
+
+        void showDetails(QVBoxLayout   * layout){
+            Node::showDetails(layout);
         }
     };
 
@@ -88,6 +106,10 @@ namespace ShaderGraph
                     std::make_shared<Float>("Z")
             };
         }
+
+        void showDetails(QVBoxLayout   * layout){
+            Node::showDetails(layout);
+        }
     };
 
     class BreakVec4Node : public Node
@@ -105,6 +127,10 @@ namespace ShaderGraph
                     std::make_shared<Float>("Z"),
                     std::make_shared<Float>("A")
             };
+        }
+
+        void showDetails(QVBoxLayout   * layout){
+            Node::showDetails(layout);
         }
     };
 }

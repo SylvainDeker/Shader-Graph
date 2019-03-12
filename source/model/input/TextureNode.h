@@ -28,13 +28,23 @@ namespace ShaderGraph
         /// Make this node resizable.
         bool resizable() const override { return true; }
 
+        void showDetails(QVBoxLayout   * layout);
+
+        void set(const QString & path);
+
     protected:
         /// The event filter: see Qt documentation.
         bool eventFilter(QObject *object, QEvent *event) override;
 
     private:
+        QString m_path;
         QLabel * m_label;
         QPixmap m_pixmap;
+        // detail
+        QWidget * m_detail;
+        QLabel *m_labeldetail;
+        QVBoxLayout * m_mainlayout;
+
     };
 
 

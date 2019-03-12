@@ -32,6 +32,8 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
+        void showDetails(QVBoxLayout   * layout);
+
     public slots:
         void onValue();
 
@@ -58,6 +60,10 @@ namespace ShaderGraph
         {
             return m_embeddedWidget;
         }
+
+        void showDetails(QVBoxLayout   * layout);
+
+
 
     public slots:
         void onValue();
@@ -87,6 +93,10 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
+        void showDetails(QVBoxLayout   * layout);
+
+
+
     public slots:
         void onValue();
 
@@ -115,6 +125,8 @@ namespace ShaderGraph
         {
             return m_embeddedWidget;
         }
+
+        void showDetails(QVBoxLayout   * layout);
 
     public slots:
       void onValue();

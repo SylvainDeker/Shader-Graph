@@ -9,7 +9,12 @@ namespace ShaderGraph
     /// Constructor.
     TextureNode::TextureNode() :
             Node("Texture", "Load a texture"),
-            m_label(new QLabel("Double click \n to load image"))
+            m_path(QString()),
+            m_label(new QLabel("Double click \n to load image")),
+            m_detail(new QWidget()),
+            m_labeldetail(new QLabel()),
+            m_mainlayout(new QVBoxLayout())
+
     {
         inputs() = std::vector<PIN> {
             std::make_shared<Vector2>("UVs") // UVs
@@ -34,6 +39,10 @@ namespace ShaderGraph
 
         m_label->installEventFilter(this);
 
+        m_detail->setLayout(m_mainlayout);
+        m_mainlayout->addWidget(m_labeldetail);
+
+
         updateNodeValidation(NodeValidationState::Warning, "Invalid Texture");
     }
 
@@ -47,28 +56,12 @@ namespace ShaderGraph
             if (event->type() == QEvent::MouseButtonPress)
             {
                 // Get the filename
-                QString fileName = QFileDialog::getOpenFileName(nullptr,
+                m_path = QFileDialog::getOpenFileName(nullptr,
                                                                 tr("Open Image"),
                                                                 QDir::currentPath(),
                                                                 tr("Image Files (*.png *.jpg *.bmp)"));
-                // Get the image in the Qt format : QPixmap
-                m_pixmap = QPixmap(fileName);
 
-                // If the image is valid display it else print a log message.
-                if (!m_pixmap.isNull())
-                {
-                    m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
-                    updateNodeValidation(NodeValidationState::Valid);
-                }
-                else
-                {
-                    LOG_INFO("TextureNode : No texture or Invalid texture");
-                    m_label->setText("Double click \n to load image");
-                    updateNodeValidation(NodeValidationState::Warning, "Invalid Texture");
-                }
-
-                // Update
-                emit dataUpdated(0);
+                set(m_path);
                 return true;
 
             }
@@ -83,4 +76,41 @@ namespace ShaderGraph
 
         return false;
     }
+
+    void TextureNode::set(const QString & path) {
+      // Get the image in the Qt format : QPixmap
+      m_pixmap = QPixmap(path);
+      int w = m_label->width();
+      int h = m_label->height();
+      // If the image is valid display it else print a log message.
+      if (!m_pixmap.isNull())
+      {
+          m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
+          m_labeldetail->setPixmap(m_pixmap.scaled(w*1.7, h*1.7, Qt::KeepAspectRatio));
+          updateNodeValidation(NodeValidationState::Valid);
+      }
+      else
+      {
+          LOG_INFO("TextureNode : No texture or Invalid texture");
+          m_label->setText("Double click \n to load image");
+          updateNodeValidation(NodeValidationState::Warning, "Invalid Texture");
+      }
+
+      // Update
+      emit dataUpdated(0);
+    }
+
+    void TextureNode::showDetails(QVBoxLayout   * layout){
+      Node::showDetails(layout);
+      if( ! isLayoutInit()){
+        setLayout(layout);
+        setIndexLayout(layout->count());
+        layout->addWidget(m_detail);
+      }
+
+      layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+
+      set(m_path); // Allow update data
+    }
+
 }

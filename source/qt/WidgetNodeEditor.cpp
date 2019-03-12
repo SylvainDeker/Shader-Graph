@@ -2,6 +2,7 @@
 
 #include "model/NodeDecl.h"
 #include "NodeGraphicsView.h"
+#include <QVBoxLayout>
 
 #include "model/manager/NodeManager.h"
 
@@ -34,10 +35,15 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     REGISTER_VECTOR2_OPERATORS(nodeManager.registry());
     REGISTER_VECTOR3_OPERATORS(nodeManager.registry());
     REGISTER_VECTOR4_OPERATORS(nodeManager.registry());
-    
+
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);
     m_graphicsView  = new NodeGraphicsView(m_scene);
 
     m_layout->addWidget(m_graphicsView);
+}
+
+void
+WidgetNodeEditor::setAssociatedDetailsLayout(QVBoxLayout * layout){
+  m_graphicsView->setAssociatedDetailsLayout(layout);
 }

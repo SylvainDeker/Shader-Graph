@@ -159,18 +159,20 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="details" native="true">
-          <property name="maximumSize">
+         <layout class="QVBoxLayout" name="layoutdetails"/>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
            <size>
-            <width>256</width>
-            <height>16777215</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: rgb(37, 37, 37);</string>
-          </property>
-          <layout class="QVBoxLayout" name="nodeDetails"/>
-         </widget>
+         </spacer>
         </item>
        </layout>
       </item>

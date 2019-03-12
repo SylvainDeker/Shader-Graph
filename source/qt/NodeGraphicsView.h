@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QVBoxLayout>
 
+#include <nodes/Node>
 #include <nodes/NodeData>
 #include <nodes/FlowScene>
 #include <nodes/FlowView>
@@ -28,9 +29,14 @@ public:
 
   NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent = Q_NULLPTR);
 
+  void setAssociatedDetailsLayout(QVBoxLayout * layout){
+    m_detailslayout = layout;
+  }
 protected:
   void mousePressEvent(QMouseEvent *event) override ;
 
+private:
+  QVBoxLayout * m_detailslayout;
 
 };
 

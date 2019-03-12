@@ -7,7 +7,10 @@
 
 #include <QWidget>
 #include <QMouseEvent>
-#include <QColorDialog>
+#include <QColor>
+#include <QDoubleSpinBox>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 namespace ShaderGraph
 {
@@ -25,8 +28,15 @@ namespace ShaderGraph
         /// Getter only : color.
         glm::vec4 getColor();
 
+        /// Getter only : color.
+        QColor getQColor();
+
         /// Setter only : color.
         void setColor(const glm::vec4& color);
+
+        /// Setter only : color.
+        void setColor(const QColor &color);
+
 
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
@@ -35,12 +45,29 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
+          /// Function that display info in the layout (details)
+        void showDetails(QVBoxLayout   * layout) override ;
+    public slots:
+        void onValueChanged(double value);
+
     protected:
         /// The event filter : see Qt documentation.
         bool eventFilter(QObject *object, QEvent *event) override;
 
     private:
+        QColor m_color;
         QWidget * m_embeddedWidget;
+        //details
+        QWidget * m_detail;
+        QVBoxLayout * m_mainlayout;
+        QHBoxLayout * m_layoutcolor;
+        QVBoxLayout * m_coordlayout;
+        QDoubleSpinBox * m_boxr;
+        QDoubleSpinBox * m_boxg;
+        QDoubleSpinBox * m_boxb;
+        QDoubleSpinBox * m_boxa;
+        QWidget * m_display;
+
     };
 
 

@@ -24,14 +24,22 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
 
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec2Node>("Vector");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec2Node>("Vector");
+
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec3Node>("Vector");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec3Node>("Vector");
+
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec4Node>("Vector");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec4Node>("Vector");
 
+    REGISTER_BOOL_OPERATORS(nodeManager.registry());
+    REGISTER_FLOAT_OPERATORS(nodeManager.registry());
+    REGISTER_VECTOR2_OPERATORS(nodeManager.registry());
+    REGISTER_VECTOR3_OPERATORS(nodeManager.registry());
+    REGISTER_VECTOR4_OPERATORS(nodeManager.registry());
+
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);
-      m_graphicsView  = new NodeGraphicsView(m_scene);
+    m_graphicsView  = new NodeGraphicsView(m_scene);
 
     m_layout->addWidget(m_graphicsView);
 }

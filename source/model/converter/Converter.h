@@ -1,0 +1,9 @@
+#ifndef SHADERGRAPH_CONVERTER_H
+#define SHADERGRAPH_CONVERTER_H
+
+namespace ShaderGraph
+{
+
+}
+
+#endif //SHADERGRAPH_CONVERTER_H

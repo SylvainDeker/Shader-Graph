@@ -9,4 +9,8 @@
 
 #include "function/VectorFunctions.h"
 
+#include "operator/Operator.h"
+
+#include "converter/Converter.h"
+
 #endif //SHADERGRAPH_NODEDECL_H

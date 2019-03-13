@@ -26,10 +26,10 @@ namespace ShaderGraph
         ~Node() override = default;
 
         /// Constructor.
-        Node(QString name, QString caption) : m_name(std::move(name)), m_caption(std::move(caption)) {}
+        Node(QString name, QString caption) : m_name(name), m_caption(caption) {}
 
         /// Constructor.
-        explicit Node(QString name) : m_name(std::move(name)), m_caption(std::move(name)) {}
+        explicit Node(QString name) : m_name(name), m_caption(name) {}
 
         /// Give for a specified port, the number of data.
         /// @portType : the type of the port.

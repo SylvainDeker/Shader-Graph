@@ -47,6 +47,15 @@ namespace ShaderGraph
         glm::mat4   m_projection;
         glm::mat4   m_view;
         glm::mat4   m_model;
+        glm::mat4   m_modelView;
+        glm::mat4   m_mvp;
+        glm::mat4   m_worldNormal;
+        glm::mat4   m_viewNormal;
+
+        glm::vec4   m_Kd;
+        glm::vec4   m_Ks;
+        float       m_roughness;
+
         glm::vec4   m_lightcolor;
         glm::vec3   m_lightdir;
 
@@ -57,7 +66,13 @@ namespace ShaderGraph
         // A simple geometry
         std::vector<glm::vec3> m_vertices;
         std::vector<glm::vec3> m_normals;
+        std::vector<glm::vec3> m_texcoords;
+        std::vector<glm::vec3> m_tangents;
+        std::vector<glm::vec3> m_bitangents;
         std::vector<unsigned int>  m_indices;
+
+        /// Build Tangents and Bitangents
+        void computeTangents();
 
         // OpenGL object for geometry
 
@@ -69,6 +84,13 @@ namespace ShaderGraph
         unsigned int m_nbo;
         // Face buffer
         unsigned int m_ibo;
+        // Texture Coords buffer
+        unsigned int m_ubo;
+        // Tangent buffer
+        unsigned int m_tbo;
+        // Bitangent buffer
+        unsigned int m_bbo;
+
     };
 };
 

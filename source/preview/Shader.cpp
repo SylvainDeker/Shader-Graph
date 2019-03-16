@@ -8,6 +8,7 @@ namespace ShaderGraph
 {
     Shader::Shader(const std::string& vertexshaderpath, const std::string& fragmentshaderpath)
     {
+        m_fragmentShaderPath = fragmentshaderpath;
         const ShaderProgramSource shaderProgramSource = parseShaderFile(vertexshaderpath, fragmentshaderpath);
         m_id = createShader(shaderProgramSource.vertex, shaderProgramSource.fragment);
         unbind(); // By default, a shader is unbind after creation.
@@ -30,44 +31,16 @@ namespace ShaderGraph
 
     Shader::ShaderProgramSource Shader::parseShaderFile(const std::string& vertexshaderpath, const std::string& fragmentshaderpath)
     {
-        std::string line;
-        std::ifstream v_stream(vertexshaderpath);
-        std::ifstream f_stream(fragmentshaderpath);
         std::stringstream ss[2];
 
-        if (!v_stream.is_open())
-        {
-             LOG_CRITICAL("Shader::parseShaderFile : Vertex shader file not found : {0}", vertexshaderpath);
-        }
-        if (!f_stream.is_open())
-        {
-             LOG_CRITICAL("Shader::parseShaderFile : Fragment shader file not found : {0}", fragmentshaderpath);
-        }
-
         // Extract Vertex Shader
-        while (std::getline(v_stream, line))
-        {
-            ss[0] << line << "\n";
-        }
+        ss[0] << "#version 330\n\n"; // Header
+        ss[0] << readGLSLFile(vertexshaderpath, 0);
 
         // Extract Fragment Shader
 
-        static const std::regex reg("^[ ]*#[ ]*include[ ]+[\"<](.*)[\">].*");
-        size_t found = fragmentshaderpath.find_last_of("/");
-        std::string folder = fragmentshaderpath.substr(0, found + 1);
-
-        while (std::getline(f_stream, line))
-        {
-            std::smatch match;
-            if (std::regex_search(line, match, reg))
-            {
-                std::string includepath = folder + match[1].str();
-                LOG_INFO("Including : {0}", includepath);
-                ss[1] << includeGLSLFile(includepath, 0);
-            }
-            else
-                ss[1] << line << "\n";
-        }
+        ss[1] << "#version 330\n\n"; // Header
+        ss[1] << readGLSLFile(fragmentshaderpath, 0);
 
         return {ss[0].str(), ss[1].str() } ;
     }
@@ -111,6 +84,14 @@ namespace ShaderGraph
         GL_ASSERT(glAttachShader(program, fs));
 
         GL_ASSERT(glLinkProgram(program));
+
+        int valid;
+        glGetProgramiv(program, GL_LINK_STATUS, &valid);
+        if (!valid)
+        {
+            LOG_CRITICAL("Shader::createShader : program could not be linked");
+        }
+
         GL_ASSERT(glValidateProgram(program));
 
         GL_ASSERT(glDeleteShader(vs));
@@ -119,18 +100,24 @@ namespace ShaderGraph
         return program;
     }
 
-    std::string Shader::includeGLSLFile(const std::string& filepath, int level)
+    void Shader::refresh()
+    {
+        //TODO : detach and delete previous fragment shader, read m_fragmentShaderPath,
+        // compile new shader and attach new shader to program
+    }
+
+    std::string Shader::readGLSLFile(const std::string& filepath, int level)
     {
         if (level >= 32)
         {
-            LOG_CRITICAL("Shader::includeGLSLFile : include recursion went too deep");
+            LOG_CRITICAL("Shader::readGLSLFile : include recursion went too deep");
         }
 
         std::ifstream f_stream(filepath);
 
         if (!f_stream.is_open())
         {
-             LOG_CRITICAL("Shader::includeGLSLFile : include file not found : {0}", filepath);
+             LOG_CRITICAL("Shader::readGLSLFile : GLSL file not found : {0}", filepath);
         }
 
 
@@ -147,8 +134,7 @@ namespace ShaderGraph
             if (std::regex_search(line, match, reg))
             {
                 std::string includepath = folder + match[1].str();
-                LOG_INFO("Including : {0}", includepath);
-                ss << includeGLSLFile(includepath, 0);
+                ss << readGLSLFile(includepath, 0);
             }
             else
                 ss << line << "\n";

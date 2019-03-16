@@ -21,6 +21,9 @@ namespace ShaderGraph
         /// Unbind this Shader (aka program).
         void unbind() const;
 
+        /// Recompile fragment Shader
+        void refresh();
+
         /// Set a uniform of the type : int.
         void setInt(const std::string &name, int v);
 
@@ -48,6 +51,7 @@ namespace ShaderGraph
     private:
         /// The id given by openGL.
         int m_id;
+        std::string m_fragmentShaderPath;
 
         struct ShaderProgramSource
         {
@@ -55,7 +59,7 @@ namespace ShaderGraph
             std::string fragment;
         };
 
-        /// Read a glsl file and extract the vertex code and the fragment code.
+        /// Extract Vertex shader and Fragment shader codes
         ShaderProgramSource parseShaderFile(const std::string& vertexshaderpath, const std::string& fragmentshaderpath);
 
         /// Compile a glsl code depending on its type.
@@ -64,8 +68,8 @@ namespace ShaderGraph
         /// Create a shader from the vertex code and the fragment code.
         int createShader(const std::string& vertexShader, const std::string& fragmentShader);
 
-        /// Read an included glsl file.
-        std::string includeGLSLFile(const std::string& filepath, int level);
+        /// Read a glsl file and extract code, managing includes recursively
+        std::string readGLSLFile(const std::string& filepath, int level);
     };
 }
 

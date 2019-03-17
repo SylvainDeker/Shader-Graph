@@ -78,13 +78,14 @@ namespace ShaderGraph
 
     class Vec3Node : public InputNode
     {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         Vec3Node();
 
         glm::vec3 get();
-        void set(const glm::vec3& v, bool loop = false);
+        void set(const glm::vec3& v);
+
 
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
@@ -95,18 +96,27 @@ namespace ShaderGraph
 
         void showDetails(QVBoxLayout   * layout);
 
-
-
     public slots:
-        void onValue();
+      void onValue();
+      void onValueDetail();
 
     private:
+        glm::vec3 m_value;
         QWidget * m_embeddedWidget;
         QBoxLayout * m_layout;
 
         QDoubleSpinBox * m_spinBoxX;
         QDoubleSpinBox * m_spinBoxY;
         QDoubleSpinBox * m_spinBoxZ;
+        QDoubleSpinBox * m_spinBoxW;
+
+        QWidget * m_detail;
+        QVBoxLayout * m_mainlayout;
+        QDoubleSpinBox * m_spinBoxXdetail;
+        QDoubleSpinBox * m_spinBoxYdetail;
+        QDoubleSpinBox * m_spinBoxZdetail;
+        QDoubleSpinBox * m_spinBoxWdetail;
+
     };
 
     class Vec4Node : public InputNode

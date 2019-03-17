@@ -123,18 +123,23 @@ namespace ShaderGraph
     //====================================================================================================
 
     Vec3Node::Vec3Node() :
-        InputNode("Vector3", "Vector3"),
+            InputNode("Vector3", "Vector3"),
 
-        m_embeddedWidget(new QWidget()),
-        m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
+            m_embeddedWidget(new QWidget()),
+            m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
 
-        m_spinBoxX(new QDoubleSpinBox()),
-        m_spinBoxY(new QDoubleSpinBox()),
-        m_spinBoxZ(new QDoubleSpinBox())
+            m_spinBoxX(new QDoubleSpinBox()),
+            m_spinBoxY(new QDoubleSpinBox()),
+            m_spinBoxZ(new QDoubleSpinBox()),
+            m_detail(new QWidget()),
+            m_mainlayout(new QVBoxLayout()),
+            m_spinBoxXdetail(new QDoubleSpinBox()),
+            m_spinBoxYdetail(new QDoubleSpinBox()),
+            m_spinBoxZdetail(new QDoubleSpinBox())
     {
 
         outputs() = std::vector<PIN>{
-            std::make_shared<Vector3>()
+                std::make_shared<Vector3>()
         };
 
         m_layout->addWidget(m_spinBoxX);
@@ -153,44 +158,90 @@ namespace ShaderGraph
         m_spinBoxZ->setRange(FLT_MIN, FLT_MAX);
         m_spinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
+
+
         connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValue);
         connect(m_spinBoxY, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValue);
         connect(m_spinBoxZ, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValue);
+
+
+        m_detail->setLayout(m_mainlayout);
+        m_mainlayout->addWidget(m_spinBoxXdetail);
+        m_mainlayout->addWidget(m_spinBoxYdetail);
+        m_mainlayout->addWidget(m_spinBoxZdetail);
+
+        m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxXdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+        m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxYdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+        m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxZdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+
+        connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec3Node::onValueDetail);
+        connect(m_spinBoxYdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec3Node::onValueDetail);
+        connect(m_spinBoxZdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec3Node::onValueDetail);
+
     }
 
     void Vec3Node::onValue()
     {
         set(glm::vec3(m_spinBoxX->value(),
                       m_spinBoxY->value(),
-                      m_spinBoxZ->value()),
-            true);
+                      m_spinBoxZ->value())
+                    );
+    }
+    void Vec3Node::onValueDetail()
+    {
+        set(glm::vec3(m_spinBoxXdetail->value(),
+                      m_spinBoxYdetail->value(),
+                      m_spinBoxZdetail->value())
+                    );
     }
 
     glm::vec3 Vec3Node::get()
     {
-      Vector3 * v = dynamic_cast<Vector3*>(outData(0).get());
-      return (v == nullptr) ? glm::vec3(0.f) : v->value();
+        Vector3 * v = dynamic_cast<Vector3*>(outData(0).get());
+        return (v == nullptr) ? glm::vec3(0.f) : v->value();
     }
 
-    void Vec3Node::set(const glm::vec3& value,bool loop )
+    void Vec3Node::set(const glm::vec3& v)
     {
-      Vector3 * v = dynamic_cast<Vector3*>(outData(0).get());
-      v->setValue(value);
+      m_value = v;
+      m_spinBoxX->setValue(v[0]);
+      m_spinBoxY->setValue(v[1]);
+      m_spinBoxZ->setValue(v[2]);
 
-      if(!loop)
-      {
-        emit m_spinBoxX->valueChanged(static_cast<double>(value.x));
-        emit m_spinBoxY->valueChanged(static_cast<double>(value.y));
-        emit m_spinBoxZ->valueChanged(static_cast<double>(value.z));
-      }
+      m_spinBoxXdetail->setValue(v[0]);
+      m_spinBoxYdetail->setValue(v[1]);
+      m_spinBoxZdetail->setValue(v[2]);
     }
 
     void Vec3Node::showDetails(QVBoxLayout   * layout){
         Node::showDetails(layout);
+        if( ! isLayoutInit()){
+          setLayout(layout);
+          setIndexLayout(layout->count());
+          layout->addWidget(m_detail);
+        }
+
+        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+
+        set(m_value); // Allow update data
     }
+
+
 
     //====================================================================================================
     // Vector4 Node

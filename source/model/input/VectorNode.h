@@ -15,44 +15,59 @@
 
 namespace ShaderGraph
 {
-    class ScalarNode : public InputNode
-    {
-    Q_OBJECT
+  class ScalarNode : public InputNode
+  {
+      Q_OBJECT
 
-    public:
-        ScalarNode();
+  public:
+      ScalarNode();
 
-        float get();
-        void set(float v, bool loop = false);
+      float get();
+      void set(const float& v);
 
-        /// Specified the embedded widget in the Node.
-        /// @return : the widget.
-        QWidget * embeddedWidget() override
-        {
-            return m_embeddedWidget;
-        }
 
-        void showDetails(QVBoxLayout   * layout);
+      /// Specified the embedded widget in the Node.
+      /// @return : the widget.
+      QWidget * embeddedWidget() override
+      {
+          return m_embeddedWidget;
+      }
 
-    public slots:
-        void onValue();
+      void showDetails(QVBoxLayout   * layout);
 
-    private:
-        QWidget * m_embeddedWidget;
-        QBoxLayout * m_layout;
+  public slots:
+    void onValue();
+    void onValueDetail();
 
-        QDoubleSpinBox * m_spinBoxX;
-    };
+  private:
+      float m_value;
+      QWidget * m_embeddedWidget;
+      QBoxLayout * m_layout;
+
+      QDoubleSpinBox * m_spinBoxX;
+      QDoubleSpinBox * m_spinBoxY;
+      QDoubleSpinBox * m_spinBoxZ;
+      QDoubleSpinBox * m_spinBoxW;
+
+      QWidget * m_detail;
+      QVBoxLayout * m_mainlayout;
+      QDoubleSpinBox * m_spinBoxXdetail;
+      QDoubleSpinBox * m_spinBoxYdetail;
+      QDoubleSpinBox * m_spinBoxZdetail;
+      QDoubleSpinBox * m_spinBoxWdetail;
+
+  };
 
     class Vec2Node : public InputNode
     {
-    Q_OBJECT
+        Q_OBJECT
 
     public:
         Vec2Node();
 
         glm::vec2 get();
-        void set(const glm::vec2& v, bool loop = false);
+        void set(const glm::vec2& v);
+
 
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
@@ -63,17 +78,25 @@ namespace ShaderGraph
 
         void showDetails(QVBoxLayout   * layout);
 
-
-
     public slots:
-        void onValue();
+      void onValue();
+      void onValueDetail();
 
     private:
+        glm::vec2 m_value;
         QWidget * m_embeddedWidget;
         QBoxLayout * m_layout;
 
         QDoubleSpinBox * m_spinBoxX;
         QDoubleSpinBox * m_spinBoxY;
+
+
+        QWidget * m_detail;
+        QVBoxLayout * m_mainlayout;
+        QDoubleSpinBox * m_spinBoxXdetail;
+        QDoubleSpinBox * m_spinBoxYdetail;
+
+
     };
 
     class Vec3Node : public InputNode

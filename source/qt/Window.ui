@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>742</width>
+     <width>693</width>
      <height>512</height>
     </rect>
    </property>
@@ -277,11 +277,11 @@
        </layout>
       </item>
       <item>
-       <widget class="QTreeView" name="treeView">
+       <widget class="QWidget" name="rightLayout" native="true">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>100</height>
+          <width>100</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
@@ -293,6 +293,27 @@
         <property name="styleSheet">
          <string notr="true">background-color: rgb(50, 50, 50);</string>
         </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLineEdit" name="functionFilter">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTreeWidget" name="treeWidget">
+           <property name="styleSheet">
+            <string notr="true">font: 13pt &quot;.SF NS Text&quot;;</string>
+           </property>
+           <column>
+            <property name="text">
+             <string notr="true">1</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

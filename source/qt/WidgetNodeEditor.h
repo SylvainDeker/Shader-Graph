@@ -15,7 +15,7 @@
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
 
-#include "../core/Core.h"
+#include <core/Core.h>
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -30,7 +30,8 @@ public:
 
     ~WidgetNodeEditor() = default;
 
-    inline FlowScene * getScene() { return m_scene; }
+    inline FlowScene * getScene()   { return m_scene; }
+    inline FlowView * getFlowView() { return m_graphicsView; }
 
 private:
     FlowScene   * m_scene;

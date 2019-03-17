@@ -19,8 +19,6 @@ Shader-Graph is a project developpement, suggested by Mathias Paulin a member of
 * Qt >= 5.2
 * CMake >= 3.10
 * Catch2
-* nodeeditor
-
 
 ### Functionnalities
 

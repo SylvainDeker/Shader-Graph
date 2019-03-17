@@ -28,7 +28,8 @@ namespace ShaderGraph
         /// Make this node resizable.
         bool resizable() const override { return true; }
 
-        void showDetails(QVBoxLayout   * layout);
+        /// Function that display properties in the layout (details)
+        void showDetails(QVBoxLayout * layout) override;
 
         void set(const QString & path);
 

@@ -68,26 +68,28 @@ namespace ShaderGraph
 
         QString validationMessage() const override { return m_validationMessage; }
 
-        /// Function that display info in the layout (details)
-        virtual void showDetails(QVBoxLayout   * layout);
+        /// Function that display properties in the layout (details)
+        virtual void showDetails(QVBoxLayout * layout);
 
         /// Getter on the posisition in the layout given by the layout arg in showDetails(layout) function.
-        size_t getIndexLayout() const {   return m_indexLayout;    }
+        inline size_t getIndexLayout() const { return m_indexLayout; }
 
         /// Function to know if a layout has already been set up (for details)
-        bool isLayoutInit() const {  return m_layout_init;      }
+        inline bool isLayoutInit() const { return m_layoutInit; }
 
       protected:
 
         /// Set a layout
-        void setLayout(QVBoxLayout * layout){
+        void setLayout(QVBoxLayout * layout)
+        {
           m_layout = layout;
         }
 
         /// Set the index of the layout in the previous function.
-        void setIndexLayout(size_t idx){
+        void setIndexLayout(size_t idx)
+        {
           m_indexLayout = idx;
-          m_layout_init = true;
+          m_layoutInit = true;
         }
 
 
@@ -108,8 +110,8 @@ namespace ShaderGraph
     private:
 
         QVBoxLayout * m_layout;
-        size_t  m_indexLayout;
-        bool m_layout_init = false;
+        size_t m_indexLayout;
+        bool m_layoutInit = false;
 
         QString m_name;
         QString m_caption;

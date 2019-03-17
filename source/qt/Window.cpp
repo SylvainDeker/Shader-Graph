@@ -129,11 +129,7 @@ Window::Window(QWidget * Parent) :
             }
         }
     });
-
-
-
-
-
+    
     ui->nodeEditor->setAssociatedDetailsLayout(ui->layoutdetails);
 }
 

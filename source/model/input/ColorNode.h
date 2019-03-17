@@ -45,8 +45,9 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
-          /// Function that display info in the layout (details)
-        void showDetails(QVBoxLayout   * layout) override ;
+        /// Function that display properties in the layout (details)
+        void showDetails(QVBoxLayout * layout) override;
+
     public slots:
         void onValueChanged(double value);
 

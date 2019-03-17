@@ -16,12 +16,19 @@
 #include "ui_Window.h"
 
 /* WIP : not sure to add them all */
-#include <QTreeWidgetItem>
+
+#include <QtWidgets/QGraphicsScene>
 #include <QApplication>
 #include <QCursor>
 #include <QLineEdit>
 
+#include <QDrag>
+#include <QMimeData>
+#include <QLabel>
+
 #include <nodes/Node>
+#include <nodes/FlowScene>
+#include <nodes/FlowView>
 
 #define FORMAT_VERSION 4, 1
 #define FORMAT_DEPTH_BUFFER_SIZE 24
@@ -63,8 +70,6 @@ Window::Window(QWidget * Parent) :
 
     QtNodes::FlowScene * scene = ui->nodeEditor->getScene();
 
-    QMap<QString, QTreeWidgetItem*> topLevelItems;
-
     // Push each category
     for (auto const &category : scene->registry().categories())
     {
@@ -72,13 +77,13 @@ Window::Window(QWidget * Parent) :
         item->setText(0, category);
         item->setData(0, Qt::UserRole, QStringLiteral("skip me"));
         item->setTextColor(0, QColor("white"));
-        topLevelItems[category] = item;
+        m_internalFunctionTree[category] = item;
     }
 
     // Push each function
     for (auto const &assoc : scene->registry().registeredModelsCategoryAssociation())
     {
-        auto parent = topLevelItems[assoc.second];
+        auto parent = m_internalFunctionTree[assoc.second];
         auto item   = new QTreeWidgetItem(parent);
         item->setText(0, assoc.first);
         item->setData(0, Qt::UserRole, assoc.first);
@@ -86,20 +91,43 @@ Window::Window(QWidget * Parent) :
     }
 
     // Item clicked event
-    connect(ui->treeWidget, &QTreeWidget::itemClicked, [&](QTreeWidgetItem *item, int)
+    connect(ui->treeWidget, &QTreeWidget::itemClicked, [this](QTreeWidgetItem *item, int)
     {
         QString modelName = item->data(0, Qt::UserRole).toString();
 
         if (modelName == QStringLiteral("skip me")) return;
 
-        LOG_INFO("Creating a new node : {0} (WIP)", modelName.toStdString());
+        auto type = ui->nodeEditor->getScene()->registry().create(modelName);
+
+        if (type)
+        {
+            // create the node
+            auto& node = ui->nodeEditor->getScene()->createNode(std::move(type));
+
+            // Set the node position to the center of the flow view
+            const QtNodes::FlowView * flowView = ui->nodeEditor->getFlowView();
+            auto viewportDimension = flowView->viewport()->rect();
+            QPointF flowViewCenter = flowView->mapToScene(viewportDimension).boundingRect().center();
+            node.nodeGraphicsObject().setPos(flowViewCenter);
+
+            LOG_INFO("Creating : {0} node", modelName.toStdString());
+        }
+        else LOG_ERROR("QTreeWidget::itemClicked::functionTree :Model not found");
     });
 
     // Setup filtering
-    connect(ui->functionFilter, &QLineEdit::textChanged, [&](const QString &text)
+    connect(ui->functionFilter, &QLineEdit::textChanged, [this](const QString &text)
     {
-        (void) text;
-        LOG_INFO("Filtering : function tree (WIP)");
+        for (auto& topLvlItem : m_internalFunctionTree)
+        {
+            for (int i = 0; i < topLvlItem->childCount(); ++i)
+            {
+                auto child = topLvlItem->child(i);
+                auto modelName = child->data(0, Qt::UserRole).toString();
+                const bool match = (modelName.contains(text, Qt::CaseInsensitive));
+                child->setHidden(!match);
+            }
+        }
     });
 }
 

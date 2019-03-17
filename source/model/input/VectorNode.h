@@ -117,7 +117,8 @@ namespace ShaderGraph
         Vec4Node();
 
         glm::vec4 get();
-        void set(const glm::vec4& v, bool loop = false);
+        void set(const glm::vec4& v);
+
 
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
@@ -130,8 +131,10 @@ namespace ShaderGraph
 
     public slots:
       void onValue();
+      void onValueDetail();
 
     private:
+        glm::vec4 m_value;
         QWidget * m_embeddedWidget;
         QBoxLayout * m_layout;
 
@@ -139,6 +142,14 @@ namespace ShaderGraph
         QDoubleSpinBox * m_spinBoxY;
         QDoubleSpinBox * m_spinBoxZ;
         QDoubleSpinBox * m_spinBoxW;
+
+        QWidget * m_detail;
+        QVBoxLayout * m_mainlayout;
+        QDoubleSpinBox * m_spinBoxXdetail;
+        QDoubleSpinBox * m_spinBoxYdetail;
+        QDoubleSpinBox * m_spinBoxZdetail;
+        QDoubleSpinBox * m_spinBoxWdetail;
+
     };
 }
 

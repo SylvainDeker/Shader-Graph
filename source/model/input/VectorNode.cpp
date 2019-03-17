@@ -205,7 +205,13 @@ namespace ShaderGraph
             m_spinBoxX(new QDoubleSpinBox()),
             m_spinBoxY(new QDoubleSpinBox()),
             m_spinBoxZ(new QDoubleSpinBox()),
-            m_spinBoxW(new QDoubleSpinBox())
+            m_spinBoxW(new QDoubleSpinBox()),
+            m_detail(new QWidget()),
+            m_mainlayout(new QVBoxLayout()),
+            m_spinBoxXdetail(new QDoubleSpinBox()),
+            m_spinBoxYdetail(new QDoubleSpinBox()),
+            m_spinBoxZdetail(new QDoubleSpinBox()),
+            m_spinBoxWdetail(new QDoubleSpinBox())
     {
 
         outputs() = std::vector<PIN>{
@@ -241,15 +247,54 @@ namespace ShaderGraph
                 this,       &Vec4Node::onValue);
         connect(m_spinBoxW, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec4Node::onValue);
+
+        m_detail->setLayout(m_mainlayout);
+        m_mainlayout->addWidget(m_spinBoxXdetail);
+        m_mainlayout->addWidget(m_spinBoxYdetail);
+        m_mainlayout->addWidget(m_spinBoxZdetail);
+        m_mainlayout->addWidget(m_spinBoxWdetail);
+
+        m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxXdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+        m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxYdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+        m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxZdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+        m_spinBoxWdetail->setSingleStep(SPINBOX_STEP);
+        m_spinBoxWdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxWdetail->setFixedWidth(WIDGET_NODE_SIZE);
+
+        connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec4Node::onValueDetail);
+        connect(m_spinBoxYdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec4Node::onValueDetail);
+        connect(m_spinBoxZdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec4Node::onValueDetail);
+        connect(m_spinBoxWdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,       &Vec4Node::onValueDetail);
     }
 
     void Vec4Node::onValue()
     {
         set(glm::vec4(m_spinBoxX->value(),
                       m_spinBoxY->value(),
-                      m_spinBoxY->value(),
-                      m_spinBoxW->value()),
-            true);
+                      m_spinBoxZ->value(),
+                      m_spinBoxW->value())
+                    );
+    }
+    void Vec4Node::onValueDetail()
+    {
+        set(glm::vec4(m_spinBoxXdetail->value(),
+                      m_spinBoxYdetail->value(),
+                      m_spinBoxZdetail->value(),
+                      m_spinBoxWdetail->value())
+                    );
     }
 
     glm::vec4 Vec4Node::get()
@@ -258,22 +303,31 @@ namespace ShaderGraph
         return (v == nullptr) ? glm::vec4(0.f) : v->value();
     }
 
-    void Vec4Node::set(const glm::vec4& value, bool loop)
+    void Vec4Node::set(const glm::vec4& v)
     {
-        Vector4 * v = dynamic_cast<Vector4*>(outData(0).get());
-        v->setValue(value);
+      m_value = v;
+      m_spinBoxX->setValue(v[0]);
+      m_spinBoxY->setValue(v[1]);
+      m_spinBoxZ->setValue(v[2]);
+      m_spinBoxW->setValue(v[3]);
 
-        if(!loop)
-        {
-            emit m_spinBoxX->valueChanged(static_cast<double>(value.x));
-            emit m_spinBoxY->valueChanged(static_cast<double>(value.y));
-            emit m_spinBoxZ->valueChanged(static_cast<double>(value.z));
-            emit m_spinBoxW->valueChanged(static_cast<double>(value.z));
-        }
+      m_spinBoxXdetail->setValue(v[0]);
+      m_spinBoxYdetail->setValue(v[1]);
+      m_spinBoxZdetail->setValue(v[2]);
+      m_spinBoxWdetail->setValue(v[3]);
     }
 
     void Vec4Node::showDetails(QVBoxLayout   * layout){
         Node::showDetails(layout);
+        if( ! isLayoutInit()){
+          setLayout(layout);
+          setIndexLayout(layout->count());
+          layout->addWidget(m_detail);
+        }
+
+        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+
+        set(m_value); // Allow update data
     }
 
 

@@ -27,7 +27,7 @@ namespace ShaderGraph
 
 
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
-        m_spinBoxX->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
 
@@ -40,7 +40,7 @@ namespace ShaderGraph
 
 
         m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
 
@@ -114,11 +114,11 @@ namespace ShaderGraph
         m_layout->addWidget(m_spinBoxY);
 
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
-        m_spinBoxX->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxY->setSingleStep(SPINBOX_STEP);
-        m_spinBoxY->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxY->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
 
@@ -132,11 +132,11 @@ namespace ShaderGraph
         m_mainlayout->addWidget(m_spinBoxYdetail);
 
         m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxYdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxYdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
 
@@ -220,15 +220,15 @@ namespace ShaderGraph
         m_layout->addWidget(m_spinBoxZ);
 
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
-        m_spinBoxX->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxY->setSingleStep(SPINBOX_STEP);
-        m_spinBoxY->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxY->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxZ->setSingleStep(SPINBOX_STEP);
-        m_spinBoxZ->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxZ->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
 
@@ -247,15 +247,15 @@ namespace ShaderGraph
         m_mainlayout->addWidget(m_spinBoxZdetail);
 
         m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxYdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxYdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxZdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxZdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
 
@@ -347,19 +347,19 @@ namespace ShaderGraph
         m_layout->addWidget(m_spinBoxW);
 
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
-        m_spinBoxX->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxY->setSingleStep(SPINBOX_STEP);
-        m_spinBoxY->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxY->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxZ->setSingleStep(SPINBOX_STEP);
-        m_spinBoxZ->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxZ->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxW->setSingleStep(SPINBOX_STEP);
-        m_spinBoxW->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxW->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxW->setFixedWidth(WIDGET_NODE_SIZE);
 
         connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
@@ -378,19 +378,19 @@ namespace ShaderGraph
         m_mainlayout->addWidget(m_spinBoxWdetail);
 
         m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxYdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxYdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxZdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxZdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         m_spinBoxWdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxWdetail->setRange(FLT_MIN, FLT_MAX);
+        m_spinBoxWdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxWdetail->setFixedWidth(WIDGET_NODE_SIZE);
 
         connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),

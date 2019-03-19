@@ -42,9 +42,6 @@ namespace ShaderGraph
         m_embeddedWidget->setFixedSize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
         m_embeddedWidget->installEventFilter(this);
 
-
-
-
         m_detail->setLayout(m_mainlayout);
         m_mainlayout->addLayout(m_layoutcolor);
         m_layoutcolor->addWidget(m_display);
@@ -54,8 +51,6 @@ namespace ShaderGraph
         m_coordlayout->addWidget(m_boxb);
         m_coordlayout->addWidget(m_boxa);
 
-
-
         // m_display->setFixedSize(100,100);
         m_display->setMinimumWidth(75);
         QColor color = Qt::white;
@@ -63,6 +58,7 @@ namespace ShaderGraph
                          + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
                          + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
                          + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";");
+
          m_display->setStyleSheet(s);
          m_display->update();
          m_boxr->setRange(0,1);
@@ -73,6 +69,7 @@ namespace ShaderGraph
          m_boxg->setSingleStep(0.1);
          m_boxb->setSingleStep(0.1);
          m_boxa->setSingleStep(0.1);
+
          connect(m_boxr,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
          connect(m_boxg,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
          connect(m_boxb,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
@@ -147,7 +144,8 @@ namespace ShaderGraph
 
     void ColorNode::showDetails(QVBoxLayout   * layout){
         Node::showDetails(layout);
-        if( ! isLayoutInit()){
+        if (!isLayoutInit())
+        {
           setLayout(layout);
           setIndexLayout(layout->count());
           layout->addWidget(m_detail);

@@ -58,7 +58,8 @@ namespace ShaderGraph
     private:
         QColor m_color;
         QWidget * m_embeddedWidget;
-        //details
+
+        // details
         QWidget * m_detail;
         QVBoxLayout * m_mainlayout;
         QHBoxLayout * m_layoutcolor;
@@ -68,7 +69,6 @@ namespace ShaderGraph
         QDoubleSpinBox * m_boxb;
         QDoubleSpinBox * m_boxa;
         QWidget * m_display;
-
     };
 
 

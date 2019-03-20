@@ -25,12 +25,12 @@ namespace ShaderGraph
             m_boxa(new QDoubleSpinBox() ),
             m_display(new QWidget())
     {
-        outputs() = std::vector<PIN >{
-                std::make_shared<Vector4>("RGBA"), // RGBA
-                std::make_shared<Float>("R"),   // Red channel
-                std::make_shared<Float>("G"),   // Green channel
-                std::make_shared<Float>("B"),   // Blue channel
-                std::make_shared<Float>("A")    // Alpha channel
+        outputs() = std::vector<PIN> {
+                std::make_shared<Vector4>("RGBA"),  // RGBA
+                std::make_shared<Float>("R"),       // Red channel
+                std::make_shared<Float>("G"),       // Green channel
+                std::make_shared<Float>("B"),       // Blue channel
+                std::make_shared<Float>("A")        // Alpha channel
         };
 
         m_embeddedWidget->setFixedSize(WIDGET_NODE_SIZE, WIDGET_NODE_SIZE);
@@ -55,9 +55,9 @@ namespace ShaderGraph
         m_display->setMinimumWidth(75);
         QColor color = Qt::white;
         QString s("background: #"
-                         + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
-                         + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
-                         + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";");
+                         + QString(color.red() < 16? "0" : "") + QString::number(color.red(), 16)
+                         + QString(color.green() < 16? "0" : "") + QString::number(color.green(), 16)
+                         + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(), 16) + ";");
 
          m_display->setStyleSheet(s);
          m_display->update();
@@ -70,10 +70,17 @@ namespace ShaderGraph
          m_boxb->setSingleStep(0.1);
          m_boxa->setSingleStep(0.1);
 
-         connect(m_boxr,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
-         connect(m_boxg,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
-         connect(m_boxb,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
-         connect(m_boxa,static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),this,&ColorNode::onValueChanged);
+         connect(m_boxr, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                 this,&ColorNode::onValueChanged);
+
+         connect(m_boxg, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                 this,&ColorNode::onValueChanged);
+
+         connect(m_boxb, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                 this,&ColorNode::onValueChanged);
+
+         connect(m_boxa, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                 this,&ColorNode::onValueChanged);
 
     }
 
@@ -124,6 +131,7 @@ namespace ShaderGraph
       c.setAlphaF(color[3]);
       setColor(c);
     }
+
     void ColorNode::setColor(const QColor &color)
     {
         m_color = color;
@@ -138,12 +146,12 @@ namespace ShaderGraph
                          + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";");
          m_display->setStyleSheet(s);
          m_display->update();
-
-
     }
 
-    void ColorNode::showDetails(QVBoxLayout   * layout){
+    void ColorNode::showDetails(QVBoxLayout * layout)
+    {
         Node::showDetails(layout);
+
         if (!isLayoutInit())
         {
           setLayout(layout);

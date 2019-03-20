@@ -18,9 +18,8 @@ public:
     explicit Window(QWidget * parent = nullptr);
     ~Window() override;
 
-    int a= 100;
-
 private:
+    /// The user interface.
     Ui::Window * m_ui;
 
     /// The internal representation of the function tree/panel.

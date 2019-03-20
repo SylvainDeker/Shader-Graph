@@ -64,14 +64,16 @@ namespace ShaderGraph
         /// Getter to the reference to the caption.
         QString caption() const override;
 
+        /// Getter : Current state of this node.
         NodeValidationState validationState() const override { return m_validationState; }
 
+        /// Getter : The error message of this node.
         QString validationMessage() const override { return m_validationMessage; }
 
         /// Function that display properties in the layout (details)
         virtual void showDetails(QVBoxLayout * layout);
 
-        /// Getter on the posisition in the layout given by the layout arg in showDetails(layout) function.
+        /// Getter on the position in the layout given by the layout arg in showDetails(layout) function.
         inline size_t getIndexLayout() const { return m_indexLayout; }
 
         /// Function to know if a layout has already been set up (for details)
@@ -80,18 +82,14 @@ namespace ShaderGraph
       protected:
 
         /// Set a layout
-        void setLayout(QVBoxLayout * layout)
-        {
-          m_layout = layout;
-        }
+        inline void setLayout(QVBoxLayout * layout) { m_layout = layout; }
 
         /// Set the index of the layout in the previous function.
-        void setIndexLayout(size_t idx)
+        inline void setIndexLayout(size_t idx)
         {
           m_indexLayout = idx;
           m_layoutInit = true;
         }
-
 
         /// Getter to the reference to a vector of inputs.
         std::vector<PIN>& inputs()  { return m_inputs;  }
@@ -101,14 +99,13 @@ namespace ShaderGraph
 
         /// Update the validation state of this node.
         /// @warning : if the node is valid, no message will be displayed.
-        void updateNodeValidation(NodeValidationState state, QString message = "No message")
+        inline void updateNodeValidation(NodeValidationState state, QString message = "No message")
         {
             m_validationState = state;
             m_validationMessage = message;
         }
 
     private:
-
         QVBoxLayout * m_layout;
         size_t m_indexLayout;
         bool m_layoutInit = false;

@@ -8,7 +8,7 @@ namespace ShaderGraph
 
     ScalarNode::ScalarNode() :
             InputNode("Scalar", "Scalar"),
-
+            m_value(0.f),
             m_embeddedWidget(new QWidget()),
             m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
 
@@ -94,7 +94,7 @@ namespace ShaderGraph
 
     Vec2Node::Vec2Node() :
             InputNode("Vector2", "Vector2"),
-
+            m_value(glm::vec2(0.f)),
             m_embeddedWidget(new QWidget()),
             m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
 
@@ -197,7 +197,7 @@ namespace ShaderGraph
 
     Vec3Node::Vec3Node() :
             InputNode("Vector3", "Vector3"),
-
+            m_value(glm::vec3(0.f)),
             m_embeddedWidget(new QWidget()),
             m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
 
@@ -321,7 +321,7 @@ namespace ShaderGraph
 
     Vec4Node::Vec4Node() :
             InputNode("Vector4", "Vector4"),
-
+            m_value(glm::vec4(0.f)),
             m_embeddedWidget(new QWidget()),
             m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
 

@@ -80,8 +80,37 @@ namespace ShaderGraph
         return m_caption;
     }
 
+    // FIXME : too much dynamic_cast
+    void Node::updateLayerId()
+    {
+        unsigned int layerID = 0;
+
+        for (PIN data : m_inputs)
+        {
+            auto pin = std::dynamic_pointer_cast<IConnectable>(data);
+            if (pin)
+            {
+                if (pin->isConnected())
+                {
+                    auto node = std::dynamic_pointer_cast<IParsable>(pin->getConnectedPin());
+                    if (node)
+                    {
+                        auto layerableNode = dynamic_cast<ILayerable*>(node->getNode());
+
+                        if (layerableNode) layerID = std::max(layerID, layerableNode->getLayer() + 1);
+                        else LOG_ERROR("Node::updateLayerId : invalid connected pin");
+                    }
+                    else LOG_ERROR("Node::updateLayerId : invalid connected pin");
+                }
+            }
+            else LOG_ERROR("Node::updateLayerId : invalid pin");
+        }
+
+        m_layer = layerID;
+    }
+
     /// Function that display info in the layout (details)
-    void Node::showDetails(QVBoxLayout   * layout)
+    void Node::showDetails(QVBoxLayout * layout)
     {
         for (int i = 0; i < layout->count(); i++)
         {

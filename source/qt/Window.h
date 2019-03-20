@@ -18,6 +18,10 @@ public:
     explicit Window(QWidget * parent = nullptr);
     ~Window() override;
 
+public slots:
+    /// Compile the flow scene to GLSL code.
+    void compile();
+
 private:
     /// The user interface.
     Ui::Window * m_ui;

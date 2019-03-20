@@ -21,11 +21,11 @@ namespace ShaderGraph
         };
 
         outputs() = std::vector<PIN >{
-                std::make_shared<Vector4>("RGBA"), // RGBA
-                std::make_shared<Float>("R"),   // Red channel
-                std::make_shared<Float>("G"),   // Green channel
-                std::make_shared<Float>("B"),   // Blue channel
-                std::make_shared<Float>("A")    // Alpha channel
+                std::make_shared<Vector4>("RGBA", this), // RGBA
+                std::make_shared<Float>("R", this),   // Red channel
+                std::make_shared<Float>("G", this),   // Green channel
+                std::make_shared<Float>("B", this),   // Blue channel
+                std::make_shared<Float>("A", this)    // Alpha channel
         };
 
         m_label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
@@ -57,10 +57,9 @@ namespace ShaderGraph
             {
                 // Get the filename
                 m_path = QFileDialog::getOpenFileName(nullptr,
-                                                                tr("Open Image"),
-                                                                QDir::currentPath(),
-                                                                tr("Image Files (*.png *.jpg *.bmp)"));
-
+                                                      tr("Open Image"),
+                                                      QDir::currentPath(),
+                                                      tr("Image Files (*.png *.jpg *.bmp)"));
                 set(m_path);
                 return true;
 

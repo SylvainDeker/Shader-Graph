@@ -26,11 +26,11 @@ namespace ShaderGraph
             m_display(new QWidget())
     {
         outputs() = std::vector<PIN> {
-                std::make_shared<Vector4>("RGBA"),  // RGBA
-                std::make_shared<Float>("R"),       // Red channel
-                std::make_shared<Float>("G"),       // Green channel
-                std::make_shared<Float>("B"),       // Blue channel
-                std::make_shared<Float>("A")        // Alpha channel
+                std::make_shared<Vector4>("RGBA", this),  // RGBA
+                std::make_shared<Float>("R", this),       // Red channel
+                std::make_shared<Float>("G", this),       // Green channel
+                std::make_shared<Float>("B", this),       // Blue channel
+                std::make_shared<Float>("A", this)        // Alpha channel
         };
 
         m_embeddedWidget->setFixedSize(WIDGET_NODE_SIZE, WIDGET_NODE_SIZE);

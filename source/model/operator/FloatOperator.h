@@ -19,12 +19,12 @@ namespace ShaderGraph
         AddFloatNode() : Node("AddFloat")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A"),
-                    std::make_shared<Float>("B")
+                    std::make_shared<Float>("A", this),
+                    std::make_shared<Float>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result")
+                    std::make_shared<Float>("Result", this)
             };
         }
     };
@@ -35,12 +35,12 @@ namespace ShaderGraph
         SubtractFloatNode() : Node("SubtractFloat")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A"),
-                    std::make_shared<Float>("B")
+                    std::make_shared<Float>("A", this),
+                    std::make_shared<Float>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result")
+                    std::make_shared<Float>("Result", this)
             };
         }
     };
@@ -51,12 +51,12 @@ namespace ShaderGraph
         MultiplyFloatNode() : Node("MultiplyFloat")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A"),
-                    std::make_shared<Float>("B")
+                    std::make_shared<Float>("A", this),
+                    std::make_shared<Float>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result")
+                    std::make_shared<Float>("Result", this)
             };
         }
     };
@@ -67,12 +67,12 @@ namespace ShaderGraph
         DivideFloatNode() : Node("DivideFloat")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A"),
-                    std::make_shared<Float>("B")
+                    std::make_shared<Float>("A", this),
+                    std::make_shared<Float>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result")
+                    std::make_shared<Float>("Result", this)
             };
         }
     };

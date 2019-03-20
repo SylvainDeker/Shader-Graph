@@ -16,12 +16,12 @@ namespace ShaderGraph
         AndOperatorNode() : Node("And")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("A"),
-                    std::make_shared<Boolean>("B")
+                    std::make_shared<Boolean>("A", this),
+                    std::make_shared<Boolean>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("Result")
+                    std::make_shared<Boolean>("Result", this)
             };
         }
     };
@@ -32,12 +32,12 @@ namespace ShaderGraph
         OrOperatorNode() : Node("Or")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("A"),
-                    std::make_shared<Boolean>("B")
+                    std::make_shared<Boolean>("A", this),
+                    std::make_shared<Boolean>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("Result")
+                    std::make_shared<Boolean>("Result", this)
             };
         }
     };

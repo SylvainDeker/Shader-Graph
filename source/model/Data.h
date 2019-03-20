@@ -10,8 +10,27 @@
 
 namespace ShaderGraph
 {
+    class IConnectable
+    {
+    public:
+        /// Default constructor.
+        IConnectable() = default;
+
+        /// Default destructor.
+        virtual ~IConnectable() = default;
+
+        /// @return : true if this pin is connected to an other pin.
+        virtual bool isConnected() const = 0;
+
+        /// Connect the pin to interface to an other pin.
+        virtual void connect(PIN inPin) = 0;
+
+        /// Disconnect this pin.
+        virtual void disconnect() = 0;
+    };
+
     template<typename T>
-    class GenType : public QtNodes::NodeData
+    class GenType : public QtNodes::NodeData, public IConnectable
     {
     public:
         /// Default constructor.
@@ -20,20 +39,31 @@ namespace ShaderGraph
         /// Constructor.
         GenType(T value, QString name) : m_value(value), m_name(name) {};
 
-        /// Getter only of the name.
+        /// Getter : the name of the pin.
         inline const QString& name() const { return m_name; }
 
-        /// Getter only of the value.
+        /// Getter : value of this node.
         inline const T &value() const { return m_value; }
 
-        /// Setter only of the value.
+        /// Setter : value of this node.
         inline void setValue(const T& value) { m_value = value; }
+
+        /// @return : true if this pin is connected to an other pin.
+        bool isConnected() const override { return m_inPin == nullptr; }
+
+        /// Connect this pin to an other pin.
+        void connect(PIN inPin) override { m_inPin = inPin; }
+
+        /// Disconnect this pin.
+        void disconnect() override { m_inPin = nullptr; }
 
         QtNodes::NodeDataType type() const override = 0;
 
     private:
         T m_value;
         QString m_name;
+
+        std::shared_ptr<QtNodes::NodeData> m_inPin = nullptr;
     };
 
     class Boolean : public GenType<bool>

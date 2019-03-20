@@ -3,10 +3,12 @@
 
 #include <vector>
 
-#include <core/Core.h>
 #include <QVBoxLayout>
 #include <QLayoutItem>
 #include <QLayout>
+
+#include <core/Core.h>
+
 #include "Data.h"
 
 #define WIDGET_NODE_SIZE    75
@@ -106,8 +108,8 @@ namespace ShaderGraph
         }
 
     private:
-        QVBoxLayout * m_layout;
-        size_t m_indexLayout;
+        QVBoxLayout * m_layout = nullptr;
+        size_t m_indexLayout = 0;
         bool m_layoutInit = false;
 
         QString m_name;

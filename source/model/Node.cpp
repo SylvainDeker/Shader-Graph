@@ -36,7 +36,18 @@ namespace ShaderGraph
     /// @index : the index of the port.
     void Node::setInData(std::shared_ptr<QtNodes::NodeData> data, QtNodes::PortIndex index)
     {
-        if (index >= 0 || index < (int) m_outputs.size()) m_inputs[index] = data;
+        if (index >= 0 || index < (int) m_outputs.size())
+        {
+            auto input = std::dynamic_pointer_cast<IConnectable>(data);
+            auto pin   = std::dynamic_pointer_cast<IConnectable>(m_inputs[index]);
+
+            if (pin != nullptr)
+            {
+                if (input == nullptr && pin->isConnected()) pin->disconnect();
+                else pin->connect(data);
+            }
+            else LOG_ERROR("ShaderGraph::Node::setInData : Invalid pin");
+        }
         else LOG_ERROR("ShaderGraph::Node::setInData : Invalid port index");
     }
 

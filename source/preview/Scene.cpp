@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 
 #include "Shader.h"
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace ShaderGraph
 {

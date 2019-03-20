@@ -38,6 +38,7 @@
 build/
 bin/
 external/Catch/
+external/glm/
 .idea/
 
 # Files

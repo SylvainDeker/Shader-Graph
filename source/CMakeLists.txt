@@ -47,8 +47,8 @@ add_executable(ShaderGraph MACOSX_BUNDLE
     ${CMAKE_CURRENT_BINARY_DIR}/version.cpp
     ${CPPS})
 
-add_dependencies(ShaderGraph versionFileTouchForRebuild) # We want precise time of build in version
-target_include_directories(ShaderGraph PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_dependencies(ShaderGraph versionFileTouchForRebuild glm) # We want precise time of build in version
+target_include_directories(ShaderGraph PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${EXTERNAL_GLM_INCLUDE_DIR})
 target_link_libraries (ShaderGraph PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(ShaderGraph nodes)
 

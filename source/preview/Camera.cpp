@@ -2,9 +2,9 @@
 
 #define GLM_ENABLE_EXPERIMENTAL
 
-#include <vendor/glm/gtc/quaternion.hpp>
-#include <vendor/glm/gtx/norm.hpp>
-#include <vendor/glm/gtc/matrix_transform.hpp>
+#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/norm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 
 namespace ShaderGraph
 {
@@ -196,5 +196,3 @@ void TrackballCamera::panCamera()
     }
 }
 }
-
-

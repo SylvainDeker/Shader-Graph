@@ -5,7 +5,6 @@
 
 #include "log/Log.h"
 
-#include "../vendor/glm/glm.hpp"
-#include "../vendor/glm/ext.hpp"
+#include "glm/glm.hpp"
 
 #endif //SHADERGRAPH_CORE_H

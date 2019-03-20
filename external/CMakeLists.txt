@@ -3,6 +3,34 @@ find_package(Git REQUIRED)
 # find_package(Hg REQUIRED)
 
 #------------------------------------------------------------------------------
+# GLM -
+#  * sets EXTERNAL_CATCH_INCLUDE_DIR
+
+ExternalProject_Add(
+        glm
+        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/glm
+        GIT_REPOSITORY https://github.com/g-truc/glm.git
+        # For shallow git clone (without downloading whole history)
+        # GIT_SHALLOW 1
+        # For point at certain tag
+        # GIT_TAG 1.5.7
+        #disables auto update on every build
+        UPDATE_DISCONNECTED 1
+        #disable following
+        CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_DIR "" INSTALL_COMMAND ""
+)
+# Update Catch target
+add_custom_target(external-glm-update
+        COMMENT "Updated glm"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/glm/src/glm
+        COMMAND ${GIT_EXECUTABLE} pull
+      DEPENDS glm)
+# set include directory
+set(EXTERNAL_GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glm/src/glm/" PARENT_SCOPE)
+
+
+
+#------------------------------------------------------------------------------
 # Catch - Unit test header only library
 #  * sets EXTERNAL_CATCH_INCLUDE_DIR
 
@@ -70,7 +98,7 @@ add_subdirectory(nodeeditor)
 # Examples for External Projects
 # #------------------------------------------------------------------------------
 # # nlohmann/json
-# #  * sets EXTERNAL_JSON_INCLUDE_DIR 
+# #  * sets EXTERNAL_JSON_INCLUDE_DIR
 #
 # ExternalProject_Add(
 #     Json
@@ -97,8 +125,8 @@ add_subdirectory(nodeeditor)
 # #------------------------------------------------------------------------------
 # # whoshuu/cpr
 # # C++ http requests library
-# #  * sets CPR_INCLUDE_DIR 
-# #  * sets CPR_LIBRARIES 
+# #  * sets CPR_INCLUDE_DIR
+# #  * sets CPR_LIBRARIES
 #
 # ExternalProject_Add(
 #     Cpr-ext

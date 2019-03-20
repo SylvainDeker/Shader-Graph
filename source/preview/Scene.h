@@ -92,6 +92,6 @@ namespace ShaderGraph
         unsigned int m_bbo;
 
     };
-};
+}
 
 #endif // SHADERGRAPH_SCENE_H

@@ -21,10 +21,11 @@
 // using QtNodes::FlowView;
 // using QtNodes::ConnectionStyle;
 
-class NodeGraphicsView : public QtNodes::FlowView{
-  Q_OBJECT
-public:
+class NodeGraphicsView : public QtNodes::FlowView {
 
+  Q_OBJECT
+
+public:
   NodeGraphicsView(QWidget *parent = Q_NULLPTR);
 
   NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent = Q_NULLPTR);

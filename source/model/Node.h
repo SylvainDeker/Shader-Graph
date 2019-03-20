@@ -10,30 +10,48 @@
 #include <core/Core.h>
 
 #include "Data.h"
+#include "Interface.h"
 
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
 
 namespace ShaderGraph
 {
+    /// The node ID giver.
+    static unsigned int g_nodeId = 0;
+    #define GET_NEW_NODE_ID g_nodeId++
+
     using QtNodes::NodeValidationState;
 
-    class Node : public QtNodes::NodeDataModel
+    class Node : public QtNodes::NodeDataModel,
+                 public ILayerable
     {
         Q_OBJECT
 
     public:
         /// Default constructor.
-        Node() = default;
+        Node() : m_id(GET_NEW_NODE_ID) {}
+
+        /// Constructor.
+        explicit Node(QString name) :
+            m_name(name),
+            m_caption(name),
+            m_id(GET_NEW_NODE_ID)
+        {
+
+        }
+
+        /// Constructor.
+        Node(QString name, QString caption) :
+            m_name(name),
+            m_caption(caption),
+            m_id(GET_NEW_NODE_ID)
+        {
+
+        }
 
         /// Default destructor.
         ~Node() override = default;
-
-        /// Constructor.
-        Node(QString name, QString caption) : m_name(name), m_caption(caption) {}
-
-        /// Constructor.
-        explicit Node(QString name) : m_name(name), m_caption(name) {}
 
         /// Give for a specified port, the number of data.
         /// @portType : the type of the port.
@@ -72,21 +90,36 @@ namespace ShaderGraph
         /// Getter : The error message of this node.
         QString validationMessage() const override { return m_validationMessage; }
 
+
+        /// Getter : Current layer id of this node.
+        inline unsigned int getLayer() const override { return m_layer; }
+
+        /// Setter : Current layer id of this node.
+        inline void setLayer(unsigned int layer) override { m_layer = layer; }
+
+        // TODO : comment me :)
+        void updateLayerId() override;
+
+
         /// Function that display properties in the layout (details)
         virtual void showDetails(QVBoxLayout * layout);
 
         /// Getter on the position in the layout given by the layout arg in showDetails(layout) function.
+        // TODO : clean code violated ! RENAME ME ! :P
         inline size_t getIndexLayout() const { return m_indexLayout; }
 
         /// Function to know if a layout has already been set up (for details)
+        // TODO : clean code violated ! RENAME ME ! :P
         inline bool isLayoutInit() const { return m_layoutInit; }
 
       protected:
 
         /// Set a layout
+        // TODO : clean code violated ! RENAME ME ! :P
         inline void setLayout(QVBoxLayout * layout) { m_layout = layout; }
 
         /// Set the index of the layout in the previous function.
+        // TODO : clean code violated ! RENAME ME ! :P
         inline void setIndexLayout(size_t idx)
         {
           m_indexLayout = idx;
@@ -108,12 +141,28 @@ namespace ShaderGraph
         }
 
     private:
+        // TODO : clean code violated ! RENAME ME ! :P
         QVBoxLayout * m_layout = nullptr;
+
+        // TODO : clean code violated ! RENAME ME ! :P
         size_t m_indexLayout = 0;
+
+        // TODO : clean code violated ! RENAME ME ! :P
         bool m_layoutInit = false;
 
+        /// The name of the node or what will be displayed on the screen.
         QString m_name;
+
+        /// The caption or a brief description.
         QString m_caption;
+
+        /// The ID of this node.
+        /// Each node has a unique id.
+        unsigned int m_id;
+
+        /// The layer of this node.
+        /// A layer is the max between the value of each.
+        unsigned int m_layer = 0;
 
         std::vector<PIN> m_inputs;
         std::vector<PIN> m_outputs;

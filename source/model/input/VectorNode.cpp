@@ -20,17 +20,14 @@ namespace ShaderGraph
     {
 
         outputs() = std::vector<PIN>{
-                std::make_shared<Float>()
+                std::make_shared<Float>("Result", this)
         };
 
         m_layout->addWidget(m_spinBoxX);
 
-
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
         m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
-
-
 
         connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &ScalarNode::onValue);
@@ -38,12 +35,9 @@ namespace ShaderGraph
         m_detail->setLayout(m_mainlayout);
         m_mainlayout->addWidget(m_spinBoxXdetail);
 
-
         m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
         m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
-
 
         connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &ScalarNode::onValueDetail);
@@ -52,11 +46,12 @@ namespace ShaderGraph
 
     void ScalarNode::onValue()
     {
-        set(m_spinBoxX->value()  );
+        set(m_spinBoxX->value());
     }
+
     void ScalarNode::onValueDetail()
     {
-        set(m_spinBoxXdetail->value()  );
+        set(m_spinBoxXdetail->value());
     }
 
     float ScalarNode::get()
@@ -70,12 +65,13 @@ namespace ShaderGraph
       m_spinBoxX->setValue(v);
 
       m_spinBoxXdetail->setValue(v);
-
     }
 
-    void ScalarNode::showDetails(QVBoxLayout   * layout){
+    void ScalarNode::showDetails(QVBoxLayout * layout)
+    {
         Node::showDetails(layout);
-        if( ! isLayoutInit()){
+        if (!isLayoutInit())
+        {
           setLayout(layout);
           setIndexLayout(layout->count());
           layout->addWidget(m_detail);
@@ -107,7 +103,7 @@ namespace ShaderGraph
     {
 
         outputs() = std::vector<PIN>{
-                std::make_shared<Vector3>()
+                std::make_shared<Vector3>("Result", this)
         };
 
         m_layout->addWidget(m_spinBoxX);
@@ -175,7 +171,8 @@ namespace ShaderGraph
       m_spinBoxYdetail->setValue(v[1]);
     }
 
-    void Vec2Node::showDetails(QVBoxLayout   * layout){
+    void Vec2Node::showDetails(QVBoxLayout * layout)
+    {
         Node::showDetails(layout);
         if( ! isLayoutInit()){
           setLayout(layout);
@@ -212,7 +209,7 @@ namespace ShaderGraph
     {
 
         outputs() = std::vector<PIN>{
-                std::make_shared<Vector3>()
+                std::make_shared<Vector3>("Result", this)
         };
 
         m_layout->addWidget(m_spinBoxX);
@@ -231,15 +228,12 @@ namespace ShaderGraph
         m_spinBoxZ->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
-
-
         connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValue);
         connect(m_spinBoxY, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValue);
         connect(m_spinBoxZ, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValue);
-
 
         m_detail->setLayout(m_mainlayout);
         m_mainlayout->addWidget(m_spinBoxXdetail);
@@ -257,7 +251,6 @@ namespace ShaderGraph
         m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
         m_spinBoxZdetail->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
 
         connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                 this,       &Vec3Node::onValueDetail);
@@ -300,7 +293,8 @@ namespace ShaderGraph
       m_spinBoxZdetail->setValue(v[2]);
     }
 
-    void Vec3Node::showDetails(QVBoxLayout   * layout){
+    void Vec3Node::showDetails(QVBoxLayout * layout)
+    {
         Node::showDetails(layout);
         if( ! isLayoutInit()){
           setLayout(layout);
@@ -338,7 +332,7 @@ namespace ShaderGraph
     {
 
         outputs() = std::vector<PIN>{
-                std::make_shared<Vector4>()
+                std::make_shared<Vector4>("Result", this)
         };
 
         m_layout->addWidget(m_spinBoxX);

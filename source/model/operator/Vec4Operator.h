@@ -19,12 +19,12 @@ namespace ShaderGraph
         AddVector4Node() : Node("AddVector4")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("A"),
-                    std::make_shared<Vector4>("B")
+                    std::make_shared<Vector4>("A", this),
+                    std::make_shared<Vector4>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("Result")
+                    std::make_shared<Vector4>("Result", this)
             };
         }
     };
@@ -35,12 +35,12 @@ namespace ShaderGraph
         SubtractVector4Node() : Node("SubtractVector4")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("A"),
-                    std::make_shared<Vector4>("B")
+                    std::make_shared<Vector4>("A", this),
+                    std::make_shared<Vector4>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("Result")
+                    std::make_shared<Vector4>("Result", this)
             };
         }
     };
@@ -51,12 +51,12 @@ namespace ShaderGraph
         MultiplyVector4Node() : Node("MultiplyVector4")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("A"),
-                    std::make_shared<Vector4>("B")
+                    std::make_shared<Vector4>("A", this),
+                    std::make_shared<Vector4>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("Result")
+                    std::make_shared<Vector4>("Result", this)
             };
         }
     };
@@ -67,12 +67,12 @@ namespace ShaderGraph
         DivideVector4Node() : Node("DivideVector4")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("A"),
-                    std::make_shared<Vector4>("B")
+                    std::make_shared<Vector4>("A", this),
+                    std::make_shared<Vector4>("B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Vector4>("Result")
+                    std::make_shared<Vector4>("Result", this)
             };
         }
     };

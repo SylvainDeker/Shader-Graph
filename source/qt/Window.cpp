@@ -42,6 +42,9 @@ Window::Window(QWidget * Parent) :
     QObject::connect(m_ui->loadButton, &QPushButton::pressed,
                      m_ui->nodeEditor->getScene(), &QtNodes::FlowScene::load);
 
+    QObject::connect(m_ui->compileButton, &QPushButton::pressed,
+                     this, &Window::compile);
+
     // Step 2 : Setup the logger
     LOG_INIT("../data/ShaderGraph.log", m_ui->logPanel);
     LOG_CONNECT(m_ui->logFilter);
@@ -96,8 +99,6 @@ Window::Window(QWidget * Parent) :
             auto viewportDimension = flowView->viewport()->rect();
             QPointF flowViewCenter = flowView->mapToScene(viewportDimension).boundingRect().center();
             node.nodeGraphicsObject().setPos(flowViewCenter);
-
-            LOG_INFO("Creating : {0} node", modelName.toStdString());
         }
         else LOG_ERROR("QTreeWidget::itemClicked::functionTree :Model not found");
     });
@@ -119,6 +120,24 @@ Window::Window(QWidget * Parent) :
 
     // Step 5 : Setup Details Panel
     m_ui->nodeEditor->setAssociatedDetailsLayout(m_ui->layoutDetails);
+}
+
+void Window::compile()
+{
+    LOG_INFO("Compiling...");
+
+    bool success = false;
+
+    // TODO : compile this shader ;)
+
+    if (success)
+    {
+        LOG_INFO("The Shader is compiled");
+    }
+    else
+    {
+        LOG_ERROR("Compilation failed");
+    }
 }
 
 Window::~Window()

@@ -24,6 +24,17 @@ namespace ShaderGraph
                     std::make_shared<Boolean>("Result", this)
             };
         }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} && {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
     };
 
     class OrOperatorNode : public Node
@@ -39,6 +50,17 @@ namespace ShaderGraph
             outputs() = std::vector<PIN> {
                     std::make_shared<Boolean>("Result", this)
             };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} || {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
         }
     };
 }

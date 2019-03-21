@@ -36,6 +36,15 @@ namespace ShaderGraph
       /// Function that display properties in the layout (details)
       void showDetails(QVBoxLayout * layout) override;
 
+      std::string nodeToGLSL() override
+      {
+          std::string buffer;
+          GLSL_CODE(buffer,
+                    "declVector({0}, ...",
+                    autoName(inputs()[0]));
+          return buffer;
+      }
+
   public slots:
     void onValue();
     void onValueDetail();
@@ -98,7 +107,14 @@ namespace ShaderGraph
         QDoubleSpinBox * m_spinBoxXdetail;
         QDoubleSpinBox * m_spinBoxYdetail;
 
-
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "declVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
+        }
     };
 
     class Vec3Node : public InputNode
@@ -121,6 +137,15 @@ namespace ShaderGraph
 
         /// Function that display properties in the layout (details)
         void showDetails(QVBoxLayout * layout) override;
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "declVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
+        }
 
     public slots:
       void onValue();
@@ -165,6 +190,15 @@ namespace ShaderGraph
 
         /// Function that display properties in the layout (details)
         void showDetails(QVBoxLayout * layout) override;
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "declVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
+        }
 
     public slots:
       void onValue();

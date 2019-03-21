@@ -34,6 +34,16 @@ namespace ShaderGraph
                 std::make_shared<Float>("Depth", this)
             };
         }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "MASTER_MATERIAL_OUTPUT({0}, {1}, ...);",
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
     };
 }
 

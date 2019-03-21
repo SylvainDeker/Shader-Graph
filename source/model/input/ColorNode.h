@@ -48,6 +48,17 @@ namespace ShaderGraph
         /// Function that display properties in the layout (details)
         void showDetails(QVBoxLayout * layout) override;
 
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "declColor({0}, {1}, {2}, ...",
+                      autoName(outputs()[0]),
+                      autoName(outputs()[1]),
+                      autoName(outputs()[2]));
+            return buffer;
+        }
+
     public slots:
         void onValueChanged(double value);
 

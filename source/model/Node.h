@@ -1,7 +1,9 @@
 #ifndef SHADERGRAPH_NODE_H
 #define SHADERGRAPH_NODE_H
 
+#include <list>
 #include <vector>
+#include <string>
 
 #include <QVBoxLayout>
 #include <QLayoutItem>
@@ -15,6 +17,15 @@
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
 
+
+#define GLSL_CODE(_code_, ...) \
+do \
+{ \
+    fmt::memory_buffer membuf; \
+    format_to(membuf, __VA_ARGS__); \
+    _code_ = to_string(membuf); \
+} while (false); \
+
 namespace ShaderGraph
 {
     /// The node ID giver.
@@ -23,8 +34,7 @@ namespace ShaderGraph
 
     using QtNodes::NodeValidationState;
 
-    class Node : public QtNodes::NodeDataModel,
-                 public ILayerable
+    class Node : public QtNodes::NodeDataModel
     {
         Q_OBJECT
 
@@ -53,6 +63,8 @@ namespace ShaderGraph
         /// Default destructor.
         ~Node() override = default;
 
+        /* ============================== Nodeeditor - Node props ============================== */
+
         /// Give for a specified port, the number of data.
         /// @portType : the type of the port.
         /// @return : the number of the data.
@@ -74,6 +86,8 @@ namespace ShaderGraph
         /// @return : a shared point to the data to retrieve.
         std::shared_ptr<QtNodes::NodeData> outData(QtNodes::PortIndex index) override;
 
+        /* ============================== Nodeeditor - Node data ============================== */
+
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
         QWidget * embeddedWidget() override;
@@ -84,22 +98,114 @@ namespace ShaderGraph
         /// Getter to the reference to the caption.
         QString caption() const override;
 
+        /* ============================== Nodeeditor - Node error handler ============================== */
+
         /// Getter : Current state of this node.
         NodeValidationState validationState() const override { return m_validationState; }
 
         /// Getter : The error message of this node.
         QString validationMessage() const override { return m_validationMessage; }
 
+        /* ============================== Code Generation ============================== */
 
-        /// Getter : Current layer id of this node.
-        inline unsigned int getLayer() const override { return m_layer; }
+        inline std::string outputsToGLSL()
+        {
+            std::string code = "";
+            for (PIN output : m_outputs)
+            {
+                // Get the pin interface
+                auto pin = dynamic_cast<IPin*>(output.get());
+                if (pin)
+                {
+                    std::string line = pin->typeToGLSL()         + " " +
+                                       autoName(output)          + "=" +
+                                       pin->defaultValueToGLSL() + ";" ;
 
-        /// Setter : Current layer id of this node.
-        inline void setLayer(unsigned int layer) override { m_layer = layer; }
+                    code += line + "\n";
+                }
+                else LOG_ERROR("Node::outputsToString : Invalid pin");
+            }
+            return code;
+        }
 
-        // TODO : comment me :)
-        void updateLayerId() override;
+        inline std::string inputsToGLSL(std::list<unsigned int>& nodes)
+        {
+            std::string code = "";
+            for (PIN input : m_inputs)
+            {
+                // Get the pin interface
+                auto pin = dynamic_cast<IPin*>(input.get());
+                if (pin)
+                {
+                    std::string value = "INVALID_VALUE";
 
+                    if (pin->isConnected())
+                    {
+                        std::shared_ptr<QtNodes::NodeData> connectedNodeData = pin->getConnectedPin();
+                        auto connectedPin = dynamic_cast<IPin *>(connectedNodeData.get());
+
+                        if (connectedPin == nullptr)
+                        {
+                            LOG_ERROR("Parsing : A pin is connected to an invalid pin");
+                            // TODO : parsing error handler
+                        }
+
+                        auto connectedNode = dynamic_cast<Node*>(connectedPin->getNode());
+
+                        code += connectedNode->toGLSL(nodes) + "\n";
+
+                        value = std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
+                    }
+                    else value = pin->defaultValueToGLSL();
+
+                    std::string line = pin->typeToGLSL() + " " +
+                                       autoName(input)   + "=" +
+                                       value             + ";" ;
+
+                    code += line + "\n";
+                }
+                else LOG_ERROR("Node::outputsToString : Invalid pin");
+            }
+            return code;
+        }
+
+        virtual std::string nodeToGLSL() = 0;
+
+        inline std::string autoName(PIN pin)
+        {
+            return "id" + std::to_string(m_id) + "_" + pin->type().name.toStdString();
+        }
+
+
+        inline std::string toGLSL()
+        {
+            std::string glslCode = "";
+            std::list<unsigned int> nodes;
+
+            glslCode += inputsToGLSL(nodes);
+            glslCode += outputsToGLSL();
+            glslCode += nodeToGLSL();
+
+            return glslCode;
+        }
+
+        std::string toGLSL(std::list<unsigned int> nodes)
+        {
+            std::string glslCode = "";
+
+            bool isFound = std::find(nodes.begin(), nodes.end(), m_id) != nodes.end();
+
+            if (!isFound)
+            {
+                glslCode += inputsToGLSL(nodes);
+                glslCode += outputsToGLSL();
+                glslCode += nodeToGLSL();
+            }
+
+            return glslCode;
+        }
+
+        /* ============================== Details ============================== */
 
         /// Function that display properties in the layout (details)
         virtual void showDetails(QVBoxLayout * layout);
@@ -111,6 +217,17 @@ namespace ShaderGraph
         /// Function to know if a layout has already been set up (for details)
         // TODO : clean code violated ! RENAME ME ! :P
         inline bool isLayoutInit() const { return m_layoutInit; }
+
+        /* ============================== Getter/Setter ============================== */
+
+        /// Getter : The node ID.
+        inline unsigned int getID() const { return m_id; };
+
+        /// Getter to the reference to a vector of inputs.
+        std::vector<PIN>& inputs()  { return m_inputs;  }
+
+        /// Getter to the reference to a vector of outputs.
+        std::vector<PIN>& outputs() { return m_outputs; }
 
       protected:
 
@@ -125,12 +242,6 @@ namespace ShaderGraph
           m_indexLayout = idx;
           m_layoutInit = true;
         }
-
-        /// Getter to the reference to a vector of inputs.
-        std::vector<PIN>& inputs()  { return m_inputs;  }
-
-        /// Getter to the reference to a vector of outputs.
-        std::vector<PIN>& outputs() { return m_outputs; }
 
         /// Update the validation state of this node.
         /// @warning : if the node is valid, no message will be displayed.

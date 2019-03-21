@@ -26,7 +26,14 @@ namespace ShaderGraph
             Node::showDetails( layout );
         }
 
-
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "MakeVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
+        }
     };
 
     class MakeVec3Node : public Node
@@ -48,6 +55,15 @@ namespace ShaderGraph
         void showDetails(QVBoxLayout * layout) override
         {
             Node::showDetails(layout);
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "MakeVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
         }
     };
 
@@ -72,6 +88,15 @@ namespace ShaderGraph
         {
             Node::showDetails(layout);
         }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "MakeVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
+        }
     };
 
     class BreakVec2Node : public Node
@@ -92,6 +117,15 @@ namespace ShaderGraph
         void showDetails(QVBoxLayout * layout) override
         {
             Node::showDetails(layout);
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "BreakVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
         }
     };
 
@@ -115,6 +149,15 @@ namespace ShaderGraph
         {
             Node::showDetails(layout);
         }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "BreakVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
+        }
     };
 
     class BreakVec4Node : public Node
@@ -137,6 +180,15 @@ namespace ShaderGraph
         void showDetails(QVBoxLayout * layout) override
         {
             Node::showDetails(layout);
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "BreakVector({0}, ...",
+                      autoName(inputs()[0]));
+            return buffer;
         }
     };
 }

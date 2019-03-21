@@ -27,6 +27,17 @@ namespace ShaderGraph
                     std::make_shared<Vector2>("Result", this)
             };
         }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} + {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
     };
 
     class SubtractVector2Node : public Node
@@ -42,6 +53,17 @@ namespace ShaderGraph
             outputs() = std::vector<PIN> {
                     std::make_shared<Vector2>("Result", this)
             };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} - {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
         }
     };
 
@@ -59,6 +81,17 @@ namespace ShaderGraph
                     std::make_shared<Vector2>("Result", this)
             };
         }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} * {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
     };
 
     class DivideVector2Node : public Node
@@ -74,6 +107,17 @@ namespace ShaderGraph
             outputs() = std::vector<PIN> {
                     std::make_shared<Vector2>("Result", this)
             };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} / {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
         }
     };
 }

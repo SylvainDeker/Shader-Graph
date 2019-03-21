@@ -33,6 +33,17 @@ namespace ShaderGraph
 
         void set(const QString & path);
 
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "declTexture({0}, {1}, {2}, ...",
+                      autoName(outputs()[0]),
+                      autoName(outputs()[1]),
+                      autoName(outputs()[2]));
+            return buffer;
+        }
+
     protected:
         /// The event filter: see Qt documentation.
         bool eventFilter(QObject *object, QEvent *event) override;

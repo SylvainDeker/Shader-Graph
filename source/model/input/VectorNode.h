@@ -41,7 +41,7 @@ namespace ShaderGraph
           std::string buffer;
           GLSL_CODE(buffer,
                     "declVector({0}, ...",
-                    autoName(inputs()[0]));
+                    autoName(outputs()[0]));
           return buffer;
       }
 
@@ -112,7 +112,7 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "declVector({0}, ...",
-                      autoName(inputs()[0]));
+                      autoName(outputs()[0]));
             return buffer;
         }
     };
@@ -143,7 +143,7 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "declVector({0}, ...",
-                      autoName(inputs()[0]));
+                      autoName(outputs()[0]));
             return buffer;
         }
 
@@ -196,7 +196,7 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "declVector({0}, ...",
-                      autoName(inputs()[0]));
+                      autoName(outputs()[0]));
             return buffer;
         }
 

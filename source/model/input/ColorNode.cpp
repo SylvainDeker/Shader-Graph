@@ -7,7 +7,7 @@
 #include <QFrame>
 #include <QColorDialog>
 
-
+#include <QTreeWidgetItem>
 
 namespace ShaderGraph
 {
@@ -59,28 +59,28 @@ namespace ShaderGraph
                          + QString(color.green() < 16? "0" : "") + QString::number(color.green(), 16)
                          + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(), 16) + ";");
 
-         m_display->setStyleSheet(s);
-         m_display->update();
-         m_boxr->setRange(0,1);
-         m_boxg->setRange(0,1);
-         m_boxb->setRange(0,1);
-         m_boxa->setRange(0,1);
-         m_boxr->setSingleStep(0.1);
-         m_boxg->setSingleStep(0.1);
-         m_boxb->setSingleStep(0.1);
-         m_boxa->setSingleStep(0.1);
+        m_display->setStyleSheet(s);
+        m_display->update();
+        m_boxr->setRange(0,1);
+        m_boxg->setRange(0,1);
+        m_boxb->setRange(0,1);
+        m_boxa->setRange(0,1);
+        m_boxr->setSingleStep(0.1);
+        m_boxg->setSingleStep(0.1);
+        m_boxb->setSingleStep(0.1);
+        m_boxa->setSingleStep(0.1);
 
-         connect(m_boxr, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                 this,&ColorNode::onValueChanged);
+        connect(m_boxr, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,&ColorNode::onValueChanged);
 
-         connect(m_boxg, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                 this,&ColorNode::onValueChanged);
+        connect(m_boxg, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,&ColorNode::onValueChanged);
 
-         connect(m_boxb, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                 this,&ColorNode::onValueChanged);
+        connect(m_boxb, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,&ColorNode::onValueChanged);
 
-         connect(m_boxa, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                 this,&ColorNode::onValueChanged);
+        connect(m_boxa, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+                this,&ColorNode::onValueChanged);
 
     }
 
@@ -152,14 +152,14 @@ namespace ShaderGraph
     {
         Node::showDetails(layout);
 
-        if (!isLayoutInit())
+        if (!isDetailsPanelLayoutInit())
         {
             setDetailsPanelLayout(layout);
             setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
-        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
 
         setColor(m_color); // Allow update data
     }

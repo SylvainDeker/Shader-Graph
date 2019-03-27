@@ -56,7 +56,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     LOG_INFO("Creating : {0} node", modelName.toStdString());
 }
 
-void
-WidgetNodeEditor::setAssociatedDetailsLayout(QVBoxLayout * layout){
+void WidgetNodeEditor::setAssociatedDetailsLayout(QVBoxLayout * layout)
+{
   m_graphicsView->setAssociatedDetailsLayout(layout);
 }

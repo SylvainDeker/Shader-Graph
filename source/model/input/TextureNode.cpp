@@ -101,13 +101,13 @@ namespace ShaderGraph
 
     void TextureNode::showDetails(QVBoxLayout   * layout){
       Node::showDetails(layout);
-      if( ! isLayoutInit()){
+      if( !isDetailsPanelLayoutInit()){
           setDetailsPanelLayout(layout);
           setDetailsPanelIndexLayout(layout->count());
         layout->addWidget(m_detail);
       }
 
-      layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+      layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
 
       set(m_path); // Allow update data
     }

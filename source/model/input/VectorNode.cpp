@@ -70,14 +70,14 @@ namespace ShaderGraph
     void ScalarNode::showDetails(QVBoxLayout * layout)
     {
         Node::showDetails(layout);
-        if (!isLayoutInit())
+        if (!isDetailsPanelLayoutInit())
         {
             setDetailsPanelLayout(layout);
             setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
-        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
 
         set(m_value); // Allow update data
     }
@@ -174,13 +174,13 @@ namespace ShaderGraph
     void Vec2Node::showDetails(QVBoxLayout * layout)
     {
         Node::showDetails(layout);
-        if( ! isLayoutInit()){
+        if( !isDetailsPanelLayoutInit()){
             setDetailsPanelLayout(layout);
             setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
-        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
 
         set(m_value); // Allow update data
     }
@@ -296,13 +296,13 @@ namespace ShaderGraph
     void Vec3Node::showDetails(QVBoxLayout * layout)
     {
         Node::showDetails(layout);
-        if( ! isLayoutInit()){
+        if( !isDetailsPanelLayoutInit()){
             setDetailsPanelLayout(layout);
             setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
-        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
 
         set(m_value); // Allow update data
     }
@@ -435,13 +435,13 @@ namespace ShaderGraph
 
     void Vec4Node::showDetails(QVBoxLayout   * layout){
         Node::showDetails(layout);
-        if( ! isLayoutInit()){
+        if( !isDetailsPanelLayoutInit()){
             setDetailsPanelLayout(layout);
             setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
-        layout->itemAt(getIndexLayout())->widget()->setVisible(true);
+        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
 
         set(m_value); // Allow update data
     }

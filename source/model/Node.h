@@ -108,115 +108,41 @@ namespace ShaderGraph
 
         /* ============================== Code Generation ============================== */
 
-        inline std::string outputsToGLSL()
-        {
-            std::string code = "";
-            for (PIN output : m_outputs)
-            {
-                // Get the pin interface
-                auto pin = dynamic_cast<IPin*>(output.get());
-                if (pin)
-                {
-                    std::string line = pin->typeToGLSL()         + " " +
-                                       autoName(output)          + "=" +
-                                       pin->defaultValueToGLSL() + ";" ;
+        /// Generate the name of @pin in the GLSL code.
+        /// Format : nodeID<nodeID>_<pinname>, with :
+        ///     <nodeID> : The id of this node
+        ///     <pinname>: The name of the pin, with the convention : lowercase.
+        std::string autoName(PIN pin);
 
-                    code += line + "\n";
-                }
-                else LOG_ERROR("Node::outputsToString : Invalid pin");
-            }
-            return code;
-        }
+        /// Generate the declarations of this node outputs, for the GLSL code.
+        std::string outputsToGLSL();
 
-        inline std::string inputsToGLSL(std::list<unsigned int>& nodes)
-        {
-            std::string code = "";
-            for (PIN input : m_inputs)
-            {
-                // Get the pin interface
-                auto pin = dynamic_cast<IPin*>(input.get());
-                if (pin)
-                {
-                    std::string value = "INVALID_VALUE";
+        /// Generate the declarations + initialization of this node inputs, for the GLSL code.
+        /// @nodes : A list of nodeID, use to store the visited/generated nodes.
+        std::string inputsToGLSL(std::list<unsigned int>& nodes);
 
-                    if (pin->isConnected())
-                    {
-                        std::shared_ptr<QtNodes::NodeData> connectedNodeData = pin->getConnectedPin();
-                        auto connectedPin = dynamic_cast<IPin *>(connectedNodeData.get());
-
-                        if (connectedPin == nullptr)
-                        {
-                            LOG_ERROR("Parsing : A pin is connected to an invalid pin");
-                            // TODO : parsing error handler
-                        }
-
-                        auto connectedNode = dynamic_cast<Node*>(connectedPin->getNode());
-
-                        code += connectedNode->toGLSL(nodes) + "\n";
-
-                        value = std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
-                    }
-                    else value = pin->defaultValueToGLSL();
-
-                    std::string line = pin->typeToGLSL() + " " +
-                                       autoName(input)   + "=" +
-                                       value             + ";" ;
-
-                    code += line + "\n";
-                }
-                else LOG_ERROR("Node::outputsToString : Invalid pin");
-            }
-            return code;
-        }
-
+        /// Generate the "core" of this node, for the GLSL code.
         virtual std::string nodeToGLSL() = 0;
 
-        inline std::string autoName(PIN pin)
-        {
-            return "id" + std::to_string(m_id) + "_" + pin->type().name.toStdString();
-        }
+        /// Generate the equivalent in GLSL code.
+        /// @warning : Will generate the node that it depends on.
+        std::string toGLSL();
 
-
-        inline std::string toGLSL()
-        {
-            std::string glslCode = "";
-            std::list<unsigned int> nodes;
-
-            glslCode += inputsToGLSL(nodes);
-            glslCode += outputsToGLSL();
-            glslCode += nodeToGLSL();
-
-            return glslCode;
-        }
-
-        std::string toGLSL(std::list<unsigned int> nodes)
-        {
-            std::string glslCode = "";
-
-            bool isFound = std::find(nodes.begin(), nodes.end(), m_id) != nodes.end();
-
-            if (!isFound)
-            {
-                glslCode += inputsToGLSL(nodes);
-                glslCode += outputsToGLSL();
-                glslCode += nodeToGLSL();
-            }
-
-            return glslCode;
-        }
+        /// Generate the equivalent in GLSL code.
+        /// @warning : Will generate the node that it depends on.
+        /// @nodes : A list of nodeID, use to store the visited/generated nodes.
+        std::string toGLSL(std::list<unsigned int> nodes);
 
         /* ============================== Details ============================== */
 
         /// Function that display properties in the layout (details)
         virtual void showDetails(QVBoxLayout * layout);
 
-        /// Getter on the position in the layout given by the layout arg in showDetails(layout) function.
-        // TODO : clean code violated ! RENAME ME ! :P
-        inline size_t getIndexLayout() const { return m_detailsPanelIndexLayout; }
+        /// Getter : The position in the layout given by the layout argument in showDetails function.
+        inline size_t getDetailsPanelIndexLayout() const { return m_detailsPanelIndexLayout; }
 
         /// Function to know if a layout has already been set up (for details)
-        // TODO : clean code violated ! RENAME ME ! :P
-        inline bool isLayoutInit() const { return m_isDetailsPanelLayoutInit; }
+        inline bool isDetailsPanelLayoutInit() const { return m_isDetailsPanelLayoutInit; }
 
         /* ============================== Getter/Setter ============================== */
 
@@ -224,10 +150,19 @@ namespace ShaderGraph
         inline unsigned int getID() const { return m_id; };
 
         /// Getter to the reference to a vector of inputs.
+        // TODO : Make sure that every PIN name, in @m_inputs and @m_details, are unique.
+        //        Needed by autoName.
         std::vector<PIN>& inputs()  { return m_inputs;  }
 
         /// Getter to the reference to a vector of outputs.
+        // TODO : Make sure that every PIN name in @m_outputs are unique.
+        //        Needed by autoName.
         std::vector<PIN>& outputs() { return m_outputs; }
+
+        /// Getter to the reference to a vector of details.
+        // TODO : Make sure that every PIN name, in @m_inputs and @m_details, are unique.
+        //        Needed by autoName.
+        std::vector<PIN>& details() { return m_details; }
 
       protected:
 

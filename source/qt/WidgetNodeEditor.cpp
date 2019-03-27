@@ -43,7 +43,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     m_layout->addWidget(m_graphicsView);
 }
 
-void
-WidgetNodeEditor::setAssociatedDetailsLayout(QVBoxLayout * layout){
+void WidgetNodeEditor::setAssociatedDetailsLayout(QVBoxLayout * layout)
+{
   m_graphicsView->setAssociatedDetailsLayout(layout);
 }

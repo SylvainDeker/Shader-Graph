@@ -67,7 +67,10 @@ namespace ShaderGraph
         bool eventFilter(QObject *object, QEvent *event) override;
 
     private:
+        /// The color.
         QColor m_color;
+
+        /// The embedded widget.
         QWidget * m_embeddedWidget;
 
         // details

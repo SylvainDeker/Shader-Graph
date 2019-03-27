@@ -89,5 +89,106 @@ namespace ShaderGraph
         }
     }
 
+    /// Generate the name of @pin in the GLSL code.
+    /// Format : nodeID<nodeID>_<pinname>, with :
+    ///     <nodeID> : The id of this node
+    ///     <pinname>: The name of the pin, with the convention : lowercase.
+    std::string Node::autoName(PIN pin)
+    {
+        std::string pinName = pin->type().name.toStdString();
+        pinName.erase(remove_if(pinName.begin(), pinName.end(), isspace), pinName.end());
+        std::transform(pinName.begin(), pinName.end(), pinName.begin(), ::tolower);
+
+        return "id" + std::to_string(m_id) + "_" + pin->type().name.toStdString();
+    }
+
+    std::string Node::outputsToGLSL()
+    {
+        std::string code = "";
+        for (PIN output : m_outputs)
+        {
+            // Get the pin interface
+            auto pin = dynamic_cast<IPin*>(output.get());
+            if (pin)
+            {
+                std::string line = pin->typeToGLSL()         + " " +
+                                   autoName(output)          + "=" +
+                                   pin->defaultValueToGLSL() + ";" ;
+
+                code += line + "\n";
+            }
+            else LOG_ERROR("Node::outputsToString : Invalid pin");
+        }
+        return code;
+    }
+
+    std::string Node::inputsToGLSL(std::list<unsigned int>& nodes)
+    {
+        std::string code = "";
+        for (PIN input : m_inputs)
+        {
+            // Get the pin interface
+            auto pin = dynamic_cast<IPin*>(input.get());
+            if (pin)
+            {
+                std::string value = "INVALID_VALUE";
+
+                if (pin->isConnected())
+                {
+                    std::shared_ptr<QtNodes::NodeData> connectedNodeData = pin->getConnectedPin();
+                    auto connectedPin = dynamic_cast<IPin *>(connectedNodeData.get());
+
+                    if (connectedPin == nullptr)
+                    {
+                        LOG_ERROR("Parsing : A pin is connected to an invalid pin");
+                        // TODO : parsing error handler
+                    }
+
+                    auto connectedNode = dynamic_cast<Node*>(connectedPin->getNode());
+
+                    code += connectedNode->toGLSL(nodes) + "\n";
+
+                    value = std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
+                }
+                else value = pin->defaultValueToGLSL();
+
+                std::string line = pin->typeToGLSL() + " " +
+                                   autoName(input)   + "=" +
+                                   value             + ";" ;
+
+                code += line + "\n";
+            }
+            else LOG_ERROR("Node::outputsToString : Invalid pin");
+        }
+        return code;
+    }
+
+    std::string Node::toGLSL()
+    {
+        std::string glslCode = "";
+        std::list<unsigned int> nodes;
+
+        glslCode += inputsToGLSL(nodes);
+        glslCode += outputsToGLSL();
+        glslCode += nodeToGLSL();
+
+        return glslCode;
+    }
+
+    std::string Node::toGLSL(std::list<unsigned int> nodes)
+    {
+        std::string glslCode = "";
+
+        bool isFound = std::find(nodes.begin(), nodes.end(), m_id) != nodes.end();
+
+        if (!isFound)
+        {
+            glslCode += inputsToGLSL(nodes);
+            glslCode += outputsToGLSL();
+            glslCode += nodeToGLSL();
+        }
+
+        return glslCode;
+    }
 
 }

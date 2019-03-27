@@ -154,8 +154,8 @@ namespace ShaderGraph
 
         if (!isLayoutInit())
         {
-          setLayout(layout);
-          setIndexLayout(layout->count());
+            setDetailsPanelLayout(layout);
+            setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 

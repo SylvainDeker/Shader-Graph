@@ -102,8 +102,8 @@ namespace ShaderGraph
     void TextureNode::showDetails(QVBoxLayout   * layout){
       Node::showDetails(layout);
       if( ! isLayoutInit()){
-        setLayout(layout);
-        setIndexLayout(layout->count());
+          setDetailsPanelLayout(layout);
+          setDetailsPanelIndexLayout(layout->count());
         layout->addWidget(m_detail);
       }
 

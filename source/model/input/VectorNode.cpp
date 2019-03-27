@@ -72,8 +72,8 @@ namespace ShaderGraph
         Node::showDetails(layout);
         if (!isLayoutInit())
         {
-          setLayout(layout);
-          setIndexLayout(layout->count());
+            setDetailsPanelLayout(layout);
+            setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
@@ -175,8 +175,8 @@ namespace ShaderGraph
     {
         Node::showDetails(layout);
         if( ! isLayoutInit()){
-          setLayout(layout);
-          setIndexLayout(layout->count());
+            setDetailsPanelLayout(layout);
+            setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
@@ -297,8 +297,8 @@ namespace ShaderGraph
     {
         Node::showDetails(layout);
         if( ! isLayoutInit()){
-          setLayout(layout);
-          setIndexLayout(layout->count());
+            setDetailsPanelLayout(layout);
+            setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 
@@ -436,8 +436,8 @@ namespace ShaderGraph
     void Vec4Node::showDetails(QVBoxLayout   * layout){
         Node::showDetails(layout);
         if( ! isLayoutInit()){
-          setLayout(layout);
-          setIndexLayout(layout->count());
+            setDetailsPanelLayout(layout);
+            setDetailsPanelIndexLayout(layout->count());
           layout->addWidget(m_detail);
         }
 

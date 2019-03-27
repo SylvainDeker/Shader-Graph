@@ -83,8 +83,6 @@ namespace ShaderGraph
     /// Function that display info in the layout (details)
     void Node::showDetails(QVBoxLayout * layout)
     {
-        LOG_DEBUG(toGLSL());
-
         for (int i = 0; i < layout->count(); i++)
         {
             layout->itemAt(i)->widget()->setVisible(false);

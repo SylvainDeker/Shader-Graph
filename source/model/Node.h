@@ -212,11 +212,11 @@ namespace ShaderGraph
 
         /// Getter on the position in the layout given by the layout arg in showDetails(layout) function.
         // TODO : clean code violated ! RENAME ME ! :P
-        inline size_t getIndexLayout() const { return m_indexLayout; }
+        inline size_t getIndexLayout() const { return m_detailsPanelIndexLayout; }
 
         /// Function to know if a layout has already been set up (for details)
         // TODO : clean code violated ! RENAME ME ! :P
-        inline bool isLayoutInit() const { return m_layoutInit; }
+        inline bool isLayoutInit() const { return m_isDetailsPanelLayoutInit; }
 
         /* ============================== Getter/Setter ============================== */
 
@@ -231,16 +231,14 @@ namespace ShaderGraph
 
       protected:
 
-        /// Set a layout
-        // TODO : clean code violated ! RENAME ME ! :P
-        inline void setLayout(QVBoxLayout * layout) { m_layout = layout; }
+        /// Setter : Details panel layout
+        inline void setDetailsPanelLayout(QVBoxLayout *layout) { m_detailsPanelLayout = layout; }
 
-        /// Set the index of the layout in the previous function.
-        // TODO : clean code violated ! RENAME ME ! :P
-        inline void setIndexLayout(size_t idx)
+        /// Setter : The index of the details layout in the previous function.
+        inline void setDetailsPanelIndexLayout(unsigned int idx)
         {
-          m_indexLayout = idx;
-          m_layoutInit = true;
+          m_detailsPanelIndexLayout = idx;
+          m_isDetailsPanelLayoutInit = true;
         }
 
         /// Update the validation state of this node.
@@ -252,14 +250,14 @@ namespace ShaderGraph
         }
 
     private:
-        // TODO : clean code violated ! RENAME ME ! :P
-        QVBoxLayout * m_layout = nullptr;
+        // TODO : comment me :)
+        QVBoxLayout * m_detailsPanelLayout = nullptr;
 
-        // TODO : clean code violated ! RENAME ME ! :P
-        size_t m_indexLayout = 0;
+        // TODO : comment me :)
+        size_t m_detailsPanelIndexLayout = 0;
 
-        // TODO : clean code violated ! RENAME ME ! :P
-        bool m_layoutInit = false;
+        // TODO : comment me :)
+        bool m_isDetailsPanelLayoutInit = false;
 
         /// The name of the node or what will be displayed on the screen.
         QString m_name;
@@ -275,10 +273,19 @@ namespace ShaderGraph
         /// A layer is the max between the value of each.
         unsigned int m_layer = 0;
 
+        /// The internal representation of the input pins.
         std::vector<PIN> m_inputs;
+
+        /// The internal representation of the output pins.
         std::vector<PIN> m_outputs;
 
+        /// The hidden properties.
+        std::vector<PIN> m_details;
+
+        /// The error/warning message. "No message" if no error/warning.
         QString m_validationMessage = "No message";
+
+        /// The state (valid, warning, error) state of this node.
         NodeValidationState m_validationState = NodeValidationState::Valid;
     };
 }

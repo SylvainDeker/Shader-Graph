@@ -110,16 +110,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="compileButton">
-            <property name="text">
-             <string>Compile</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="saveButton">
             <property name="styleSheet">
              <string notr="true"/>
@@ -134,6 +124,16 @@
              <bool>false</bool>
             </property>
             <property name="autoExclusive">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="compileButton">
+            <property name="text">
+             <string>Compile</string>
+            </property>
+            <property name="checkable">
              <bool>false</bool>
             </property>
            </widget>

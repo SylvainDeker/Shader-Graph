@@ -7,6 +7,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
+// WIP
+#include <QTreeWidget>
+
 #include <nodes/NodeData>
 #include <nodes/FlowScene>
 #include <nodes/FlowView>
@@ -14,7 +17,9 @@
 #include <nodes/TypeConverter>
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
+
 #include <core/Core.h>
+
 #include "NodeGraphicsView.h"
 
 using QtNodes::DataModelRegistry;
@@ -35,11 +40,12 @@ public:
 
     void setAssociatedDetailsLayout(QVBoxLayout * layout);
 
+    inline void setDetailsTree(QTreeWidget * tree) { m_graphicsView->setDetailsTree(tree); }
 
 private:
-    FlowScene   * m_scene;
+    FlowScene           * m_scene;
     NodeGraphicsView    * m_graphicsView;
-    QVBoxLayout * m_layout;
+    QVBoxLayout         * m_layout;
 };
 
 

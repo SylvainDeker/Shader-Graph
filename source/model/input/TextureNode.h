@@ -31,6 +31,8 @@ namespace ShaderGraph
         /// Function that display properties in the layout (details)
         void showDetails(QVBoxLayout * layout) override;
 
+        void showDetails(QTreeWidget * tree) override;
+
         void set(const QString & path);
 
         std::string nodeToGLSL() override

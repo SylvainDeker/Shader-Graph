@@ -238,11 +238,17 @@ background-color: rgb(123, 123, 123);</string>
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="details" native="true">
+         <widget class="QWidget" name="detailsPanelLayout" native="true">
           <property name="minimumSize">
            <size>
             <width>0</width>
             <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>256</width>
+            <height>16777215</height>
            </size>
           </property>
           <property name="autoFillBackground">
@@ -278,6 +284,21 @@ background-color: rgb(123, 123, 123);</string>
            </item>
            <item>
             <layout class="QVBoxLayout" name="layoutDetails"/>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="detailsTree">
+             <property name="maximumSize">
+              <size>
+               <width>256</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+            </widget>
            </item>
            <item>
             <spacer name="verticalSpacer">
@@ -357,7 +378,7 @@ background-color: rgb(123, 123, 123);</string>
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>20</height>
+              <height>19</height>
              </size>
             </property>
             <property name="styleSheet">
@@ -447,7 +468,7 @@ background-color: rgb(123, 123, 123);</string>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>200</height>
+            <height>175</height>
            </size>
           </property>
           <property name="sizeIncrement">

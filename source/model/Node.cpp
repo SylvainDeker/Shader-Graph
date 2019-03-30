@@ -89,6 +89,18 @@ namespace ShaderGraph
         }
     }
 
+    void Node::showDetails(QTreeWidget * tree)
+    {
+        (void) tree;
+        m_isDetailedNode = true;
+    }
+
+    void Node::hideDetails(QTreeWidget * tree)
+    {
+        (void) tree;
+        m_isDetailedNode = false;
+    }
+
     /// Generate the name of @pin in the GLSL code.
     /// Format : nodeID<nodeID>_<pinname>, with :
     ///     <nodeID> : The id of this node

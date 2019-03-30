@@ -79,7 +79,7 @@ add_subdirectory(nodeeditor)
 #     # For shallow git clone (without downloading whole history)
 #     # GIT_SHALLOW 1
 #     # For point at certain tag
-#     # GIT_TAG 1.5.7
+#     GIT_TAG "v1.x"
 #     #disables auto update on every build
 #     UPDATE_DISCONNECTED 1
 #     #disable following

@@ -1,5 +1,8 @@
 #ifndef SHADERGRAPH_NODEGRAPHICSVIEW_H
 #define SHADERGRAPH_NODEGRAPHICSVIEW_H
+
+#include <list>
+
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -14,12 +17,14 @@
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
 
-#include "../core/Core.h"
+// WIP
 
-// using QtNodes::DataModelRegistry;
-// using QtNodes::FlowScene;
-// using QtNodes::FlowView;
-// using QtNodes::ConnectionStyle;
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+
+#include <core/Core.h>
+
+#include "../model/Node.h"
 
 class NodeGraphicsView : public QtNodes::FlowView {
 
@@ -32,11 +37,16 @@ public:
 
   void setAssociatedDetailsLayout(QVBoxLayout * layout) { m_detailslayout = layout; }
 
+  inline void setDetailsTree(QTreeWidget * tree) { m_detailsTree = tree; }
+
 protected:
-  void mousePressEvent(QMouseEvent *event) override ;
+  void mousePressEvent(QMouseEvent *event) override;
 
 private:
   QVBoxLayout * m_detailslayout;
+
+  QTreeWidget * m_detailsTree;
+  ShaderGraph::Node * m_detailedNode = nullptr;
 
 };
 

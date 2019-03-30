@@ -9,6 +9,11 @@
 #include <QLayoutItem>
 #include <QLayout>
 
+// WIP
+
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+
 #include <core/Core.h>
 
 #include "Data.h"
@@ -144,6 +149,14 @@ namespace ShaderGraph
         /// Function to know if a layout has already been set up (for details)
         inline bool isDetailsPanelLayoutInit() const { return m_isDetailsPanelLayoutInit; }
 
+
+        virtual void showDetails(QTreeWidget * tree);
+
+        virtual void hideDetails(QTreeWidget * tree);
+
+        inline bool isDetailedNode() const { return m_isDetailedNode; }
+
+
         /* ============================== Getter/Setter ============================== */
 
         /// Getter : The node ID.
@@ -193,6 +206,9 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         bool m_isDetailsPanelLayoutInit = false;
+
+
+        bool m_isDetailedNode = false;
 
         /// The name of the node or what will be displayed on the screen.
         QString m_name;

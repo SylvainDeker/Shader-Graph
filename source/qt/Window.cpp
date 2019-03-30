@@ -45,6 +45,8 @@ Window::Window(QWidget * Parent) :
     QObject::connect(m_ui->compileButton, &QPushButton::pressed,
                      this, &Window::compile);
 
+    m_ui->detailsTree->header()->close();
+
     // Step 2 : Setup the logger
     LOG_INIT("../data/ShaderGraph.log", m_ui->logPanel);
     LOG_CONNECT(m_ui->logFilter);
@@ -123,6 +125,7 @@ Window::Window(QWidget * Parent) :
 
     // Step 5 : Setup Details Panel
     m_ui->nodeEditor->setAssociatedDetailsLayout(m_ui->layoutDetails);
+    m_ui->nodeEditor->setDetailsTree(m_ui->detailsTree);
 }
 
 void Window::compile()

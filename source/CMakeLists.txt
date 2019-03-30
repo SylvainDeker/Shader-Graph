@@ -101,7 +101,6 @@ add_custom_target(run DEPENDS ShaderGraph-run)
 # target_link_libraries(ShaderGraph ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} )
 
 #------------------------------------------------------------------------------
-# (val) FIXME : should be place here ?
 
 if(APPLE AND EXISTS /usr/local/opt/qt5)
     # Homebrew installs Qt5 (up to at least 5.9.1) in

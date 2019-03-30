@@ -112,4 +112,9 @@ namespace ShaderGraph
       set(m_path); // Allow update data
     }
 
+    void TextureNode::showDetails(QTreeWidget * tree)
+    {
+        (void) tree;
+
+    }
 }

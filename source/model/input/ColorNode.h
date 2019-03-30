@@ -12,6 +12,11 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+#include <core/Core.h>
+
+#define DEFAULT_COLOR QColor(Qt::white)
+#define SPINBOX_VALUE_CHANGED_SLOT static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged)
+
 namespace ShaderGraph
 {
     class ColorNode : public InputNode
@@ -25,18 +30,26 @@ namespace ShaderGraph
         /// Destructor.
         ~ColorNode() override = default;
 
-        /// Getter only : color.
-        glm::vec4 getColor();
+        /// Getter only : color (glm format).
+        /// @warning : Cast the Qt format (QColor) to the glm format (vec4).
+        inline glm::vec4 asVec4() const
+        {
+            return glm::vec4(
+                    static_cast<float>(m_color.redF()),
+                    static_cast<float>(m_color.greenF()),
+                    static_cast<float>(m_color.blueF()),
+                    static_cast<float>(m_color.alphaF())
+            );
+        }
 
-        /// Getter only : color.
-        QColor getQColor();
+        /// Getter only : color (Qt format).
+        inline QColor asQColor() const { return m_color; }
 
-        /// Setter only : color.
+        /// Setter only : color (glm format).
         void setColor(const glm::vec4& color);
 
-        /// Setter only : color.
+        /// Setter only : color (Qt format).
         void setColor(const QColor &color);
-
 
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
@@ -47,6 +60,10 @@ namespace ShaderGraph
 
         /// Function that display properties in the layout (details)
         void showDetails(QVBoxLayout * layout) override;
+
+        void showDetails(QTreeWidget * tree) override;
+
+        void hideDetails(QTreeWidget * tree) override;
 
         std::string nodeToGLSL() override
         {
@@ -73,16 +90,28 @@ namespace ShaderGraph
         /// The embedded widget.
         QWidget * m_embeddedWidget;
 
-        // details
-        QWidget * m_detail;
-        QVBoxLayout * m_mainlayout;
-        QHBoxLayout * m_layoutcolor;
-        QVBoxLayout * m_coordlayout;
-        QDoubleSpinBox * m_boxr;
-        QDoubleSpinBox * m_boxg;
-        QDoubleSpinBox * m_boxb;
-        QDoubleSpinBox * m_boxa;
-        QWidget * m_display;
+        QDoubleSpinBox * m_rSpinBox;
+        QDoubleSpinBox * m_gSpinBox;
+        QDoubleSpinBox * m_bSpinBox;
+        QDoubleSpinBox * m_aSpinBox;
+
+        /* =============== Start QTreeWidget items definition ===============*/
+
+        QTreeWidgetItem * m_rgbaSection = nullptr;
+
+            QTreeWidgetItem * m_rSection = nullptr;
+                QTreeWidgetItem * m_rItem = nullptr;
+
+            QTreeWidgetItem * m_gSection = nullptr;
+                QTreeWidgetItem * m_gItem = nullptr;
+
+            QTreeWidgetItem * m_bSection = nullptr;
+                QTreeWidgetItem * m_bItem = nullptr;
+
+            QTreeWidgetItem * m_aSection = nullptr;
+                QTreeWidgetItem * m_aItem = nullptr;
+
+        /* =============== End QTreeWidget items definition ===============*/
     };
 
 

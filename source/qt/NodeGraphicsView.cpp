@@ -21,20 +21,57 @@ NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent):
 }
 
 
-void NodeGraphicsView::mousePressEvent(QMouseEvent *event) {
-  std::vector<QtNodes::Node*> nodes =  scene()->selectedNodes();
+void NodeGraphicsView::mousePressEvent(QMouseEvent *event)
+{
+    std::vector<QtNodes::Node*> nodes = scene()->selectedNodes();
 
-  if (nodes.size()>0) {
+//  if (!nodes.empty()) {
+//
+//      ShaderGraph::Node * md;
+//
+//      for (size_t i = 0; i < nodes.size(); i++) {
+//        md = dynamic_cast<ShaderGraph::Node *>(nodes[i]->nodeDataModel());
+//        md->showDetails(m_detailslayout);
+//      }
+//
+//  }
 
-      ShaderGraph::Node * md;
+    if (nodes.empty())
+    {
+        if (m_detailedNode) m_detailedNode->hideDetails(m_detailsTree);
+        m_detailedNode = nullptr;
+    }
+    else
+    {
+        bool hasPromotedNode = false;
 
-      for (size_t i = 0; i < nodes.size(); i++) {
-        md = dynamic_cast<ShaderGraph::Node *>(nodes[i]->nodeDataModel());
-        md->showDetails(m_detailslayout);
-      }
+        for (QtNodes::Node * node : nodes)
+        {
+            auto sgNode = dynamic_cast<ShaderGraph::Node *>(node->nodeDataModel());
 
-  }
-  FlowView::mousePressEvent(event);
+            if (sgNode == nullptr) // cast failed
+            {
+                LOG_ERROR("NodeGraphicsView::mousePressEvent : Invalid node : Ignored");
+            }
+            else
+            {
+                if (m_detailedNode) m_detailedNode->hideDetails(m_detailsTree);
+                m_detailedNode = sgNode;
+
+                sgNode->showDetails(m_detailslayout);
+                sgNode->showDetails(m_detailsTree);
+
+                hasPromotedNode = true;
+            }
+        }
+
+        if (!hasPromotedNode)
+        {
+            LOG_ERROR("NodeGraphicsView::mousePressEvent : Any selected nodes has been promoted");
+            m_detailedNode = nullptr;
+        }
+    }
+    FlowView::mousePressEvent(event);
 }
 
 void NodeGraphicsView::deleteSelectedNodes(){

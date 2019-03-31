@@ -41,9 +41,6 @@ namespace ShaderGraph
           return m_embeddedWidget;
       }
 
-      /// Function that display properties in the layout (details)
-      void showDetails(QVBoxLayout * layout) override;
-
       void showDetails(QTreeWidget * tree) override;
 
       void hideDetails(QTreeWidget * tree) override;
@@ -100,11 +97,10 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
-        /// Function that display properties in the layout (details)
-        void showDetails(QVBoxLayout * layout) override;
-
+        /// Show all node's properties in the node panel.
         void showDetails(QTreeWidget * tree) override;
 
+        /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
         std::string nodeToGLSL() override
@@ -177,11 +173,10 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
-        /// Function that display properties in the layout (details)
-        void showDetails(QVBoxLayout * layout) override;
-
+        /// Show all node's properties in the node panel.
         void showDetails(QTreeWidget * tree) override;
 
+        /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
         std::string nodeToGLSL() override
@@ -263,11 +258,10 @@ namespace ShaderGraph
             return m_embeddedWidget;
         }
 
-        /// Function that display properties in the layout (details)
-        void showDetails(QVBoxLayout * layout) override;
-
+        /// Show all node's properties in the node panel.
         void showDetails(QTreeWidget * tree) override;
 
+        /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
         std::string nodeToGLSL() override

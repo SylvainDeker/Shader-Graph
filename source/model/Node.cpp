@@ -80,15 +80,6 @@ namespace ShaderGraph
         return m_caption;
     }
 
-    /// Function that display info in the layout (details)
-    void Node::showDetails(QVBoxLayout * layout)
-    {
-        for (int i = 0; i < layout->count(); i++)
-        {
-            layout->itemAt(i)->widget()->setVisible(false);
-        }
-    }
-
     void Node::showDetails(QTreeWidget * tree)
     {
         (void) tree;

@@ -42,8 +42,6 @@ public:
     inline ShaderGraph::MasterMaterialOutput * getMasterMaterialOutput()
                 { return m_masterMaterialOutput; }
 
-    void setAssociatedDetailsLayout(QVBoxLayout * layout);
-
     inline void setDetailsTree(QTreeWidget * tree) { m_graphicsView->setDetailsTree(tree); }
 
 private:

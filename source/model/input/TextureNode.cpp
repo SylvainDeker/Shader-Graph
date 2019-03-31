@@ -91,11 +91,6 @@ namespace ShaderGraph
       emit dataUpdated(0);
     }
 
-    void TextureNode::showDetails(QVBoxLayout * layout)
-    {
-        (void) layout;
-    }
-
     void TextureNode::showDetails(QTreeWidget * tree)
     {
         Node::showDetails(tree);

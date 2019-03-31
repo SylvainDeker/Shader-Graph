@@ -34,11 +34,6 @@ namespace ShaderGraph
         connect(m_detailsPanelSpinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &ScalarNode::onDetailValueChanged);
     }
 
-    void ScalarNode::showDetails(QVBoxLayout * layout)
-    {
-        (void) layout;
-    }
-
     void ScalarNode::showDetails(QTreeWidget * tree)
     {
         if (m_axisSection == nullptr)
@@ -131,11 +126,6 @@ namespace ShaderGraph
 
         m_detailsPanelSpinBoxX->setValue(value.x);
         m_detailsPanelSpinBoxY->setValue(value.y);
-    }
-
-    void Vec2Node::showDetails(QVBoxLayout * layout)
-    {
-        (void) layout;
     }
 
     void Vec2Node::showDetails(QTreeWidget * tree)
@@ -255,11 +245,6 @@ namespace ShaderGraph
         m_detailsPanelSpinBoxX->setValue(value.x);
         m_detailsPanelSpinBoxY->setValue(value.y);
         m_detailsPanelSpinBoxZ->setValue(value.z);
-    }
-
-    void Vec3Node::showDetails(QVBoxLayout * layout)
-    {
-        (void) layout;
     }
 
     void Vec3Node::showDetails(QTreeWidget * tree)
@@ -406,11 +391,6 @@ namespace ShaderGraph
         m_detailsPanelSpinBoxW->setValue(value.w);
     }
 
-    void Vec4Node::showDetails(QVBoxLayout * layout)
-    {
-        (void) layout;
-    }
-
     void Vec4Node::showDetails(QTreeWidget * tree)
     {
         if (m_axisSection == nullptr)
@@ -476,6 +456,4 @@ namespace ShaderGraph
 
         Node::hideDetails(tree);
     }
-
-
 }

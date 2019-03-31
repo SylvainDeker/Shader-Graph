@@ -21,11 +21,6 @@ namespace ShaderGraph
             };
         }
 
-        void showDetails(QVBoxLayout * layout) override
-        {
-            Node::showDetails( layout );
-        }
-
         std::string nodeToGLSL() override
         {
             std::string buffer;
@@ -50,11 +45,6 @@ namespace ShaderGraph
                     std::make_shared<Float>("Y", this),
                     std::make_shared<Float>("Z", this)
             };
-        }
-
-        void showDetails(QVBoxLayout * layout) override
-        {
-            Node::showDetails(layout);
         }
 
         std::string nodeToGLSL() override
@@ -84,11 +74,6 @@ namespace ShaderGraph
             };
         }
 
-        void showDetails(QVBoxLayout * layout) override
-        {
-            Node::showDetails(layout);
-        }
-
         std::string nodeToGLSL() override
         {
             std::string buffer;
@@ -112,11 +97,6 @@ namespace ShaderGraph
                 std::make_shared<Float>("X", this),
                 std::make_shared<Float>("Y", this)
             };
-        }
-
-        void showDetails(QVBoxLayout * layout) override
-        {
-            Node::showDetails(layout);
         }
 
         std::string nodeToGLSL() override
@@ -145,11 +125,6 @@ namespace ShaderGraph
             };
         }
 
-        void showDetails(QVBoxLayout * layout) override
-        {
-            Node::showDetails(layout);
-        }
-
         std::string nodeToGLSL() override
         {
             std::string buffer;
@@ -175,11 +150,6 @@ namespace ShaderGraph
                     std::make_shared<Float>("Z", this),
                     std::make_shared<Float>("A", this)
             };
-        }
-
-        void showDetails(QVBoxLayout * layout) override
-        {
-            Node::showDetails(layout);
         }
 
         std::string nodeToGLSL() override

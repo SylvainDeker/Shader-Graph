@@ -124,7 +124,6 @@ Window::Window(QWidget * Parent) :
     });
 
     // Step 5 : Setup Details Panel
-    m_ui->nodeEditor->setAssociatedDetailsLayout(m_ui->layoutDetails);
     m_ui->nodeEditor->setDetailsTree(m_ui->detailsTree);
 }
 

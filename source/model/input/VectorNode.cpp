@@ -13,10 +13,7 @@ namespace ShaderGraph
             m_layout(new QBoxLayout(QBoxLayout::TopToBottom, m_embeddedWidget)),
 
             m_spinBoxX(new QDoubleSpinBox()),
-
-            m_detail(new QWidget()),
-            m_mainlayout(new QVBoxLayout()),
-            m_spinBoxXdetail(new QDoubleSpinBox())
+            m_detailsPanelSpinBoxX(new QDoubleSpinBox())
     {
 
         outputs() = std::vector<PIN>{
@@ -29,60 +26,54 @@ namespace ShaderGraph
         m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
-        connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &ScalarNode::onValue);
+        m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_detail->setLayout(m_mainlayout);
-        m_mainlayout->addWidget(m_spinBoxXdetail);
-
-        m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
-        connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &ScalarNode::onValueDetail);
-
-    }
-
-    void ScalarNode::onValue()
-    {
-        set(m_spinBoxX->value());
-    }
-
-    void ScalarNode::onValueDetail()
-    {
-        set(m_spinBoxXdetail->value());
-    }
-
-    float ScalarNode::get()
-    {
-        return m_value;
-    }
-
-    void ScalarNode::set(const float& v)
-    {
-      m_value = v;
-      m_spinBoxX->setValue(v);
-
-      m_spinBoxXdetail->setValue(v);
+        connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &ScalarNode::onValueChanged);
+        connect(m_detailsPanelSpinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &ScalarNode::onDetailValueChanged);
     }
 
     void ScalarNode::showDetails(QVBoxLayout * layout)
     {
-        Node::showDetails(layout);
-        if (!isDetailsPanelLayoutInit())
-        {
-            setDetailsPanelLayout(layout);
-            setDetailsPanelIndexLayout(layout->count());
-          layout->addWidget(m_detail);
-        }
-
-        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
-
-        set(m_value); // Allow update data
+        (void) layout;
     }
 
+    void ScalarNode::showDetails(QTreeWidget * tree)
+    {
+        if (m_axisSection == nullptr)
+        {
+            // Axis section
+            m_axisSection = new QTreeWidgetItem(tree);
+            m_axisSection->setText(0, "Axis");
+            m_axisSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_axisSection->setTextColor(0, QColor("white"));
+            m_axisSection->setExpanded(true);
 
+            // X axis
+            m_xSection = new QTreeWidgetItem(m_axisSection);
+            m_xSection->setText(0, "X-Axis");
+            m_xSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_xSection->setTextColor(0, QColor("white"));
+            m_xSection->setExpanded(true);
+            // X axis item
+            m_xItem = new QTreeWidgetItem(m_xSection);
+            tree->setItemWidget(m_xItem, 0, m_detailsPanelSpinBoxX);
+        }
+        else
+        {
+            m_axisSection->setHidden(false);
+        }
+
+        Node::showDetails(tree);
+    }
+
+    void ScalarNode::hideDetails(QTreeWidget * tree)
+    {
+        m_axisSection->setHidden(true);
+
+        Node::hideDetails(tree);
+    }
 
     //====================================================================================================
     // Vector2 Node
@@ -96,10 +87,9 @@ namespace ShaderGraph
 
             m_spinBoxX(new QDoubleSpinBox()),
             m_spinBoxY(new QDoubleSpinBox()),
-            m_detail(new QWidget()),
-            m_mainlayout(new QVBoxLayout()),
-            m_spinBoxXdetail(new QDoubleSpinBox()),
-            m_spinBoxYdetail(new QDoubleSpinBox())
+
+            m_detailsPanelSpinBoxX(new QDoubleSpinBox()),
+            m_detailsPanelSpinBoxY(new QDoubleSpinBox())
     {
 
         outputs() = std::vector<PIN>{
@@ -117,76 +107,82 @@ namespace ShaderGraph
         m_spinBoxY->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
+        connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec2Node::onValueChanged);
+        connect(m_spinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec2Node::onValueChanged);
 
-        connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec2Node::onValue);
-        connect(m_spinBoxY, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec2Node::onValue);
+        m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_detail->setLayout(m_mainlayout);
-        m_mainlayout->addWidget(m_spinBoxXdetail);
-        m_mainlayout->addWidget(m_spinBoxYdetail);
+        m_detailsPanelSpinBoxY->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxY->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
-        m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxYdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
-
-        connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec2Node::onValueDetail);
-        connect(m_spinBoxYdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec2Node::onValueDetail);
+        connect(m_detailsPanelSpinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec2Node::onDetailValueChanged);
+        connect(m_detailsPanelSpinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec2Node::onDetailValueChanged);
     }
 
-    void Vec2Node::onValue()
+    /// Setter : the value of this node.
+    void Vec2Node::set(const glm::vec2& value)
     {
-        set(glm::vec2(m_spinBoxX->value(),
-                      m_spinBoxY->value())
-                    );
-    }
-    void Vec2Node::onValueDetail()
-    {
-        set(glm::vec2(m_spinBoxXdetail->value(),
-                      m_spinBoxYdetail->value())
-                    );
-    }
+        m_value = value;
+        m_spinBoxX->setValue(value.x);
+        m_spinBoxY->setValue(value.y);
 
-    glm::vec2 Vec2Node::get()
-    {
-
-        return m_value;
-    }
-
-    void Vec2Node::set(const glm::vec2& v)
-    {
-      m_value = v;
-      m_spinBoxX->setValue(v[0]);
-      m_spinBoxY->setValue(v[1]);
-
-      m_spinBoxXdetail->setValue(v[0]);
-      m_spinBoxYdetail->setValue(v[1]);
+        m_detailsPanelSpinBoxX->setValue(value.x);
+        m_detailsPanelSpinBoxY->setValue(value.y);
     }
 
     void Vec2Node::showDetails(QVBoxLayout * layout)
     {
-        Node::showDetails(layout);
-        if( !isDetailsPanelLayoutInit()){
-            setDetailsPanelLayout(layout);
-            setDetailsPanelIndexLayout(layout->count());
-          layout->addWidget(m_detail);
-        }
-
-        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
-
-        set(m_value); // Allow update data
+        (void) layout;
     }
 
+    void Vec2Node::showDetails(QTreeWidget * tree)
+    {
+        if (m_axisSection == nullptr)
+        {
+            // Axis section
+            m_axisSection = new QTreeWidgetItem(tree);
+            m_axisSection->setText(0, "Axis");
+            m_axisSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_axisSection->setTextColor(0, QColor("white"));
+            m_axisSection->setExpanded(true);
 
+            // Red Channel section
+            m_xSection = new QTreeWidgetItem(m_axisSection);
+            m_xSection->setText(0, "X-Axis");
+            m_xSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_xSection->setTextColor(0, QColor("white"));
+            m_xSection->setExpanded(true);
+            // Red Channel item
+            m_xItem = new QTreeWidgetItem(m_xSection);
+            tree->setItemWidget(m_xItem, 0, m_detailsPanelSpinBoxX);
 
+            // Green Channel section
+            m_ySection = new QTreeWidgetItem(m_axisSection);
+            m_ySection->setText(0, "Y-Axis");
+            m_ySection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_ySection->setTextColor(0, QColor("white"));
+            m_ySection->setExpanded(true);
+            // Green Channel item
+            m_yItem = new QTreeWidgetItem(m_ySection);
+            tree->setItemWidget(m_yItem, 0, m_detailsPanelSpinBoxY);
+        }
+        else
+        {
+            m_axisSection->setHidden(false);
+        }
+
+        Node::showDetails(tree);
+    }
+
+    void Vec2Node::hideDetails(QTreeWidget * tree)
+    {
+        m_axisSection->setHidden(true);
+
+        Node::hideDetails(tree);
+    }
 
     //====================================================================================================
     // Vector3 Node
@@ -201,11 +197,10 @@ namespace ShaderGraph
             m_spinBoxX(new QDoubleSpinBox()),
             m_spinBoxY(new QDoubleSpinBox()),
             m_spinBoxZ(new QDoubleSpinBox()),
-            m_detail(new QWidget()),
-            m_mainlayout(new QVBoxLayout()),
-            m_spinBoxXdetail(new QDoubleSpinBox()),
-            m_spinBoxYdetail(new QDoubleSpinBox()),
-            m_spinBoxZdetail(new QDoubleSpinBox())
+
+            m_detailsPanelSpinBoxX(new QDoubleSpinBox()),
+            m_detailsPanelSpinBoxY(new QDoubleSpinBox()),
+            m_detailsPanelSpinBoxZ(new QDoubleSpinBox())
     {
 
         outputs() = std::vector<PIN>{
@@ -228,86 +223,100 @@ namespace ShaderGraph
         m_spinBoxZ->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
-        connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec3Node::onValue);
-        connect(m_spinBoxY, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec3Node::onValue);
-        connect(m_spinBoxZ, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec3Node::onValue);
+        connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onValueChanged);
+        connect(m_spinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onValueChanged);
+        connect(m_spinBoxZ, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onValueChanged);
 
-        m_detail->setLayout(m_mainlayout);
-        m_mainlayout->addWidget(m_spinBoxXdetail);
-        m_mainlayout->addWidget(m_spinBoxYdetail);
-        m_mainlayout->addWidget(m_spinBoxZdetail);
+        m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
+        m_detailsPanelSpinBoxY->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxY->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxYdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
+        m_detailsPanelSpinBoxZ->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxZ->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxZdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
-        connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec3Node::onValueDetail);
-        connect(m_spinBoxYdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec3Node::onValueDetail);
-        connect(m_spinBoxZdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec3Node::onValueDetail);
-
+        connect(m_detailsPanelSpinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onDetailValueChanged);
+        connect(m_detailsPanelSpinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onDetailValueChanged);
+        connect(m_detailsPanelSpinBoxZ, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onDetailValueChanged);
     }
 
-    void Vec3Node::onValue()
+    /// Setter : the value of this node.
+    void Vec3Node::set(const glm::vec3& value)
     {
-        set(glm::vec3(m_spinBoxX->value(),
-                      m_spinBoxY->value(),
-                      m_spinBoxZ->value())
-                    );
-    }
-    void Vec3Node::onValueDetail()
-    {
-        set(glm::vec3(m_spinBoxXdetail->value(),
-                      m_spinBoxYdetail->value(),
-                      m_spinBoxZdetail->value())
-                    );
-    }
+        m_value = value;
+        m_spinBoxX->setValue(value.x);
+        m_spinBoxY->setValue(value.y);
+        m_spinBoxZ->setValue(value.z);
 
-    glm::vec3 Vec3Node::get()
-    {
-        return m_value;
-    }
-
-    void Vec3Node::set(const glm::vec3& v)
-    {
-      m_value = v;
-      m_spinBoxX->setValue(v[0]);
-      m_spinBoxY->setValue(v[1]);
-      m_spinBoxZ->setValue(v[2]);
-
-      m_spinBoxXdetail->setValue(v[0]);
-      m_spinBoxYdetail->setValue(v[1]);
-      m_spinBoxZdetail->setValue(v[2]);
+        m_detailsPanelSpinBoxX->setValue(value.x);
+        m_detailsPanelSpinBoxY->setValue(value.y);
+        m_detailsPanelSpinBoxZ->setValue(value.z);
     }
 
     void Vec3Node::showDetails(QVBoxLayout * layout)
     {
-        Node::showDetails(layout);
-        if( !isDetailsPanelLayoutInit()){
-            setDetailsPanelLayout(layout);
-            setDetailsPanelIndexLayout(layout->count());
-          layout->addWidget(m_detail);
-        }
-
-        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
-
-        set(m_value); // Allow update data
+        (void) layout;
     }
 
+    void Vec3Node::showDetails(QTreeWidget * tree)
+    {
+        if (m_axisSection == nullptr)
+        {
+            // Axis section
+            m_axisSection = new QTreeWidgetItem(tree);
+            m_axisSection->setText(0, "Axis");
+            m_axisSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_axisSection->setTextColor(0, QColor("white"));
+            m_axisSection->setExpanded(true);
 
+            // Red Channel section
+            m_xSection = new QTreeWidgetItem(m_axisSection);
+            m_xSection->setText(0, "X-Axis");
+            m_xSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_xSection->setTextColor(0, QColor("white"));
+            m_xSection->setExpanded(true);
+            // Red Channel item
+            m_xItem = new QTreeWidgetItem(m_xSection);
+            tree->setItemWidget(m_xItem, 0, m_detailsPanelSpinBoxX);
+
+            // Green Channel section
+            m_ySection = new QTreeWidgetItem(m_axisSection);
+            m_ySection->setText(0, "Y-Axis");
+            m_ySection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_ySection->setTextColor(0, QColor("white"));
+            m_ySection->setExpanded(true);
+            // Green Channel item
+            m_yItem = new QTreeWidgetItem(m_ySection);
+            tree->setItemWidget(m_yItem, 0, m_detailsPanelSpinBoxY);
+
+            // Blue Channel section
+            m_zSection = new QTreeWidgetItem(m_axisSection);
+            m_zSection->setText(0, "Z-Axis");
+            m_zSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_zSection->setTextColor(0, QColor("white"));
+            m_zSection->setExpanded(true);
+            // Blue Channel item
+            m_zItem = new QTreeWidgetItem(m_zSection);
+            tree->setItemWidget(m_zItem, 0, m_detailsPanelSpinBoxZ);
+        }
+        else
+        {
+            m_axisSection->setHidden(false);
+        }
+
+        Node::showDetails(tree);
+    }
+
+    void Vec3Node::hideDetails(QTreeWidget * tree)
+    {
+        m_axisSection->setHidden(true);
+
+        Node::hideDetails(tree);
+    }
 
     //====================================================================================================
     // Vector4 Node
@@ -323,12 +332,11 @@ namespace ShaderGraph
             m_spinBoxY(new QDoubleSpinBox()),
             m_spinBoxZ(new QDoubleSpinBox()),
             m_spinBoxW(new QDoubleSpinBox()),
-            m_detail(new QWidget()),
-            m_mainlayout(new QVBoxLayout()),
-            m_spinBoxXdetail(new QDoubleSpinBox()),
-            m_spinBoxYdetail(new QDoubleSpinBox()),
-            m_spinBoxZdetail(new QDoubleSpinBox()),
-            m_spinBoxWdetail(new QDoubleSpinBox())
+
+            m_detailsPanelSpinBoxX(new QDoubleSpinBox()),
+            m_detailsPanelSpinBoxY(new QDoubleSpinBox()),
+            m_detailsPanelSpinBoxZ(new QDoubleSpinBox()),
+            m_detailsPanelSpinBoxW(new QDoubleSpinBox())
     {
 
         outputs() = std::vector<PIN>{
@@ -356,97 +364,118 @@ namespace ShaderGraph
         m_spinBoxW->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxW->setFixedWidth(WIDGET_NODE_SIZE);
 
-        connect(m_spinBoxX, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValue);
-        connect(m_spinBoxY, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValue);
-        connect(m_spinBoxZ, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValue);
-        connect(m_spinBoxW, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValue);
+        connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
+        connect(m_spinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
+        connect(m_spinBoxZ, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
+        connect(m_spinBoxW, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
 
-        m_detail->setLayout(m_mainlayout);
-        m_mainlayout->addWidget(m_spinBoxXdetail);
-        m_mainlayout->addWidget(m_spinBoxYdetail);
-        m_mainlayout->addWidget(m_spinBoxZdetail);
-        m_mainlayout->addWidget(m_spinBoxWdetail);
+        m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxXdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxXdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxXdetail->setFixedWidth(WIDGET_NODE_SIZE);
+        m_detailsPanelSpinBoxY->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxY->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxY->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxYdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxYdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxYdetail->setFixedWidth(WIDGET_NODE_SIZE);
+        m_detailsPanelSpinBoxZ->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxZ->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxZ->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxZdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxZdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxZdetail->setFixedWidth(WIDGET_NODE_SIZE);
+        m_detailsPanelSpinBoxW->setSingleStep(SPINBOX_STEP);
+        m_detailsPanelSpinBoxW->setRange(-FLT_MAX, FLT_MAX);
+        m_detailsPanelSpinBoxW->setFixedWidth(WIDGET_NODE_SIZE);
 
-        m_spinBoxWdetail->setSingleStep(SPINBOX_STEP);
-        m_spinBoxWdetail->setRange(-FLT_MAX, FLT_MAX);
-        m_spinBoxWdetail->setFixedWidth(WIDGET_NODE_SIZE);
-
-        connect(m_spinBoxXdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValueDetail);
-        connect(m_spinBoxYdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValueDetail);
-        connect(m_spinBoxZdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValueDetail);
-        connect(m_spinBoxWdetail, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-                this,       &Vec4Node::onValueDetail);
+        connect(m_detailsPanelSpinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onDetailValueChanged);
+        connect(m_detailsPanelSpinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onDetailValueChanged);
+        connect(m_detailsPanelSpinBoxZ, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onDetailValueChanged);
+        connect(m_detailsPanelSpinBoxW, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onDetailValueChanged);
     }
 
-    void Vec4Node::onValue()
+    /// Setter : the value of this node.
+    void Vec4Node::set(const glm::vec4& value)
     {
-        set(glm::vec4(m_spinBoxX->value(),
-                      m_spinBoxY->value(),
-                      m_spinBoxZ->value(),
-                      m_spinBoxW->value())
-                    );
+        m_value = value;
+        m_spinBoxX->setValue(value.x);
+        m_spinBoxY->setValue(value.y);
+        m_spinBoxZ->setValue(value.z);
+        m_spinBoxW->setValue(value.w);
+
+        m_detailsPanelSpinBoxX->setValue(value.x);
+        m_detailsPanelSpinBoxY->setValue(value.y);
+        m_detailsPanelSpinBoxZ->setValue(value.z);
+        m_detailsPanelSpinBoxW->setValue(value.w);
     }
-    void Vec4Node::onValueDetail()
+
+    void Vec4Node::showDetails(QVBoxLayout * layout)
     {
-        set(glm::vec4(m_spinBoxXdetail->value(),
-                      m_spinBoxYdetail->value(),
-                      m_spinBoxZdetail->value(),
-                      m_spinBoxWdetail->value())
-                    );
+        (void) layout;
     }
 
-    glm::vec4 Vec4Node::get()
+    void Vec4Node::showDetails(QTreeWidget * tree)
     {
-        return m_value;
-    }
+        if (m_axisSection == nullptr)
+        {
+            // Axis section
+            m_axisSection = new QTreeWidgetItem(tree);
+            m_axisSection->setText(0, "Axis");
+            m_axisSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_axisSection->setTextColor(0, QColor("white"));
+            m_axisSection->setExpanded(true);
 
-    void Vec4Node::set(const glm::vec4& v)
-    {
-      m_value = v;
-      m_spinBoxX->setValue(v[0]);
-      m_spinBoxY->setValue(v[1]);
-      m_spinBoxZ->setValue(v[2]);
-      m_spinBoxW->setValue(v[3]);
+            // Red Channel section
+            m_xSection = new QTreeWidgetItem(m_axisSection);
+            m_xSection->setText(0, "X-Axis");
+            m_xSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_xSection->setTextColor(0, QColor("white"));
+            m_xSection->setExpanded(true);
+            // Red Channel item
+            m_xItem = new QTreeWidgetItem(m_xSection);
+            tree->setItemWidget(m_xItem, 0, m_detailsPanelSpinBoxX);
 
-      m_spinBoxXdetail->setValue(v[0]);
-      m_spinBoxYdetail->setValue(v[1]);
-      m_spinBoxZdetail->setValue(v[2]);
-      m_spinBoxWdetail->setValue(v[3]);
-    }
+            // Green Channel section
+            m_ySection = new QTreeWidgetItem(m_axisSection);
+            m_ySection->setText(0, "Y-Axis");
+            m_ySection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_ySection->setTextColor(0, QColor("white"));
+            m_ySection->setExpanded(true);
+            // Green Channel item
+            m_yItem = new QTreeWidgetItem(m_ySection);
+            tree->setItemWidget(m_yItem, 0, m_detailsPanelSpinBoxY);
 
-    void Vec4Node::showDetails(QVBoxLayout   * layout){
-        Node::showDetails(layout);
-        if( !isDetailsPanelLayoutInit()){
-            setDetailsPanelLayout(layout);
-            setDetailsPanelIndexLayout(layout->count());
-          layout->addWidget(m_detail);
+            // Blue Channel section
+            m_zSection = new QTreeWidgetItem(m_axisSection);
+            m_zSection->setText(0, "Z-Axis");
+            m_zSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_zSection->setTextColor(0, QColor("white"));
+            m_zSection->setExpanded(true);
+            // Blue Channel item
+            m_zItem = new QTreeWidgetItem(m_zSection);
+            tree->setItemWidget(m_zItem, 0, m_detailsPanelSpinBoxZ);
+
+            // Alpha Channel section
+            m_wSection = new QTreeWidgetItem(m_axisSection);
+            m_wSection->setText(0, "W-Axis");
+            m_wSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            m_wSection->setTextColor(0, QColor("white"));
+            m_wSection->setExpanded(true);
+            // Alpha Channel item
+            m_wItem = new QTreeWidgetItem(m_wSection);
+            tree->setItemWidget(m_wItem, 0, m_detailsPanelSpinBoxW);
+        }
+        else
+        {
+            m_axisSection->setHidden(false);
         }
 
-        layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
-
-        set(m_value); // Allow update data
+        Node::showDetails(tree);
     }
 
+    void Vec4Node::hideDetails(QTreeWidget * tree)
+    {
+        m_axisSection->setHidden(true);
 
+        Node::hideDetails(tree);
+    }
 
 
 }

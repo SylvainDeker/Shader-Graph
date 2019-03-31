@@ -33,7 +33,9 @@ namespace ShaderGraph
 
         void showDetails(QTreeWidget * tree) override;
 
-        void set(const QString & path);
+        void hideDetails(QTreeWidget * tree) override;
+
+        void setPath(const QString &path);
 
         std::string nodeToGLSL() override
         {
@@ -51,9 +53,15 @@ namespace ShaderGraph
         bool eventFilter(QObject *object, QEvent *event) override;
 
     private:
+        /// The path to the image.
         QString m_path;
+
+        /// Where the image will be displayed.
         QLabel * m_label;
+
+        /// Where the image is stored.
         QPixmap m_pixmap;
+
         // detail
         QWidget * m_detail;
         QLabel *m_labeldetail;

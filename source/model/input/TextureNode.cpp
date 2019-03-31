@@ -10,10 +10,7 @@ namespace ShaderGraph
     TextureNode::TextureNode() :
             Node("Texture", "Load a texture"),
             m_path(QString()),
-            m_label(new QLabel("Double click \n to load image")),
-            m_detail(new QWidget()),
-            m_labeldetail(new QLabel()),
-            m_mainlayout(new QVBoxLayout())
+            m_label(new QLabel("Double click \n to load image"))
 
     {
         inputs() = std::vector<PIN> {
@@ -28,20 +25,14 @@ namespace ShaderGraph
                 std::make_shared<Float>("A", this)    // Alpha channel
         };
 
-        m_label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-
         QFont font = m_label->font();
         font.setBold(true);
         font.setItalic(true);
         m_label->setFont(font);
 
+        m_label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
         m_label->setFixedSize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
-
         m_label->installEventFilter(this);
-
-        m_detail->setLayout(m_mainlayout);
-        m_mainlayout->addWidget(m_labeldetail);
-
 
         updateNodeValidation(NodeValidationState::Warning, "Invalid Texture");
     }
@@ -60,7 +51,7 @@ namespace ShaderGraph
                                                       tr("Open Image"),
                                                       QDir::currentPath(),
                                                       tr("Image Files (*.png *.jpg *.bmp)"));
-                set(m_path);
+                setPath(m_path);
                 return true;
 
             }
@@ -76,11 +67,12 @@ namespace ShaderGraph
         return false;
     }
 
-    void TextureNode::set(const QString & path) {
+    void TextureNode::setPath(const QString &path) {
       // Get the image in the Qt format : QPixmap
       m_pixmap = QPixmap(path);
       int w = m_label->width();
       int h = m_label->height();
+
       // If the image is valid display it else print a log message.
       if (!m_pixmap.isNull())
       {
@@ -99,22 +91,18 @@ namespace ShaderGraph
       emit dataUpdated(0);
     }
 
-    void TextureNode::showDetails(QVBoxLayout   * layout){
-      Node::showDetails(layout);
-      if( !isDetailsPanelLayoutInit()){
-          setDetailsPanelLayout(layout);
-          setDetailsPanelIndexLayout(layout->count());
-        layout->addWidget(m_detail);
-      }
-
-      layout->itemAt(getDetailsPanelIndexLayout())->widget()->setVisible(true);
-
-      set(m_path); // Allow update data
+    void TextureNode::showDetails(QVBoxLayout * layout)
+    {
+        (void) layout;
     }
 
     void TextureNode::showDetails(QTreeWidget * tree)
     {
-        (void) tree;
+        Node::showDetails(tree);
+    }
 
+    void TextureNode::hideDetails(QTreeWidget * tree)
+    {
+        Node::hideDetails(tree);
     }
 }

@@ -35,18 +35,14 @@ public:
 
   NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent = Q_NULLPTR);
 
-  void setAssociatedDetailsLayout(QVBoxLayout * layout) { m_detailslayout = layout; }
-
   inline void setDetailsTree(QTreeWidget * tree) { m_detailsTree = tree; }
 
 protected:
   void mousePressEvent(QMouseEvent *event) override;
 
 private:
-  QVBoxLayout * m_detailslayout;
-
-  QTreeWidget * m_detailsTree;
-  ShaderGraph::Node * m_detailedNode = nullptr;
+    QTreeWidget * m_detailsTree;
+    ShaderGraph::Node * m_detailedNode = nullptr;
 
 };
 

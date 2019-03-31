@@ -104,11 +104,6 @@ namespace ShaderGraph
         m_aSpinBox->setValue(color.alphaF());
     }
 
-    void ColorNode::showDetails(QVBoxLayout * layout)
-    {
-        (void) layout;
-    }
-
     void ColorNode::showDetails(QTreeWidget * tree)
     {
         if (m_rgbaSection == nullptr)

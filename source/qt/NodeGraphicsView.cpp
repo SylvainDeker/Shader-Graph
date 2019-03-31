@@ -4,16 +4,14 @@
 
 NodeGraphicsView::
 NodeGraphicsView(QWidget *parent):
-    FlowView(parent),
-    m_detailslayout(nullptr)
+    FlowView(parent)
 {
 
 }
 
 NodeGraphicsView::
 NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent):
-    FlowView(scene, parent),
-    m_detailslayout(nullptr)
+    FlowView(scene, parent)
 {
 
 }
@@ -22,17 +20,6 @@ NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent):
 void NodeGraphicsView::mousePressEvent(QMouseEvent *event)
 {
     std::vector<QtNodes::Node*> nodes = scene()->selectedNodes();
-
-//  if (!nodes.empty()) {
-//
-//      ShaderGraph::Node * md;
-//
-//      for (size_t i = 0; i < nodes.size(); i++) {
-//        md = dynamic_cast<ShaderGraph::Node *>(nodes[i]->nodeDataModel());
-//        md->showDetails(m_detailslayout);
-//      }
-//
-//  }
 
     if (nodes.empty())
     {
@@ -56,7 +43,6 @@ void NodeGraphicsView::mousePressEvent(QMouseEvent *event)
                 if (m_detailedNode) m_detailedNode->hideDetails(m_detailsTree);
                 m_detailedNode = sgNode;
 
-                sgNode->showDetails(m_detailslayout);
                 sgNode->showDetails(m_detailsTree);
 
                 hasPromotedNode = true;

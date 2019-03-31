@@ -38,8 +38,6 @@ public:
     inline FlowScene * getScene()   { return m_scene; }
     inline FlowView * getFlowView() { return m_graphicsView; }
 
-    void setAssociatedDetailsLayout(QVBoxLayout * layout);
-
     inline void setDetailsTree(QTreeWidget * tree) { m_graphicsView->setDetailsTree(tree); }
 
 private:

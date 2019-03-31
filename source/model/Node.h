@@ -140,22 +140,14 @@ namespace ShaderGraph
 
         /* ============================== Details ============================== */
 
-        /// Function that display properties in the layout (details)
-        virtual void showDetails(QVBoxLayout * layout);
-
-        /// Getter : The position in the layout given by the layout argument in showDetails function.
-        inline size_t getDetailsPanelIndexLayout() const { return m_detailsPanelIndexLayout; }
-
-        /// Function to know if a layout has already been set up (for details)
-        inline bool isDetailsPanelLayoutInit() const { return m_isDetailsPanelLayoutInit; }
-
-
+        /// Show all node's properties in the node panel.
         virtual void showDetails(QTreeWidget * tree);
 
+        /// Hide all node's properties from the node panel.
         virtual void hideDetails(QTreeWidget * tree);
 
+        /// @return : true if this node is showing its properties.
         inline bool isDetailedNode() const { return m_isDetailedNode; }
-
 
         /* ============================== Getter/Setter ============================== */
 

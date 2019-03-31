@@ -111,6 +111,14 @@ namespace ShaderGraph
         /// Getter : The error message of this node.
         QString validationMessage() const override { return m_validationMessage; }
 
+        /// Update the validation state of this node.
+        /// @warning : if the node is valid, no message will be displayed.
+        inline void updateNodeValidation(NodeValidationState state, QString message = "No message")
+        {
+            m_validationState = state;
+            m_validationMessage = message;
+        }
+
         /* ============================== Code Generation ============================== */
 
         /// Generate the name of @pin in the GLSL code.
@@ -179,14 +187,6 @@ namespace ShaderGraph
         {
           m_detailsPanelIndexLayout = idx;
           m_isDetailsPanelLayoutInit = true;
-        }
-
-        /// Update the validation state of this node.
-        /// @warning : if the node is valid, no message will be displayed.
-        inline void updateNodeValidation(NodeValidationState state, QString message = "No message")
-        {
-            m_validationState = state;
-            m_validationMessage = message;
         }
 
     private:

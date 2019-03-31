@@ -3,6 +3,29 @@
 
 namespace ShaderGraph
 {
+    enum EPinType
+    {
+        TEMPLATE,
+        BOOLEAN,
+        FLOAT,
+        VEC2,
+        VEC3,
+        VEC4
+    };
+
+    inline std::string pinTypeToString(EPinType type)
+    {
+        switch (type)
+        {
+            case EPinType::BOOLEAN :    return "Boolean";
+            case EPinType::FLOAT :      return "Float";
+            case EPinType::VEC2 :       return "Vec2";
+            case EPinType::VEC3 :       return "Vec3";
+            case EPinType::VEC4 :       return "Vec4";
+            default:                    return "Template";
+        }
+    }
+
     class IPin
     {
     public:
@@ -23,6 +46,10 @@ namespace ShaderGraph
         /// Getter : The connected pin.
         /// @return : nullptr if this pin isn't connected.
         virtual std::shared_ptr<QtNodes::NodeData> getConnectedPin() = 0;
+
+        virtual EPinType getType() = 0;
+
+        virtual void setType(EPinType type) = 0;
 
         /* ============================== Container / Owner ============================== */
 

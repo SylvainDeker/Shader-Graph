@@ -2,6 +2,8 @@
 #define SHADERGRAPH_DATA_H
 
 #include <memory>
+#include <vector>
+#include <string>
 
 #include <nodes/NodeData>
 #include <nodes/NodeDataModel>
@@ -9,6 +11,8 @@
 #include "Interface.h"
 
 #define PIN std::shared_ptr<QtNodes::NodeData>
+
+#define PIN_TEMPLATE_ALL std::vector<EPinType>{TEMPLATE, BOOLEAN, FLOAT, VEC2, VEC3, VEC4}
 
 namespace ShaderGraph
 {
@@ -24,10 +28,14 @@ namespace ShaderGraph
         /// @value : The default value of this pin.
         /// @name : The name of this pin.
         /// @owner : The node that contains this pin.
-        GenType(T value, QString name, QtNodes::NodeDataModel * owner) :
+        explicit GenType(T value,
+                         QString name,
+                         QtNodes::NodeDataModel * owner,
+                         EPinType type) :
             m_value(value),
             m_name(name),
-            m_owner(owner)
+            m_owner(owner),
+            m_type(type)
         {
 
         };
@@ -74,29 +82,39 @@ namespace ShaderGraph
 
         /// @return : Get name of this pin to std::string.
         inline std::string nameToGLSL() override { return m_name.toStdString(); }
+
+        inline EPinType getType() override { return m_type; }
+
+        inline void setType(EPinType type) override { m_type = type; };
     private:
+        /// The value.
         T m_value;
+
+        /// The name.
         QString m_name;
 
-        unsigned int m_inPinIndex;
+        /// The connected pin.
         std::shared_ptr<QtNodes::NodeData> m_inPin = nullptr;
 
+        /// The connected node.
         QtNodes::NodeDataModel * m_owner = nullptr;
+
+        EPinType m_type;
     };
 
     class Boolean : public GenType<bool>
     {
     public:
         /// Default constructor.
-        Boolean(QString name = "Boolean", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<bool>(false, name, owner)
+        explicit Boolean(QString name = "Boolean", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<bool>(false, name, owner, EPinType::BOOLEAN)
         {
 
         };
 
         /// Constructor.
-        Boolean(bool value, QString name = "Boolean", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<bool>(value, name, owner)
+        explicit Boolean(bool value, QString name = "Boolean", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<bool>(value, name, owner, EPinType::BOOLEAN)
         {
 
         };
@@ -118,15 +136,15 @@ namespace ShaderGraph
     {
     public:
         /// Default constructor.
-        Float(QString name = "Float", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<float>(0.0f, name, owner)
+        explicit Float(QString name = "Float", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<float>(0.0f, name, owner, EPinType::FLOAT)
         {
 
         };
 
         /// Constructor.
-        Float(float value, QString name = "Float", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<float>(value, name, owner)
+        explicit Float(float value, QString name = "Float", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<float>(value, name, owner, EPinType::FLOAT)
         {
 
         };
@@ -148,15 +166,15 @@ namespace ShaderGraph
     {
     public:
         /// Default constructor.
-        Vector2(QString name = "Vector2D", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<glm::vec2>(glm::vec2(0.0f), name, owner)
+        explicit Vector2(QString name = "Vector2D", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<glm::vec2>(glm::vec2(0.0f), name, owner, EPinType::VEC2)
         {
 
         };
 
         /// Constructor.
-        Vector2(glm::vec2 value, QString name = "Vector2D", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<glm::vec2>(value, name, owner)
+        explicit Vector2(glm::vec2 value, QString name = "Vector2D", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<glm::vec2>(value, name, owner, EPinType::VEC2)
         {
 
         };
@@ -178,15 +196,15 @@ namespace ShaderGraph
     {
     public:
         /// Default constructor.
-        Vector3(QString name = "Vector3D", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<glm::vec3>(glm::vec3(0.0f), name, owner)
+        explicit Vector3(QString name = "Vector3D", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<glm::vec3>(glm::vec3(0.0f), name, owner, EPinType::VEC3)
         {
 
         };
 
         /// Constructor.
-        Vector3(glm::vec3 value, QString name = "Vector3D", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<glm::vec3>(value, name, owner)
+        explicit Vector3(glm::vec3 value, QString name = "Vector3D", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<glm::vec3>(value, name, owner, EPinType::VEC3)
         {
 
         };
@@ -208,15 +226,15 @@ namespace ShaderGraph
     {
     public:
         /// Default constructor.
-        Vector4(QString name = "Vector4D", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<glm::vec4>(glm::vec4(0.0f), name, owner)
+        explicit Vector4(QString name = "Vector4D", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<glm::vec4>(glm::vec4(0.0f), name, owner, EPinType::VEC4)
         {
 
         };
 
         /// Constructor.
-        Vector4(glm::vec4 value, QString name = "Vector4D", QtNodes::NodeDataModel * owner = nullptr) :
-            GenType<glm::vec4>(value, name, owner)
+        explicit Vector4(glm::vec4 value, QString name = "Vector4D", QtNodes::NodeDataModel * owner = nullptr) :
+            GenType<glm::vec4>(value, name, owner, EPinType::VEC4)
         {
 
         };
@@ -232,6 +250,124 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "vec4(0.0f)"; }
+    };
+
+    class Template : public GenType<int>
+    {
+    public:
+        /// Default constructor.
+        explicit Template(EPinType type,
+                          QString name = "T",
+                          QtNodes::NodeDataModel * owner = nullptr) :
+                GenType<int>(0, name, owner, EPinType::TEMPLATE),
+                m_connectableTypes(std::vector<EPinType>{type})
+        {
+            setPinType(type);
+        };
+
+        /// Default constructor.
+        explicit Template(std::vector<EPinType> connectableTypes = PIN_TEMPLATE_ALL,
+                          QString name = "T",
+                          QtNodes::NodeDataModel * owner = nullptr) :
+                GenType<int>(0, name, owner, EPinType::TEMPLATE),
+                m_connectableTypes(connectableTypes)
+        {
+
+        };
+
+        inline bool checkType(EPinType type)
+        {
+            auto types = m_connectableTypes; // alias
+            return (std::find(types.begin(), types.end(), type) != types.end());
+        }
+
+        /// Connect this pin.
+        inline void connect(PIN inPin) override
+        {
+            auto pin = std::dynamic_pointer_cast<IPin>(inPin);
+
+            if (pin == nullptr)
+            {
+                LOG_ERROR("Template::connect : the connected node doesn't implement IPin");
+            }
+            else
+            {
+                if (!checkType(pin->getType()))
+                {
+                    LOG_ERROR("Template::setPin : Invalid pin type : the IN type can be :");
+                    for (EPinType connectableType : m_connectableTypes)
+                    {
+                        LOG_ERROR(pinTypeToString(connectableType));
+                    }
+                    LOG_ERROR("And not : {0}.", pinTypeToString(pin->getType()));
+                }
+                else
+                {
+                    GenType::connect(inPin);
+                }
+            }
+        }
+
+        /// @return : the id and the name of this data.
+        QtNodes::NodeDataType type() const override
+        {
+            return QtNodes::NodeDataType{"Template", name()};
+        }
+
+        /// @return : Get the GLSL type (in string) which represents this pin.
+        inline std::string typeToGLSL() override
+        {
+            auto pin = dynamic_cast<IPin*>(m_pin);
+
+            if (!pin)
+            {
+                LOG_ERROR("Template:typeToGLSL : This pin doesn't implement IPin");
+                return "FATAL ERROR";
+            }
+
+            return pin->typeToGLSL();
+        }
+
+        // TODO : comment me :)
+        std::string defaultValueToGLSL() override
+        {
+            auto pin = dynamic_cast<IPin*>(m_pin);
+
+            if (!pin)
+            {
+                LOG_ERROR("Template:typeToGLSL : This pin doesn't implement IPin");
+                return "FATAL ERROR";
+            }
+
+            return pin->defaultValueToGLSL();
+        }
+
+        inline QtNodes::NodeData * getPin() { return m_pin; }
+
+        inline void setPinType(EPinType type)
+        {
+            if (!checkType(type))
+            {
+                LOG_ERROR("Template::setPin : Invalid pin type : the IN type can be :");
+                for (EPinType connectableType : m_connectableTypes)
+                {
+                    LOG_ERROR(pinTypeToString(connectableType));
+                }
+                LOG_ERROR("And not : {0}.", pinTypeToString(type));
+
+                return;
+            }
+
+            LOG_DEBUG("Set the template to : {0}", pinTypeToString(type));
+
+            setType(type);
+        }
+
+    private:
+
+        std::vector<EPinType> m_connectableTypes;
+
+        QtNodes::NodeData * m_pin = nullptr;
     };
 }
 

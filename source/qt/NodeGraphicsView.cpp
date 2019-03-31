@@ -4,15 +4,13 @@
 
 #include "../model/output/MasterMaterialOutput.h"
 
-NodeGraphicsView::
-NodeGraphicsView(QWidget *parent):
+NodeGraphicsView::NodeGraphicsView(QWidget *parent):
     FlowView(parent)
 {
 
 }
 
-NodeGraphicsView::
-NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent):
+NodeGraphicsView::NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent):
     FlowView(scene, parent)
 {
 

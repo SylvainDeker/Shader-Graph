@@ -11,4 +11,6 @@
 
 #include "operator/Operator.h"
 
+#include "abstractor/Abstractor.h"
+
 #endif //SHADERGRAPH_NODEDECL_H

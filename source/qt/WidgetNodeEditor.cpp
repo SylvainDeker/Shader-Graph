@@ -31,6 +31,8 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec4Node>("Vector");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec4Node>("Vector");
 
+    REGISTER_ABSTRACTOR_OPERATORS(nodeManager.registry());
+
     REGISTER_BOOL_OPERATORS(nodeManager.registry());
     REGISTER_FLOAT_OPERATORS(nodeManager.registry());
     REGISTER_VECTOR2_OPERATORS(nodeManager.registry());

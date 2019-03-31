@@ -34,7 +34,7 @@ public:
   NodeGraphicsView(QWidget *parent = Q_NULLPTR);
 
   NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent = Q_NULLPTR);
-  
+
   inline void setDetailsTree(QTreeWidget * tree) { m_detailsTree = tree; }
 
 protected:

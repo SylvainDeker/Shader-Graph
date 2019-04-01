@@ -172,29 +172,8 @@ namespace ShaderGraph
         //        Needed by autoName.
         std::vector<PIN>& details() { return m_details; }
 
-      protected:
-
-        /// Setter : Details panel layout
-        inline void setDetailsPanelLayout(QVBoxLayout *layout) { m_detailsPanelLayout = layout; }
-
-        /// Setter : The index of the details layout in the previous function.
-        inline void setDetailsPanelIndexLayout(unsigned int idx)
-        {
-          m_detailsPanelIndexLayout = idx;
-          m_isDetailsPanelLayoutInit = true;
-        }
-
     private:
-        // TODO : comment me :)
-        QVBoxLayout * m_detailsPanelLayout = nullptr;
-
-        // TODO : comment me :)
-        size_t m_detailsPanelIndexLayout = 0;
-
-        // TODO : comment me :)
-        bool m_isDetailsPanelLayoutInit = false;
-
-
+        /// True if this node is displayed on the details panel.
         bool m_isDetailedNode = false;
 
         /// The name of the node or what will be displayed on the screen.

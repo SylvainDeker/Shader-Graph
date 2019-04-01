@@ -1,8 +1,9 @@
 #ifndef SHADERGRAPH_ABSTRACTOR_H
 #define SHADERGRAPH_ABSTRACTOR_H
 
-#include "pin/Pin.h"
 #include "../Node.h"
+
+#include "../../pin/PinDecl.h"
 
 #define REGISTER_ABSTRACTOR_OPERATORS(_register_) \
 _register_->registerModel<ShaderGraph::Vec4ToTemplate>("Abstractor"); \
@@ -18,9 +19,7 @@ namespace ShaderGraph
         Vec4ToTemplate() : Node("Vec4ToTemplate")
         {
             outputs() = std::vector<PIN> {
-                    std::make_shared<Template>(EPinType::VEC4,
-                                               "Result",
-                                               this)
+                    std::make_shared<Template>(VEC4, 0, "Result", this)
             };
 
             inputs() = std::vector<PIN> {
@@ -42,9 +41,7 @@ namespace ShaderGraph
         Vec2ToTemplate() : Node("Vec2ToTemplate")
         {
             outputs() = std::vector<PIN> {
-                    std::make_shared<Template>(EPinType::VEC2,
-                                               "Result",
-                                               this)
+                    std::make_shared<Template>(VEC4, 0, "Result", this)
             };
 
             inputs() = std::vector<PIN> {
@@ -66,13 +63,15 @@ namespace ShaderGraph
         FxVecN() : Node("FxVecN")
         {
             outputs() = std::vector<PIN> {
-                    std::make_shared<Template>(std::vector<EPinType> { FLOAT, VEC2, VEC3, VEC4 },
+                    std::make_shared<Template>(std::vector<EPinType> {FLOAT, VEC2, VEC3, VEC4},
+                                               0,
                                                "Result",
                                                this)
             };
 
             inputs() = std::vector<PIN> {
-                    std::make_shared<Template>(std::vector<EPinType> { FLOAT, VEC2, VEC3, VEC4 },
+                    std::make_shared<Template>(std::vector<EPinType> {FLOAT, VEC2, VEC3, VEC4},
+                                               0,
                                                "Input",
                                                this)
             };
@@ -92,15 +91,11 @@ namespace ShaderGraph
         GxOnlyVec2() : Node("GxOnlyVec2")
         {
             outputs() = std::vector<PIN> {
-                    std::make_shared<Template>(std::vector<EPinType> { VEC2 },
-                                               "Result",
-                                               this)
+                    std::make_shared<Template>(std::vector<EPinType> {VEC2}, 0, "Result", this)
             };
 
             inputs() = std::vector<PIN> {
-                    std::make_shared<Template>(std::vector<EPinType> { VEC2 },
-                                               "Input",
-                                               this)
+                    std::make_shared<Template>(std::vector<EPinType> {VEC2}, 0, "Input", this)
             };
         }
 

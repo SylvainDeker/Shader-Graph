@@ -92,7 +92,7 @@ namespace ShaderGraph
             return pin->typeToGLSL();
         }
 
-        // TODO : comment me :)
+        // @return : Get the GLSL default value (in string) in case of this pin is disconnected during code generation.
         std::string defaultValueToGLSL() override
         {
             auto pin = dynamic_cast<IPin*>(m_pin);

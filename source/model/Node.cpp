@@ -105,6 +105,54 @@ namespace ShaderGraph
         return "id" + std::to_string(m_id) + "_" + pin->type().name.toStdString();
     }
 
+    std::vector<PIN>& Node::inputs(){
+      assert(
+        ([ &pins = m_inputs]() -> bool{
+          for (size_t i = 0; i< pins.size();i++){
+            for (size_t j = 0; j< pins.size()/2;j++){
+              if(i!=j && pins[i]->type().name.toStdString() == pins[j]->type().name.toStdString()){
+                 return false;
+              }
+            }
+          }
+        return true;}
+      )()
+      );
+      return m_inputs;
+    }
+
+    std::vector<PIN>& Node::outputs(){
+      assert(
+        ([&pins = m_outputs]() -> bool{
+          for (size_t i = 0; i< pins.size();i++){
+            for (size_t j = 0; j< pins.size()/2;j++){
+              if(i!=j && pins[i]->type().name.toStdString() == pins[j]->type().name.toStdString()){
+                 return false;
+              }
+            }
+          }
+        return true;}
+      )()
+      );
+      return m_outputs;
+    }
+
+    std::vector<PIN>& Node::details(){
+      assert(
+        ([&pins = m_details]() -> bool{
+          for (size_t i = 0; i< pins.size();i++){
+            for (size_t j = 0; j< pins.size()/2;j++){
+              if(i!=j && pins[i]->type().name.toStdString() == pins[j]->type().name.toStdString()){
+                 return false;
+              }
+            }
+          }
+        return true;}
+      )()
+      );
+      return m_details;
+    }
+
     std::string Node::outputsToGLSL()
     {
         std::string code = "";

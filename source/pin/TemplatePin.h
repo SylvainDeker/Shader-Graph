@@ -100,7 +100,7 @@ namespace ShaderGraph
 
         /// Getter : The "true" pin.
         inline QtNodes::NodeData * getPin() { return m_pin; }
-
+        
         /// Setter : The "true" pin.
         void setPinType(EPinType type);
 

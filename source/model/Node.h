@@ -158,21 +158,24 @@ namespace ShaderGraph
         inline unsigned int getID() const { return m_id; };
 
         /// Getter to the reference to a vector of inputs.
-        // TODO : Make sure that every PIN name, in @m_inputs and @m_details, are unique.
-        //        Needed by autoName.
-        std::vector<PIN>& inputs()  { return m_inputs;  }
+        std::vector<PIN>& inputs();
 
         /// Getter to the reference to a vector of outputs.
-        // TODO : Make sure that every PIN name in @m_outputs are unique.
-        //        Needed by autoName.
-        std::vector<PIN>& outputs() { return m_outputs; }
+        std::vector<PIN>& outputs();
 
         /// Getter to the reference to a vector of details.
-        // TODO : Make sure that every PIN name, in @m_inputs and @m_details, are unique.
-        //        Needed by autoName.
-        std::vector<PIN>& details() { return m_details; }
+        std::vector<PIN>& details();
 
     private:
+        /// Pointer on QVBoxLayoutdetails where this node is just a item of this
+        QVBoxLayout * m_detailsPanelLayout = nullptr;
+
+        /// Index of this details in the QVBoxLayout
+        size_t m_detailsPanelIndexLayout = 0;
+
+        /// Used to avoid to delete Widgets
+        bool m_isDetailsPanelLayoutInit = false;
+
         /// True if this node is displayed on the details panel.
         bool m_isDetailedNode = false;
 

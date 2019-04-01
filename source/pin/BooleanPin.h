@@ -33,7 +33,7 @@ namespace ShaderGraph
         /// @return : Get the GLSL type (in string) which represents this pin.
         std::string typeToGLSL() override { return "bool"; }
 
-        // TODO : comment me
+        // @return : Get the GLSL boolean default value (in string) in case of this pin is disconnected during code generation.
         std::string defaultValueToGLSL() override { return "false"; }
     };
 }

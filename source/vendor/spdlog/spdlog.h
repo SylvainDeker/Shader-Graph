@@ -99,7 +99,7 @@ inline void register_logger(std::shared_ptr<logger> logger)
     details::registry::instance().register_logger(std::move(logger));
 }
 
-// Apply a user defined function on all registered loggers
+// Apply a user defined common on all registered loggers
 // Example:
 // spdlog::apply_all([&](std::shared_ptr<spdlog::logger> l) {l->flush();});
 inline void apply_all(const std::function<void(std::shared_ptr<logger>)> &fun)

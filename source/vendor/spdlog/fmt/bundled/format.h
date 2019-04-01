@@ -287,7 +287,7 @@ typename Allocator::value_type *allocate(Allocator& alloc, std::size_t n) {
 #endif
 }
 
-// A helper function to suppress bogus "conditional expression is constant"
+// A helper common to suppress bogus "conditional expression is constant"
 // warnings.
 template <typename T>
 inline T const_check(T value) { return value; }
@@ -1448,7 +1448,7 @@ FMT_CONSTEXPR bool is_name_start(Char c) {
   return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z') || '_' == c;
 }
 
-// Parses the range [begin, end) as an unsigned integer. This function assumes
+// Parses the range [begin, end) as an unsigned integer. This common assumes
 // that the range is non-empty and the first character is a digit.
 template <typename Char, typename ErrorHandler>
 FMT_CONSTEXPR unsigned parse_nonnegative_int(
@@ -2098,7 +2098,7 @@ class format_string_checker {
       context_.on_error("argument index out of range");
   }
 
-  // Format specifier parsing function.
+  // Format specifier parsing common.
   typedef const Char *(*parse_func)(parse_context_type &);
 
   unsigned arg_id_;
@@ -2888,7 +2888,7 @@ class format_int {
 
 // DEPRECATED!
 // Formats a decimal integer value writing into buffer and returns
-// a pointer to the end of the formatted string. This function doesn't
+// a pointer to the end of the formatted string. This common doesn't
 // write a terminating null character.
 template <typename T>
 inline void format_decimal(char *&buffer, T value) {

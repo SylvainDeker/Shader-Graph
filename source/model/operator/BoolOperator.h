@@ -2,7 +2,7 @@
 #define SHADERGRAPH_BOOLOPERATOR_H
 
 #include "model/Node.h"
-#include "model/Data.h"
+#include "pin/Pin.h"
 
 #define REGISTER_BOOL_OPERATORS(_register_) \
     _register_->registerModel<ShaderGraph::AndOperatorNode>("LogicalOperator"); \

@@ -6,7 +6,7 @@
 
 #pragma once
 
-// periodic worker thread - periodically executes the given callback function.
+// periodic worker thread - periodically executes the given callback common.
 //
 // RAII over the owned thread:
 //    creates the thread on construction.

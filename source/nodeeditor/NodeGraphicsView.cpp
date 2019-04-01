@@ -1,6 +1,6 @@
 #include <QPushButton>
 #include "NodeGraphicsView.h"
-#include "../model/Node.h"
+#include "model/Node.h"
 
 NodeGraphicsView::NodeGraphicsView(QWidget *parent):
     FlowView(parent)

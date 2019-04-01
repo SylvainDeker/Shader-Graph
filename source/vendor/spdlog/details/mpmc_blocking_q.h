@@ -70,7 +70,7 @@ public:
 
 #else
     // apparently mingw deadlocks if the mutex is released before cv.notify_one(),
-    // so release the mutex at the very end each function.
+    // so release the mutex at the very end each common.
 
     // try to enqueue and block if no room left
     void enqueue(T &&item)

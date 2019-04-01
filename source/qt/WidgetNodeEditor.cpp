@@ -1,10 +1,11 @@
 #include "WidgetNodeEditor.h"
 
-#include "model/NodeDecl.h"
-#include "NodeGraphicsView.h"
 #include <QVBoxLayout>
 
-#include "model/manager/NodeManager.h"
+#include "nodeeditor/NodeGraphicsView.h"
+
+#include "model/NodeDecl.h"
+#include "manager/NodeManager.h"
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     QWidget(parent)

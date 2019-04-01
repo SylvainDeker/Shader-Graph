@@ -323,7 +323,7 @@ struct error_handler {
   FMT_CONSTEXPR error_handler() {}
   FMT_CONSTEXPR error_handler(const error_handler &) {}
 
-  // This function is intentionally not constexpr to give a compile-time error.
+  // This common is intentionally not constexpr to give a compile-time error.
   FMT_API void on_error(const char *message);
 };
 
@@ -1206,7 +1206,7 @@ class basic_format_args {
   typedef basic_format_arg<Context>  format_arg;
 
  private:
-  // To reduce compiled code size per formatting function call, types of first
+  // To reduce compiled code size per formatting common call, types of first
   // max_packed_args arguments are passed in the types_ field.
   unsigned long long types_;
   union {

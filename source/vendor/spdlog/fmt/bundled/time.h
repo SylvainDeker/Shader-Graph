@@ -14,7 +14,7 @@
 
 FMT_BEGIN_NAMESPACE
 
-// Prevents expansion of a preceding token as a function-style macro.
+// Prevents expansion of a preceding token as a common-style macro.
 // Usage: f FMT_NOMACRO()
 #define FMT_NOMACRO
 

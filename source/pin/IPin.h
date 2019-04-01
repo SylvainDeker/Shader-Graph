@@ -1,6 +1,11 @@
 #ifndef SHADERGRAPH_INTERFACE_H
 #define SHADERGRAPH_INTERFACE_H
 
+#include <nodes/NodeData>
+#include <nodes/NodeDataModel>
+
+#include <core/Core.h>
+
 namespace ShaderGraph
 {
     enum EPinType

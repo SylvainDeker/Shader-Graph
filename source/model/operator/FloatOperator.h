@@ -2,7 +2,7 @@
 #define SHADERGRAPH_FLOATOPERATOR_H
 
 #include "model/Node.h"
-#include "model/Data.h"
+#include "pin/Pin.h"
 
 #define REGISTER_FLOAT_OPERATORS(_register_) \
     _register_->registerModel<ShaderGraph::AddFloatNode>("Operator"); \

@@ -2,7 +2,7 @@
 #define SHADERGRAPH_VEC3OPERATOR_H
 
 #include "model/Node.h"
-#include "model/Data.h"
+#include "pin/Pin.h"
 
 #define REGISTER_VECTOR3_OPERATORS(_register_) \
     _register_->registerModel<ShaderGraph::AddVector3Node>("Operator"); \

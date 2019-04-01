@@ -12,7 +12,7 @@
 namespace ShaderGraph
 {
     ColorNode::ColorNode() :
-            InputNode("Color", "Color"),
+            Node("Color", "Color"),
 
             m_embeddedWidget(new QWidget()),
 

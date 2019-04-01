@@ -98,7 +98,7 @@ void format_value(basic_buffer<Char> &buffer, const T &value) {
 }  // namespace internal
 
 // Disable conversion to int if T has an overloaded operator<< which is a free
-// function (not a member of std::ostream).
+// common (not a member of std::ostream).
 template <typename T, typename Char>
 struct convert_to_int<T, Char, void> {
   static const bool value =

@@ -1,22 +1,24 @@
 #ifndef SHADERGRAPH_VECTORNODE_H
 #define SHADERGRAPH_VECTORNODE_H
 
-#include "model/InputNode.h"
-
 #include <memory>
 #include <limits>
 
 #include <QBoxLayout>
+#include <QTreeWidget>
 #include <QDoubleSpinBox>
+#include <QTreeWidgetItem>
 
 #include <core/Core.h>
+
+#include "../Node.h"
 
 #define SPINBOX_STEP 0.1
 #define SPINBOX_VALUE_CHANGED_SLOT static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged)
 
 namespace ShaderGraph
 {
-  class ScalarNode : public InputNode
+  class ScalarNode : public Node
   {
       Q_OBJECT
 
@@ -77,7 +79,7 @@ namespace ShaderGraph
       /* =============== End QTreeWidget items definition ===============*/
   };
 
-    class Vec2Node : public InputNode
+    class Vec2Node : public Node
     {
         Q_OBJECT
 
@@ -153,7 +155,7 @@ namespace ShaderGraph
         /* =============== End QTreeWidget items definition ===============*/
     };
 
-    class Vec3Node : public InputNode
+    class Vec3Node : public Node
     {
         Q_OBJECT
 
@@ -237,7 +239,7 @@ namespace ShaderGraph
 
     };
 
-    class Vec4Node : public InputNode
+    class Vec4Node : public Node
     {
         Q_OBJECT
 

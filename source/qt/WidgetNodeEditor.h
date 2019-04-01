@@ -23,6 +23,7 @@
 #include "NodeGraphicsView.h"
 #include "../model/output/MasterMaterialOutput.h"
 
+#include "nodeeditor/NodeGraphicsView.h"
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -33,9 +34,9 @@ class WidgetNodeEditor : public QWidget
 {
     Q_OBJECT
 public:
-    WidgetNodeEditor(QWidget *parent = nullptr);
+    explicit WidgetNodeEditor(QWidget *parent = nullptr);
 
-    ~WidgetNodeEditor() = default;
+    ~WidgetNodeEditor() override = default;
 
     inline FlowScene * getScene()   { return m_scene; }
     inline FlowView * getFlowView() { return m_graphicsView; }

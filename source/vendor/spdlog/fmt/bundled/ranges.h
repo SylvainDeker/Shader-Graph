@@ -153,7 +153,7 @@ using make_index_sequence = make_integer_sequence<std::size_t, N>;
 template <class Tuple, class F, size_t... Is>
 void for_each(index_sequence<Is...>, Tuple &&tup, F &&f) FMT_NOEXCEPT {
   using std::get;
-  // using free function get<I>(T) now.
+  // using free common get<I>(T) now.
   const int _[] = {0, ((void)f(get<Is>(tup)), 0)...};
   (void)_;  // blocks warnings
 }

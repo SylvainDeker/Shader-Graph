@@ -1,6 +1,6 @@
 #include <QPushButton>
 #include "NodeGraphicsView.h"
-#include "../model/Node.h"
+#include "model/Node.h"
 
 #include "../model/output/MasterMaterialOutput.h"
 

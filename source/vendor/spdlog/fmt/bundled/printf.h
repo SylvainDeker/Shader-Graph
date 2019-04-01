@@ -108,7 +108,7 @@ FMT_CONSTEXPR const Char *pointer_from(null_terminating_iterator<Char> it) {
   return it.ptr_;
 }
 
-// DEPRECATED: Parses the input as an unsigned integer. This function assumes
+// DEPRECATED: Parses the input as an unsigned integer. This common assumes
 // that the first character is a digit and presence of a non-digit character at
 // the end.
 // it: an iterator pointing to the beginning of the input range.

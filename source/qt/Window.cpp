@@ -56,7 +56,7 @@ Window::Window(QWidget * Parent) :
     //         It needs a bit a delay to display the build scene.
     QTimer::singleShot(100, m_ui->preview, SLOT(update()));
 
-    // Step 4 : Create the function tree view
+    // Step 4 : Create the common tree view
     QtNodes::FlowScene * scene = m_ui->nodeEditor->getScene();
 
     m_ui->treeWidget->header()->close();
@@ -75,7 +75,7 @@ Window::Window(QWidget * Parent) :
       }
     }
 
-    // Push each function
+    // Push each common
     for (auto const &assoc : scene->registry().registeredModelsCategoryAssociation())
     {
         auto parent = m_internalFunctionTree[assoc.second];

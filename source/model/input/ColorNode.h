@@ -1,25 +1,22 @@
 #ifndef SHADERGRAPH_COLORNODE_H
 #define SHADERGRAPH_COLORNODE_H
 
-#include "model/InputNode.h"
-
 #include <memory>
 
 #include <QWidget>
-#include <QMouseEvent>
 #include <QColor>
 #include <QDoubleSpinBox>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 
 #include <core/Core.h>
+
+#include "../Node.h"
 
 #define DEFAULT_COLOR QColor(Qt::white)
 #define SPINBOX_VALUE_CHANGED_SLOT static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged)
 
 namespace ShaderGraph
 {
-    class ColorNode : public InputNode
+    class ColorNode : public Node
     {
         Q_OBJECT
 

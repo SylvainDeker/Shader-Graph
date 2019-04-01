@@ -8,20 +8,15 @@
 #include <QVBoxLayout>
 #include <QLayoutItem>
 #include <QLayout>
-
-// WIP
-
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 
 #include <core/Core.h>
 
-#include "Data.h"
-#include "Interface.h"
+#include "../pin/PinDecl.h"
 
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
-
 
 #define GLSL_CODE(_code_, ...) \
 do \

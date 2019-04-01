@@ -1,7 +1,7 @@
 #ifndef SHADERGRAPH_ABSTRACTOR_H
 #define SHADERGRAPH_ABSTRACTOR_H
 
-#include "../Data.h"
+#include "pin/Pin.h"
 #include "../Node.h"
 
 #define REGISTER_ABSTRACTOR_OPERATORS(_register_) \

@@ -2,7 +2,7 @@
 #define SHADERGRAPH_VEC4OPERATOR_H
 
 #include "model/Node.h"
-#include "model/Data.h"
+#include "pin/Pin.h"
 
 #define REGISTER_VECTOR4_OPERATORS(_register_) \
     _register_->registerModel<ShaderGraph::AddVector4Node>("Operator"); \

@@ -7,6 +7,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QVBoxLayout>
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
 
 #include <nodes/Node>
 #include <nodes/NodeData>
@@ -17,23 +19,18 @@
 #include <nodes/DataModelRegistry>
 #include <nodes/ConnectionStyle>
 
-// WIP
-
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
-
 #include <core/Core.h>
 
-#include "../model/Node.h"
+#include "model/Node.h"
 
 class NodeGraphicsView : public QtNodes::FlowView {
 
   Q_OBJECT
 
 public:
-  NodeGraphicsView(QWidget *parent = Q_NULLPTR);
+  explicit NodeGraphicsView(QWidget *parent = Q_NULLPTR);
 
-  NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent = Q_NULLPTR);
+  explicit NodeGraphicsView(QtNodes::FlowScene *scene, QWidget *parent = Q_NULLPTR);
 
   inline void setDetailsTree(QTreeWidget * tree) { m_detailsTree = tree; }
 
@@ -45,6 +42,5 @@ private:
     ShaderGraph::Node * m_detailedNode = nullptr;
 
 };
-
 
 #endif // SHADERGRAPH_NODEGRAPHICSVIEW_H

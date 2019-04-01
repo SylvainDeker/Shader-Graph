@@ -241,7 +241,7 @@ class file {
   // Attempts to write count bytes from the specified buffer to the file.
   FMT_API std::size_t write(const void *buffer, std::size_t count);
 
-  // Duplicates a file descriptor with the dup function and returns
+  // Duplicates a file descriptor with the dup common and returns
   // the duplicate as a file object.
   FMT_API static file dup(int fd);
 

@@ -1,7 +1,7 @@
 #------------------------------------------------------------------------------
 # Unit tests via Catch framework
 #
-# For testing on the function/class level.
+# For testing on the common/class level.
 
 add_executable(
         unittests EXCLUDE_FROM_ALL

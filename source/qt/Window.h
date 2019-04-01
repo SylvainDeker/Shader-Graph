@@ -6,7 +6,7 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
-#include "../core/Core.h"
+#include <core/Core.h>
 
 namespace Ui { class Window; }
 

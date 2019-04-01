@@ -2,7 +2,7 @@
 #define SHADERGRAPH_MASTERMATERIALOUTPUT_H
 
 #include "../Node.h"
-#include "../Data.h"
+#include "pin/Pin.h"
 
 namespace ShaderGraph
 {

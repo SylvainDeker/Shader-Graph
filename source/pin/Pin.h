@@ -14,8 +14,6 @@
 
 #define PIN std::shared_ptr<QtNodes::NodeData>
 
-#define PIN_TEMPLATE_ALL std::vector<EPinType>{TEMPLATE, BOOLEAN, FLOAT, VEC2, VEC3, VEC4}
-
 namespace ShaderGraph
 {
     template<typename T>

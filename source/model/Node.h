@@ -166,29 +166,8 @@ namespace ShaderGraph
         /// Getter to the reference to a vector of details.
         std::vector<PIN>& details();
 
-      protected:
-
-        /// Setter : Details panel layout
-        inline void setDetailsPanelLayout(QVBoxLayout *layout) { m_detailsPanelLayout = layout; }
-
-        /// Setter : The index of the details layout in the previous function.
-        inline void setDetailsPanelIndexLayout(unsigned int idx)
-        {
-          m_detailsPanelIndexLayout = idx;
-          m_isDetailsPanelLayoutInit = true;
-        }
-
     private:
-        /// Pointer on QVBoxLayoutdetails where this node is just a item of this
-        QVBoxLayout * m_detailsPanelLayout = nullptr;
-
-        /// Index of this details in the QVBoxLayout
-        size_t m_detailsPanelIndexLayout = 0;
-
-        /// Used to avoid to delete Widgets
-        bool m_isDetailsPanelLayoutInit = false;
-
-        /// Used to keep a state in memory
+        /// True if this node is displayed on the details panel.
         bool m_isDetailedNode = false;
 
         /// The name of the node or what will be displayed on the screen.

@@ -14,62 +14,66 @@ namespace ShaderGraph
     class Template : public GenType<int>
     {
     public:
-        /// Default constructor.
+        /// Constructor :
+        /// Use this constructor to initialize a template pin with a known value.
+        /// @type : The type of this pin.
+        /// @templateID : The ID of this template, all template with an equals ID
+        /// must have the same type.
         explicit Template(EPinType type,
-                          QString name = "T",
+                          unsigned int templateID = 0,
+                          QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                GenType<int>(0, name, owner, EPinType::TEMPLATE),
-                m_connectableTypes(std::vector<EPinType>{type})
+                GenType<int>(0, std::move(name), owner, EPinType::TEMPLATE),
+                m_templateID(templateID),
+                m_connectableTypes({type})
         {
+            (void) templateID;
             setPinType(type);
         };
 
-        /// Default constructor.
-        explicit Template(std::vector<EPinType> connectableTypes = PIN_TEMPLATE_ALL,
-                          QString name = "T",
+        /// Constructor - LValue :
+        /// Use this constructor to initialize a template pin that can be connected.
+        /// @connectableTypes : A list of all the possible type which can be connected
+        /// to this pin.
+        /// @templateID : The ID of this template, all template with an equals ID
+        /// must have the same type.
+        explicit Template(std::vector<EPinType>& connectableTypes,
+                          unsigned int templateID = 0,
+                          QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                GenType<int>(0, name, owner, EPinType::TEMPLATE),
+                GenType<int>(0, std::move(name), owner, EPinType::TEMPLATE),
+                m_templateID(templateID),
                 m_connectableTypes(connectableTypes)
         {
-
+            (void) templateID;
+            setPinType(EPinType::TEMPLATE);
         };
 
-        virtual ~Template()
+        /// Constructor - RValue :
+        /// Use this constructor to initialize a template pin that can be connected.
+        /// @connectableTypes : A list of all the possible type which can be connected
+        /// to this pin.
+        /// @templateID : The ID of this template, all template with an equals ID
+        /// must have the same type.
+        explicit Template(std::vector<EPinType>&& connectableTypes,
+                          unsigned int templateID = 0,
+                          QString name = "?",
+                          QtNodes::NodeDataModel * owner = nullptr) :
+                GenType<int>(0, std::move(name), owner, EPinType::TEMPLATE),
+                m_templateID(templateID),
+                m_connectableTypes(connectableTypes)
         {
-            delete m_pin;
-        }
+            setPinType(EPinType::TEMPLATE);
+        };
 
-        inline bool checkType(EPinType type)
+        ~Template() override { delete m_pin; }
+
+        /// @return : If @type is contain in m_connectablesTypes,
+        /// i.e if @type is a valid candidate to be plug-in.
+        inline bool isConnectable(EPinType type)
         {
-            auto types = m_connectableTypes; // alias
+            auto types = m_connectableTypes; // Alias - for esthetic only :P
             return (std::find(types.begin(), types.end(), type) != types.end());
-        }
-
-        /// Connect this pin.
-        inline void connect(PIN inPin) override
-        {
-            auto pin = std::dynamic_pointer_cast<IPin>(inPin);
-
-            if (pin == nullptr)
-            {
-                LOG_ERROR("Template::connect : the connected node doesn't implement IPin");
-            }
-            else
-            {
-                if (!checkType(pin->getType()))
-                {
-                    LOG_ERROR("Template::setPin : Invalid pin type : the IN type can be :");
-                    for (EPinType connectableType : m_connectableTypes)
-                    {
-                        LOG_ERROR(pinTypeToString(connectableType));
-                    }
-                    LOG_ERROR("And not : {0}.", pinTypeToString(pin->getType()));
-                }
-                else
-                {
-                    GenType::connect(inPin);
-                }
-            }
         }
 
         /// @return : the id and the name of this data.
@@ -78,88 +82,48 @@ namespace ShaderGraph
             return QtNodes::NodeDataType{"Template", name()};
         }
 
+        /// Connect this pin.
+        void connect(PIN inPin) override;
+
+        /// Getter : The connected pin.
+        /// @warning : returns nullptr if this pin isn't connected.
+        std::shared_ptr<QtNodes::NodeData> getConnectedPin() override;
+
+        /// Setter : The node which contains this pin.
+        void setNode(QtNodes::NodeDataModel * owner) override;
+
         /// @return : Get the GLSL type (in string) which represents this pin.
-        inline std::string typeToGLSL() override
-        {
-            auto pin = dynamic_cast<IPin*>(m_pin);
+        std::string typeToGLSL() override;
 
-            if (!pin)
-            {
-                LOG_ERROR("Template:typeToGLSL : This pin doesn't implement IPin");
-                return "FATAL ERROR";
-            }
+        // @return : Get the GLSL default value (in string),
+        // in case of this pin is disconnected during code generation.
+        std::string defaultValueToGLSL() override;
 
-            return pin->typeToGLSL();
-        }
-
-        // @return : Get the GLSL default value (in string) in case of this pin is disconnected during code generation.
-        std::string defaultValueToGLSL() override
-        {
-            auto pin = dynamic_cast<IPin*>(m_pin);
-
-            if (!pin)
-            {
-                LOG_ERROR("Template:typeToGLSL : This pin doesn't implement IPin");
-                return "FATAL ERROR";
-            }
-
-            return pin->defaultValueToGLSL();
-        }
-
+        /// Getter : The "true" pin.
         inline QtNodes::NodeData * getPin() { return m_pin; }
 
-        inline void setPinType(EPinType type)
-        {
-            if (!checkType(type))
-            {
-                LOG_ERROR("Template::setPin : Invalid pin type : the IN type can be :");
-                for (EPinType connectableType : m_connectableTypes)
-                {
-                    LOG_ERROR(pinTypeToString(connectableType));
-                }
-                LOG_ERROR("And not : {0}.", pinTypeToString(type));
+        /// Setter : The "true" pin.
+        void setPinType(EPinType type);
 
-                return;
-            }
+        inline unsigned int getTemplateID() const { return m_templateID; }
 
-            LOG_DEBUG("Template::setPin : Set the template to : {0}", pinTypeToString(type));
+        /// Force all the template pins in the node to be with the same type has @type.
+        void forceUpdateNode(EPinType type);
 
-            setType(type);
+        void forceUpdatePin(PIN pin, EPinType type);
 
-            delete m_pin;
-
-            switch (type)
-            {
-                case EPinType::BOOLEAN :
-                    m_pin = new Boolean(name(), getNode());
-                    break;
-
-                case EPinType::FLOAT :
-                    m_pin = new Float(name(), getNode());
-                    break;
-
-                case EPinType::VEC2 :
-                    m_pin = new Vector2(name(), getNode());
-                    break;
-
-                case EPinType::VEC3 :
-                    m_pin = new Vector3(name(), getNode());
-                    break;
-
-                case EPinType::VEC4 :
-                    m_pin = new Vector4(name(), getNode());
-                    break;
-
-                default :
-                    LOG_ERROR("Template::setPin : Invalid pin type");
-                    break;
-            }
-        }
+        /// Event triggered when a invalid connection has occurred.
+        /// TODO : break the connection !
+        void onConnectionInvalid(EPinType type);
 
     private:
+        /// The ID of this template, all template with an equals ID must have the same type
+        unsigned int m_templateID;
 
+        /// A list of all the possible type which can be connected to this pin.
         std::vector<EPinType> m_connectableTypes;
 
+        /// The "true" pin.
         QtNodes::NodeData * m_pin = nullptr;
     };
 }

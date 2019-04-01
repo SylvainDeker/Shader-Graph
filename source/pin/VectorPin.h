@@ -33,7 +33,7 @@ namespace ShaderGraph
         /// @return : Get the GLSL type (in string) which represents this pin.
         std::string typeToGLSL() override { return "vec2"; }
 
-        // TODO : comment me :)
+        // @return : Get the GLSL Vector3 default value (in string) in case of this pin is disconnected during code generation.
         std::string defaultValueToGLSL() override { return "vec2(0.0f)"; }
     };
 
@@ -63,7 +63,7 @@ namespace ShaderGraph
         /// @return : Get the GLSL type (in string) which represents this pin.
         std::string typeToGLSL() override { return "vec3"; }
 
-        // TODO : comment me :)
+        // @return : Get the GLSL Vector3 default value (in string) in case of this pin is disconnected during code generation.
         std::string defaultValueToGLSL() override { return "vec3(0.0f)"; }
     };
 
@@ -93,7 +93,7 @@ namespace ShaderGraph
         /// @return : Get the GLSL type (in string) which represents this pin.
         std::string typeToGLSL() override { return "vec4"; }
 
-        // TODO : comment me :)
+        // @return : Get the GLSL Vector4 default value (in string) in case of this pin is disconnected during code generation.
         std::string defaultValueToGLSL() override { return "vec4(0.0f)"; }
     };
 }

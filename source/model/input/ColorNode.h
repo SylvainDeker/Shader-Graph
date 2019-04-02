@@ -7,6 +7,9 @@
 #include <QColor>
 #include <QDoubleSpinBox>
 
+#include <QCheckBox>
+#include <QLineEdit>
+
 #include <core/Core.h>
 
 #include "../Node.h"
@@ -16,7 +19,7 @@
 
 namespace ShaderGraph
 {
-    class ColorNode : public Node
+    class ColorNode : public Node, public IUniform
     {
         Q_OBJECT
 
@@ -27,21 +30,6 @@ namespace ShaderGraph
         /// Destructor.
         ~ColorNode() override = default;
 
-        /// Getter only : color (glm format).
-        /// @warning : Cast the Qt format (QColor) to the glm format (vec4).
-        inline glm::vec4 asVec4() const
-        {
-            return glm::vec4(
-                    static_cast<float>(m_color.redF()),
-                    static_cast<float>(m_color.greenF()),
-                    static_cast<float>(m_color.blueF()),
-                    static_cast<float>(m_color.alphaF())
-            );
-        }
-
-        /// Getter only : color (Qt format).
-        inline QColor asQColor() const { return m_color; }
-
         /// Setter only : color (glm format).
         void setColor(const glm::vec4& color);
 
@@ -50,10 +38,7 @@ namespace ShaderGraph
 
         /// Specified the embedded widget in the Node.
         /// @return : the widget.
-        QWidget * embeddedWidget() override
-        {
-            return m_embeddedWidget;
-        }
+        inline QWidget * embeddedWidget() override { return m_embeddedWidget; }
 
         /// Show all node's properties in the node panel.
         void showDetails(QTreeWidget * tree) override;
@@ -72,8 +57,28 @@ namespace ShaderGraph
             return buffer;
         }
 
+        /// @return : True if this node is a uniform.
+        inline bool isUniform() override { return m_isUniform->isChecked(); }
+
+        /// @return : The name of the uniform.
+        /// @warning : Only valid if @isUniform equals true.
+        inline std::string getUniformName() override { return m_uniformName->text().toStdString(); }
+
+        /// @return : The default value of the uniform.
+        /// @warning : Only valid if @isUniform equals true.
+        inline std::string getUniformDefaultValue() override
+        {
+            return  "vec4(" +
+                    std::to_string(m_rSpinBox->value()) + ", " +
+                    std::to_string(m_gSpinBox->value()) + ", " +
+                    std::to_string(m_bSpinBox->value()) + ", " +
+                    std::to_string(m_aSpinBox->value()) + ") " ;
+        };
+
     public slots:
-        void onValueChanged(double value);
+        void onColorValueChanged(double value);
+
+        void onIsUniformValueChanged(int check);
 
     protected:
         /// The event filter : see Qt documentation.
@@ -91,23 +96,21 @@ namespace ShaderGraph
         QDoubleSpinBox * m_bSpinBox;
         QDoubleSpinBox * m_aSpinBox;
 
-        /* =============== Start QTreeWidget items definition ===============*/
+        QCheckBox * m_isUniform;
 
-        QTreeWidgetItem * m_rgbaSection = nullptr;
+        QLineEdit * m_uniformName;
 
-            QTreeWidgetItem * m_rSection = nullptr;
-                QTreeWidgetItem * m_rItem = nullptr;
+        bool m_isDetailBuilt = false;
 
-            QTreeWidgetItem * m_gSection = nullptr;
-                QTreeWidgetItem * m_gItem = nullptr;
+        DetailNode m_colorDetails;
 
-            QTreeWidgetItem * m_bSection = nullptr;
-                QTreeWidgetItem * m_bItem = nullptr;
+        // Color :
 
-            QTreeWidgetItem * m_aSection = nullptr;
-                QTreeWidgetItem * m_aItem = nullptr;
+        DetailColor m_colorLeaf;
 
-        /* =============== End QTreeWidget items definition ===============*/
+        // Uniform :
+        DetailUniform m_uniformLeaf;
+
     };
 
 

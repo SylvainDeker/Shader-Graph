@@ -14,6 +14,7 @@
 #include <core/Core.h>
 
 #include "../pin/PinDecl.h"
+#include "../detail/DetailDecl.h"
 
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150

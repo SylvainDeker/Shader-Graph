@@ -16,10 +16,13 @@ namespace ShaderGraph
 
             m_embeddedWidget(new QWidget()),
 
-            m_rSpinBox(new QDoubleSpinBox()),
-            m_gSpinBox(new QDoubleSpinBox()),
-            m_bSpinBox(new QDoubleSpinBox()),
-            m_aSpinBox(new QDoubleSpinBox())
+            m_rSpinBox(new QDoubleSpinBox),
+            m_gSpinBox(new QDoubleSpinBox),
+            m_bSpinBox(new QDoubleSpinBox),
+            m_aSpinBox(new QDoubleSpinBox),
+
+            m_isUniform(new QCheckBox),
+            m_uniformName(new QLineEdit)
     {
         outputs() = std::vector<PIN> {
                 std::make_shared<Vector4>("RGBA", this),  // RGBA
@@ -44,11 +47,16 @@ namespace ShaderGraph
         m_bSpinBox->setSingleStep(0.1);
         m_aSpinBox->setSingleStep(0.1);
 
-        connect(m_rSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onValueChanged);
-        connect(m_gSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onValueChanged);
-        connect(m_bSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onValueChanged);
-        connect(m_aSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onValueChanged);
+        connect(m_rSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onColorValueChanged);
+        connect(m_gSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onColorValueChanged);
+        connect(m_bSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onColorValueChanged);
+        connect(m_aSpinBox, SPINBOX_VALUE_CHANGED_SLOT, this, &ColorNode::onColorValueChanged);
 
+        connect(m_isUniform, &QCheckBox::stateChanged, this, &ColorNode::onIsUniformValueChanged);
+
+
+        m_uniformName->setMinimumSize(100, 20);
+        m_uniformName->setMaximumSize(200, 20);
     }
 
     bool ColorNode::eventFilter(QObject * object, QEvent * event)
@@ -61,7 +69,7 @@ namespace ShaderGraph
         return false;
     }
 
-    void  ColorNode::onValueChanged(double value)
+    void  ColorNode::onColorValueChanged(double value)
     {
         (void) value; // This event update each field, to make this event more generic.
 
@@ -75,6 +83,17 @@ namespace ShaderGraph
         setColor(color);
     }
 
+    void ColorNode::onIsUniformValueChanged(int check)
+    {
+        if (check == Qt::Checked)
+        {
+            LOG_DEBUG("{0} is now a uniform", getID());
+        }
+        else
+        {
+            LOG_DEBUG("{0} is no longer a uniform", getID());
+        }
+    }
 
     void ColorNode::setColor(const glm::vec4 &color)
     {
@@ -106,67 +125,36 @@ namespace ShaderGraph
 
     void ColorNode::showDetails(QTreeWidget * tree)
     {
-        if (m_rgbaSection == nullptr)
+        if (!m_isDetailBuilt)
         {
-            // RGBA section
-            m_rgbaSection = new QTreeWidgetItem(tree);
-            m_rgbaSection->setText(0, "RGBA");
-            m_rgbaSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
-            m_rgbaSection->setTextColor(0, QColor("white"));
-            m_rgbaSection->setExpanded(true);
+            m_isDetailBuilt = true;
 
-            // Red Channel section
-            m_rSection = new QTreeWidgetItem(m_rgbaSection);
-            m_rSection->setText(0, "Red Channel");
-            m_rSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
-            m_rSection->setTextColor(0, QColor("white"));
-            m_rSection->setExpanded(true);
-            // Red Channel item
-            m_rItem = new QTreeWidgetItem(m_rSection);
-            tree->setItemWidget(m_rItem, 0, m_rSpinBox);
+            m_colorDetails = DetailNode(tree, "Color", this);
 
-            // Green Channel section
-            m_gSection = new QTreeWidgetItem(m_rgbaSection);
-            m_gSection->setText(0, "Green Channel");
-            m_gSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
-            m_gSection->setTextColor(0, QColor("white"));
-            m_gSection->setExpanded(true);
-            // Green Channel item
-            m_gItem = new QTreeWidgetItem(m_gSection);
-            tree->setItemWidget(m_gItem, 0, m_gSpinBox);
+            m_colorLeaf = DetailColor(m_rSpinBox,
+                                      m_gSpinBox,
+                                      m_bSpinBox,
+                                      m_aSpinBox,
+                                      m_colorDetails.QNode(),
+                                      "RGBA",
+                                      this);
 
-            // Blue Channel section
-            m_bSection = new QTreeWidgetItem(m_rgbaSection);
-            m_bSection->setText(0, "Blue Channel");
-            m_bSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
-            m_bSection->setTextColor(0, QColor("white"));
-            m_bSection->setExpanded(true);
-            // Blue Channel item
-            m_bItem = new QTreeWidgetItem(m_bSection);
-            tree->setItemWidget(m_bItem, 0, m_bSpinBox);
-
-            // Alpha Channel section
-            m_aSection = new QTreeWidgetItem(m_rgbaSection);
-            m_aSection->setText(0, "Alpha Channel");
-            m_aSection->setData(0, Qt::UserRole, QStringLiteral("skip me"));
-            m_aSection->setTextColor(0, QColor("white"));
-            m_aSection->setExpanded(true);
-            // Alpha Channel item
-            m_aItem = new QTreeWidgetItem(m_aSection);
-            tree->setItemWidget(m_aItem, 0, m_aSpinBox);
+            m_uniformLeaf = DetailUniform(m_isUniform,
+                                          m_uniformName,
+                                          m_colorDetails.QNode(),
+                                          "Uniform",
+                                          this);
         }
         else
         {
-            m_rgbaSection->setHidden(false);
+            m_colorDetails.show();
         }
-
         Node::showDetails(tree);
     }
 
     void ColorNode::hideDetails(QTreeWidget * tree)
     {
-        m_rgbaSection->setHidden(true);
-
+        m_colorDetails.hide();
         Node::hideDetails(tree);
     }
 }

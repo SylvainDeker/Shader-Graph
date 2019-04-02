@@ -7,8 +7,12 @@
 
 #include "nodeeditor/NodeGraphicsView.h"
 
+#include "pin/PinDecl.h"
+
 #include "model/NodeDecl.h"
 #include "manager/NodeManager.h"
+
+#include "nodeeditor/NodeGraphicsView.h"
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     QWidget(parent)
@@ -34,13 +38,27 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec4Node>("Vector");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec4Node>("Vector");
 
-    REGISTER_ABSTRACTOR_OPERATORS(nodeManager.registry());
+    nodeManager.registry()->registerModel<ShaderGraph::FxVecN>("DebugOnly");
+    nodeManager.registry()->registerModel<ShaderGraph::GxOnlyVec2>("DebugOnly");
 
-    REGISTER_BOOL_OPERATORS(nodeManager.registry());
-    REGISTER_FLOAT_OPERATORS(nodeManager.registry());
-    REGISTER_VECTOR2_OPERATORS(nodeManager.registry());
-    REGISTER_VECTOR3_OPERATORS(nodeManager.registry());
-    REGISTER_VECTOR4_OPERATORS(nodeManager.registry());
+    nodeManager.registry()->registerModel<ShaderGraph::AndOperatorNode>("LogicalOperator");
+    nodeManager.registry()->registerModel<ShaderGraph::OrOperatorNode>("LogicalOperator");
+
+    nodeManager.registry()->registerModel<ShaderGraph::EqualNode>("LogicalOperator");
+    nodeManager.registry()->registerModel<ShaderGraph::NotEqualNode>("LogicalOperator");
+    nodeManager.registry()->registerModel<ShaderGraph::GreaterNode>("LogicalOperator");
+    nodeManager.registry()->registerModel<ShaderGraph::LowerNode>("LogicalOperator");
+    nodeManager.registry()->registerModel<ShaderGraph::GreaterEqualNode>("LogicalOperator");
+    nodeManager.registry()->registerModel<ShaderGraph::LowerEqualNode>("LogicalOperator");
+
+    nodeManager.registry()->registerModel<ShaderGraph::AddNode>("Operator");
+    nodeManager.registry()->registerModel<ShaderGraph::SubtractNode>("Operator");
+    nodeManager.registry()->registerModel<ShaderGraph::MultiplyNode>("Operator");
+    nodeManager.registry()->registerModel<ShaderGraph::DivideNode>("Operator");
+
+
+    ShaderGraph::registerToTemplateConverters(nodeManager.registry());
+    ShaderGraph::registerFromTemplateConverters(nodeManager.registry());
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);

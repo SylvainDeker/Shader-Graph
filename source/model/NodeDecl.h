@@ -1,7 +1,7 @@
 #ifndef SHADERGRAPH_NODEDECL_H
 #define SHADERGRAPH_NODEDECL_H
 
-#include "abstractor/Abstractor.h"
+#include "converter/Converter.h"
 
 #include "output/MasterMaterialOutput.h"
 

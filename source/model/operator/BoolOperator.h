@@ -4,9 +4,7 @@
 #include "model/Node.h"
 #include "pin/Pin.h"
 
-#define REGISTER_BOOL_OPERATORS(_register_) \
-    _register_->registerModel<ShaderGraph::AndOperatorNode>("LogicalOperator"); \
-    _register_->registerModel<ShaderGraph::OrOperatorNode>("LogicalOperator"); \
+#define LOGICAL_OPERATOR_TYPES std::vector<EPinType> {BOOLEAN, FLOAT, VEC2, VEC3, VEC4}
 
 namespace ShaderGraph
 {
@@ -57,6 +55,169 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "{0} = {1} || {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
+    };
+
+
+    class EqualNode : public Node
+    {
+    public:
+        EqualNode() : Node("==")
+        {
+            inputs() = std::vector<PIN> {
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "B", this)
+            };
+
+            outputs() = std::vector<PIN> {
+                    std::make_shared<Boolean>("Result", this)
+            };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} == {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
+    };
+
+    class NotEqualNode : public Node
+    {
+    public:
+        NotEqualNode() : Node("!=")
+        {
+            inputs() = std::vector<PIN> {
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "B", this)
+            };
+
+            outputs() = std::vector<PIN> {
+                    std::make_shared<Boolean>("Result", this)
+            };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} != {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
+    };
+
+    class GreaterNode : public Node
+    {
+    public:
+        GreaterNode() : Node(">")
+        {
+            inputs() = std::vector<PIN> {
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "B", this)
+            };
+
+            outputs() = std::vector<PIN> {
+                    std::make_shared<Boolean>("Result", this)
+            };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} > {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
+    };
+
+    class GreaterEqualNode : public Node
+    {
+    public:
+        GreaterEqualNode() : Node(">=")
+        {
+            inputs() = std::vector<PIN> {
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "B", this)
+            };
+
+            outputs() = std::vector<PIN> {
+                    std::make_shared<Boolean>("Result", this)
+            };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} >= {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
+    };
+
+    class LowerNode : public Node
+    {
+    public:
+        LowerNode() : Node("<")
+        {
+            inputs() = std::vector<PIN> {
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "B", this)
+            };
+
+            outputs() = std::vector<PIN> {
+                    std::make_shared<Boolean>("Result", this)
+            };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} < {2}",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
+            return buffer;
+        }
+    };
+
+    class LowerEqualNode : public Node
+    {
+    public:
+        LowerEqualNode() : Node("<=")
+        {
+            inputs() = std::vector<PIN> {
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(LOGICAL_OPERATOR_TYPES, 0, "B", this)
+            };
+
+            outputs() = std::vector<PIN> {
+                    std::make_shared<Boolean>("Result", this)
+            };
+        }
+
+        std::string nodeToGLSL() override
+        {
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "{0} = {1} <= {2}",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));

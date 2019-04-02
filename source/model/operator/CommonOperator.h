@@ -1,30 +1,29 @@
-#ifndef SHADERGRAPH_FLOATOPERATOR_H
-#define SHADERGRAPH_FLOATOPERATOR_H
+#ifndef SHADERGRAPH_COMMONOPERATOR_H
+#define SHADERGRAPH_COMMONOPERATOR_H
+
+#include <nodes/DataModelRegistry>
 
 #include "model/Node.h"
-#include "pin/Pin.h"
 
-#define REGISTER_FLOAT_OPERATORS(_register_) \
-    _register_->registerModel<ShaderGraph::AddFloatNode>("Operator"); \
-    _register_->registerModel<ShaderGraph::SubtractFloatNode>("Operator"); \
-    _register_->registerModel<ShaderGraph::MultiplyFloatNode>("Operator"); \
-    _register_->registerModel<ShaderGraph::DivideFloatNode>("Operator"); \
+#include "pin/PinDecl.h"
 
+
+#define COMMON_OPERATOR_TYPES std::vector<EPinType> {BOOLEAN, FLOAT, VEC2, VEC3, VEC4}
 
 namespace ShaderGraph
 {
-    class AddFloatNode : public Node
+    class AddNode : public Node
     {
     public:
-        AddFloatNode() : Node("AddFloat")
+        AddNode() : Node("Add")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A", this),
-                    std::make_shared<Float>("B", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "Result", this)
             };
         }
 
@@ -40,18 +39,18 @@ namespace ShaderGraph
         }
     };
 
-    class SubtractFloatNode : public Node
+    class SubtractNode : public Node
     {
     public:
-        SubtractFloatNode() : Node("SubtractFloat")
+        SubtractNode() : Node("Subtract")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A", this),
-                    std::make_shared<Float>("B", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "Result", this)
             };
         }
 
@@ -67,18 +66,18 @@ namespace ShaderGraph
         }
     };
 
-    class MultiplyFloatNode : public Node
+    class MultiplyNode : public Node
     {
     public:
-        MultiplyFloatNode() : Node("MultiplyFloat")
+        MultiplyNode() : Node("Multiply")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A", this),
-                    std::make_shared<Float>("B", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "Result", this)
             };
         }
 
@@ -94,18 +93,18 @@ namespace ShaderGraph
         }
     };
 
-    class DivideFloatNode : public Node
+    class DivideNode : public Node
     {
     public:
-        DivideFloatNode() : Node("DivideFloat")
+        DivideNode() : Node("Divide")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Float>("A", this),
-                    std::make_shared<Float>("B", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "B", this)
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Float>("Result", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "Result", this)
             };
         }
 
@@ -122,4 +121,4 @@ namespace ShaderGraph
     };
 }
 
-#endif //SHADERGRAPH_FLOATOPERATOR_H
+#endif //SHADERGRAPH_COMMONOPERATOR_H

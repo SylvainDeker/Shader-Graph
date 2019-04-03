@@ -7,7 +7,7 @@
 #include <QString>
 #include <QFile>
 
-#include "core/Core.h"
+#include <core/Core.h>
 
 #include "NodeManager.h"
 

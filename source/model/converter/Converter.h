@@ -4,7 +4,6 @@
 #include "../Node.h"
 
 #include "ToTemplate.h"
-#include "FromTemplate.h"
 
 namespace ShaderGraph
 {

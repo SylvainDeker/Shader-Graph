@@ -27,13 +27,14 @@ namespace ShaderGraph
         /// @return : the id and the name of this data.
         QtNodes::NodeDataType type() const override
         {
-            return QtNodes::NodeDataType{"Bool", name()};
+            return QtNodes::NodeDataType{"Boolean", name()};
         }
 
         /// @return : Get the GLSL type (in string) which represents this pin.
         std::string typeToGLSL() override { return "bool"; }
 
-        // @return : Get the GLSL boolean default value (in string) in case of this pin is disconnected during code generation.
+        /// @return : Get the GLSL default value in string,
+        /// if this pin isn't connected during code generation.
         std::string defaultValueToGLSL() override { return "false"; }
     };
 }

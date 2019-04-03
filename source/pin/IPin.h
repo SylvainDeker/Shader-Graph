@@ -64,7 +64,7 @@ namespace ShaderGraph
 
         /* ============================== Pin Type ============================== */
 
-        virtual EPinType getType() = 0;
+        virtual EPinType getType() const = 0;
 
         virtual void setType(EPinType type) = 0;
 

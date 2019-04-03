@@ -80,7 +80,7 @@ namespace ShaderGraph
 
         /* ============================== IPin : Pin Type ============================== */
 
-        inline EPinType getType() override { return m_type; }
+        inline EPinType getType() const override { return m_type; }
 
         inline void setType(EPinType type) override { m_type = type; };
     private:

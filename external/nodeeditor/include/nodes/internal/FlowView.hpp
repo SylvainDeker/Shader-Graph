@@ -32,7 +32,7 @@ public Q_SLOTS:
 
   void scaleDown();
 
-  void deleteSelectedNodes();
+  virtual void deleteSelectedNodes();
 
 protected:
 

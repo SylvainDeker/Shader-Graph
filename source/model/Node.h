@@ -109,7 +109,7 @@ namespace ShaderGraph
 
         /// Update the validation state of this node.
         /// @warning : if the node is valid, no message will be displayed.
-        inline void updateNodeValidation(NodeValidationState state, QString message = "No message")
+        inline void setValidation(NodeValidationState state, QString message = "No message")
         {
             m_validationState = state;
             m_validationMessage = message;

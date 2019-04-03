@@ -52,7 +52,7 @@ namespace ShaderGraph
             glslCode += inputsToGLSL(nodes);
             glslCode += outputsToGLSL();
             glslCode += nodeToGLSL();
-            glslCode += "}";
+            glslCode += "\n}";
 
             return glslCode;
         }

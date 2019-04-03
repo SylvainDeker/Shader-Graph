@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <sstream>
 
 #include <nodes/NodeData>
 #include <nodes/NodeDataModel>
@@ -77,7 +78,13 @@ namespace ShaderGraph
 
         /// @return : Get name of this pin to std::string.
         inline std::string nameToGLSL() override { return m_name.toStdString(); }
-                
+        
+        template <typename A> std::string valueToStr(const A a_value) {
+            std::ostringstream out;
+            out << std::fixed << a_value;
+            return out.str();
+        }
+        
     private:
         T m_value;
         QString m_name;
@@ -149,7 +156,9 @@ namespace ShaderGraph
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "0.0f"; }
         
-        std::string valueToGLSL() override { return std::to_string(value()); }
+        std::string valueToGLSL() override { 
+            
+            return valueToStr(value()); }
     };
 
     class Vector2 : public GenType<glm::vec2>
@@ -183,8 +192,8 @@ namespace ShaderGraph
         
         std::string valueToGLSL() override {
             return "vec2("
-                    + std::to_string(value()[0]) + ", "
-                    + std::to_string(value()[1]) + ")";
+                    + valueToStr(value()[0]) + ", "
+                    + valueToStr(value()[1]) + ")";
         }
     };
 
@@ -219,9 +228,9 @@ namespace ShaderGraph
         
         std::string valueToGLSL() override {
             return "vec3("
-                    + std::to_string(value()[0]) + ", "
-                    + std::to_string(value()[1]) + ", "
-                    + std::to_string(value()[2]) + ")";
+                    + valueToStr(value()[0]) + ", "
+                    + valueToStr(value()[1]) + ", "
+                    + valueToStr(value()[2]) + ")";
         }
     };
 
@@ -256,10 +265,10 @@ namespace ShaderGraph
         
         std::string valueToGLSL() override {
             return "vec4("
-                    + std::to_string(value()[0]) + ", "
-                    + std::to_string(value()[1]) + ", "
-                    + std::to_string(value()[2]) + ", "
-                    + std::to_string(value()[3]) + ")";
+                    + valueToStr(value()[0]) + ", "
+                    + valueToStr(value()[1]) + ", "
+                    + valueToStr(value()[2]) + ", "
+                    + valueToStr(value()[3]) + ")";
             
         }
         

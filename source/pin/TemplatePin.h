@@ -11,7 +11,7 @@
 
 namespace ShaderGraph
 {
-    class Template : public GenType<int>
+    class Template : public Pin
     {
     public:
         /// Constructor :
@@ -23,7 +23,7 @@ namespace ShaderGraph
                           unsigned int templateID = 0,
                           QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                GenType<int>(0, std::move(name), owner, EPinType::TEMPLATE),
+                Pin(std::move(name), owner, EPinType::TEMPLATE),
                 m_templateID(templateID),
                 m_connectableTypes({type})
         {
@@ -41,7 +41,7 @@ namespace ShaderGraph
                           unsigned int templateID = 0,
                           QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                GenType<int>(0, std::move(name), owner, EPinType::TEMPLATE),
+                Pin(std::move(name), owner, EPinType::TEMPLATE),
                 m_templateID(templateID),
                 m_connectableTypes(connectableTypes)
         {
@@ -59,7 +59,7 @@ namespace ShaderGraph
                           unsigned int templateID = 0,
                           QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                GenType<int>(0, std::move(name), owner, EPinType::TEMPLATE),
+                Pin(std::move(name), owner, EPinType::TEMPLATE),
                 m_templateID(templateID),
                 m_connectableTypes(connectableTypes)
         {

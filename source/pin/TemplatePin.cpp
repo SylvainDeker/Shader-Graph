@@ -24,7 +24,7 @@ namespace ShaderGraph
             }
             else
             {
-                GenType::connect(inPin);
+                Pin::connect(inPin);
                 setPinType(pin->getType());
             }
         }

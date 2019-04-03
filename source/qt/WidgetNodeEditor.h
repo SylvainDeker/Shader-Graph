@@ -22,6 +22,7 @@
 
 #include "nodeeditor/NodeGraphicsView.h"
 
+// TODO : Do not do that
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
 using QtNodes::FlowView;

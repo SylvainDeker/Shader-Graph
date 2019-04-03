@@ -113,7 +113,7 @@ namespace ShaderGraph
             {
                 std::string line = pin->typeToGLSL()         + " " +
                                    autoName(output)          + "=" +
-                                   pin->defaultValueToGLSL() + ";" ;
+                                   pin->valueToGLSL() + ";" ;
 
                 code += line + "\n";
             }
@@ -148,7 +148,8 @@ namespace ShaderGraph
 
                     code += connectedNode->toGLSL(nodes) + "\n";
 
-                    value = std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
+                    value = "id" + std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
+//                     value = autoName(connectedNodeData);
                 }
                 else value = pin->defaultValueToGLSL();
 
@@ -167,7 +168,7 @@ namespace ShaderGraph
     {
         std::string glslCode = "";
         std::list<unsigned int> nodes;
-
+        glslCode += this->name().toStdString();
         glslCode += inputsToGLSL(nodes);
         glslCode += outputsToGLSL();
         glslCode += nodeToGLSL();

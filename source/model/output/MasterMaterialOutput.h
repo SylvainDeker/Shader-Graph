@@ -44,6 +44,18 @@ namespace ShaderGraph
                       autoName(inputs()[1]));
             return buffer;
         }
+        std::string toGLSL() override
+        {
+            std::string glslCode = "out vec4 fragColor;\n";
+            glslCode += "void main() {\n";
+            std::list<unsigned int> nodes;
+            glslCode += inputsToGLSL(nodes);
+            glslCode += outputsToGLSL();
+            glslCode += nodeToGLSL();
+            glslCode += "}";
+
+            return glslCode;
+        }
     };
 }
 

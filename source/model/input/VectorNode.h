@@ -38,11 +38,7 @@ namespace ShaderGraph
 
       std::string nodeToGLSL() override
       {
-          std::string buffer;
-          GLSL_CODE(buffer,
-                    "declVector({0}, ...",
-                    autoName(outputs()[0]));
-          return buffer;
+          return "";
       }
 
   public slots:

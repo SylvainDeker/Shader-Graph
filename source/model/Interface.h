@@ -39,6 +39,8 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         virtual std::string defaultValueToGLSL() = 0;
+        
+        virtual std::string valueToGLSL() = 0;
 
         /// @return : Get name of this pin to std::string.
         virtual std::string nameToGLSL() = 0;

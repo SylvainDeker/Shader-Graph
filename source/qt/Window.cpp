@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <iostream>
+#include <fstream>
 
 #include <QLabel>
 #include <QPushButton>
@@ -17,6 +19,7 @@
 #include <core/Core.h>
 
 #include "ui_Window.h"
+#include <model/input/ColorNode.h>
 
 #define FORMAT_VERSION 4, 1
 #define FORMAT_DEPTH_BUFFER_SIZE 24
@@ -129,6 +132,34 @@ void Window::compile()
     bool success = false;
 
     // TODO : compile this shader ;)
+    
+    FlowScene * sc = m_ui->nodeEditor->getScene();
+    
+    bool outFound = false;
+    ShaderGraph::Node *out = nullptr;
+    // looking for the output node
+    for (auto it = sc->nodes().begin();it != sc->nodes().end();it++)
+    {
+        if (((ShaderGraph::Node*)it->second->nodeDataModel())->name() == "MasterMaterialOutput") {
+            outFound = true;
+            out = (ShaderGraph::Node*)it->second->nodeDataModel();
+        }
+    }
+
+    if (outFound) {
+        LOG_INFO("compiling shader");
+//         write the code in a file
+        std::ofstream shaderFile("shader.glsl");
+        if (shaderFile.is_open()) {
+            shaderFile << out->toGLSL();
+            shaderFile.close();
+            LOG_INFO("file written");
+        }
+        else LOG_INFO("could not open file");
+    }
+    else LOG_ERROR("No output node");
+    
+
 
     if (success)
     {

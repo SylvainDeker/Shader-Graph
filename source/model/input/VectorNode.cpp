@@ -61,10 +61,12 @@ namespace ShaderGraph
 
     void ScalarNode::set(const float& v)
     {
-      m_value = v;
-      m_spinBoxX->setValue(v);
+        m_value = v;
+        m_spinBoxX->setValue(v);
 
-      m_spinBoxXdetail->setValue(v);
+        m_spinBoxXdetail->setValue(v);
+        
+        ((Float*)outputs()[0].get())->setValue(v);
     }
 
     void ScalarNode::showDetails(QVBoxLayout * layout)
@@ -103,7 +105,7 @@ namespace ShaderGraph
     {
 
         outputs() = std::vector<PIN>{
-                std::make_shared<Vector3>("Result", this)
+                std::make_shared<Vector2>("Result", this)
         };
 
         m_layout->addWidget(m_spinBoxX);
@@ -169,6 +171,8 @@ namespace ShaderGraph
 
       m_spinBoxXdetail->setValue(v[0]);
       m_spinBoxYdetail->setValue(v[1]);
+      
+      ((Vector2*)outputs()[0].get())->setValue(v);
     }
 
     void Vec2Node::showDetails(QVBoxLayout * layout)
@@ -283,14 +287,16 @@ namespace ShaderGraph
 
     void Vec3Node::set(const glm::vec3& v)
     {
-      m_value = v;
-      m_spinBoxX->setValue(v[0]);
-      m_spinBoxY->setValue(v[1]);
-      m_spinBoxZ->setValue(v[2]);
+        m_value = v;
+        m_spinBoxX->setValue(v[0]);
+        m_spinBoxY->setValue(v[1]);
+        m_spinBoxZ->setValue(v[2]);
 
-      m_spinBoxXdetail->setValue(v[0]);
-      m_spinBoxYdetail->setValue(v[1]);
-      m_spinBoxZdetail->setValue(v[2]);
+        m_spinBoxXdetail->setValue(v[0]);
+        m_spinBoxYdetail->setValue(v[1]);
+        m_spinBoxZdetail->setValue(v[2]);
+
+        ((Vector3*)outputs()[0].get())->setValue(v);
     }
 
     void Vec3Node::showDetails(QVBoxLayout * layout)
@@ -421,16 +427,18 @@ namespace ShaderGraph
 
     void Vec4Node::set(const glm::vec4& v)
     {
-      m_value = v;
-      m_spinBoxX->setValue(v[0]);
-      m_spinBoxY->setValue(v[1]);
-      m_spinBoxZ->setValue(v[2]);
-      m_spinBoxW->setValue(v[3]);
+        m_value = v;
+        m_spinBoxX->setValue(v[0]);
+        m_spinBoxY->setValue(v[1]);
+        m_spinBoxZ->setValue(v[2]);
+        m_spinBoxW->setValue(v[3]);
 
-      m_spinBoxXdetail->setValue(v[0]);
-      m_spinBoxYdetail->setValue(v[1]);
-      m_spinBoxZdetail->setValue(v[2]);
-      m_spinBoxWdetail->setValue(v[3]);
+        m_spinBoxXdetail->setValue(v[0]);
+        m_spinBoxYdetail->setValue(v[1]);
+        m_spinBoxZdetail->setValue(v[2]);
+        m_spinBoxWdetail->setValue(v[3]);
+        
+        ((Vector4*)outputs()[0].get())->setValue(v);
     }
 
     void Vec4Node::showDetails(QVBoxLayout   * layout){

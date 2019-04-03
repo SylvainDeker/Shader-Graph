@@ -124,12 +124,24 @@ namespace ShaderGraph
 
     void ColorNode::setColor(const glm::vec4 &color)
     {
-      QColor c;
-      c.setRedF(color[0]);
-      c.setGreenF(color[1]);
-      c.setBlueF(color[2]);
-      c.setAlphaF(color[3]);
-      setColor(c);
+        QColor c;
+        c.setRedF(color[0]);
+        c.setGreenF(color[1]);
+        c.setBlueF(color[2]);
+        c.setAlphaF(color[3]);
+        setColor(c);
+        
+//         updating output values
+//         R
+        ((Float*)outputs()[1].get())->setValue(color[0]);
+//         G
+        ((Float*)outputs()[2].get())->setValue(color[1]);
+//         B
+        ((Float*)outputs()[3].get())->setValue(color[2]);
+//         A
+        ((Float*)outputs()[4].get())->setValue(color[3]);
+//         RGBA
+        ((Vector4*)outputs()[0].get())->setValue(color);
     }
 
     void ColorNode::setColor(const QColor &color)
@@ -144,8 +156,8 @@ namespace ShaderGraph
                          + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
                          + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
                          + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";");
-         m_display->setStyleSheet(s);
-         m_display->update();
+        m_display->setStyleSheet(s);
+        m_display->update();
     }
 
     void ColorNode::showDetails(QVBoxLayout * layout)

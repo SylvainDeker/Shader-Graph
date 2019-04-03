@@ -2,6 +2,7 @@
 #define SHADERGRAPH_DATA_H
 
 #include <memory>
+#include <string>
 
 #include <nodes/NodeData>
 #include <nodes/NodeDataModel>
@@ -71,9 +72,12 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override = 0;
+        
+        virtual std::string valueToGLSL() override = 0;
 
         /// @return : Get name of this pin to std::string.
         inline std::string nameToGLSL() override { return m_name.toStdString(); }
+                
     private:
         T m_value;
         QString m_name;
@@ -112,6 +116,8 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "false"; }
+        
+        std::string valueToGLSL() override { return value() ? "true" : "false"; }
     };
 
     class Float : public GenType<float>
@@ -142,6 +148,8 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "0.0f"; }
+        
+        std::string valueToGLSL() override { return std::to_string(value()); }
     };
 
     class Vector2 : public GenType<glm::vec2>
@@ -172,6 +180,12 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "vec2(0.0f)"; }
+        
+        std::string valueToGLSL() override {
+            return "vec2("
+                    + std::to_string(value()[0]) + ", "
+                    + std::to_string(value()[1]) + ")";
+        }
     };
 
     class Vector3 : public GenType<glm::vec3>
@@ -202,6 +216,13 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "vec3(0.0f)"; }
+        
+        std::string valueToGLSL() override {
+            return "vec3("
+                    + std::to_string(value()[0]) + ", "
+                    + std::to_string(value()[1]) + ", "
+                    + std::to_string(value()[2]) + ")";
+        }
     };
 
     class Vector4 : public GenType<glm::vec4>
@@ -232,6 +253,16 @@ namespace ShaderGraph
 
         // TODO : comment me :)
         std::string defaultValueToGLSL() override { return "vec4(0.0f)"; }
+        
+        std::string valueToGLSL() override {
+            return "vec4("
+                    + std::to_string(value()[0]) + ", "
+                    + std::to_string(value()[1]) + ", "
+                    + std::to_string(value()[2]) + ", "
+                    + std::to_string(value()[3]) + ")";
+            
+        }
+        
     };
 }
 

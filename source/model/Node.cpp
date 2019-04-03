@@ -143,16 +143,17 @@ namespace ShaderGraph
                         LOG_ERROR("Parsing : A pin is connected to an invalid pin");
                         // TODO : parsing error handler
                     }
-
+                    
                     auto connectedNode = dynamic_cast<Node*>(connectedPin->getNode());
-
+                                        
                     code += connectedNode->toGLSL(nodes) + "\n";
+                    nodes.push_back(connectedNode->getID());
 
                     value = "id" + std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
 //                     value = autoName(connectedNodeData);
                 }
                 else value = pin->defaultValueToGLSL();
-
+                
                 std::string line = pin->typeToGLSL() + " " +
                                    autoName(input)   + "=" +
                                    value             + ";" ;
@@ -168,7 +169,7 @@ namespace ShaderGraph
     {
         std::string glslCode = "";
         std::list<unsigned int> nodes;
-        glslCode += this->name().toStdString();
+        nodes.push_back(m_id);
         glslCode += inputsToGLSL(nodes);
         glslCode += outputsToGLSL();
         glslCode += nodeToGLSL();
@@ -184,6 +185,7 @@ namespace ShaderGraph
 
         if (!isFound)
         {
+            nodes.push_back(m_id);
             glslCode += inputsToGLSL(nodes);
             glslCode += outputsToGLSL();
             glslCode += nodeToGLSL();

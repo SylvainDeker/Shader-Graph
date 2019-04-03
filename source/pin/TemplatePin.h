@@ -29,7 +29,7 @@ namespace ShaderGraph
                 m_connectableTypes({type})
         {
             (void) templateID;
-            setPinType(type);
+            setBindedType(type);
         };
 
         /// Constructor - LValue :
@@ -47,7 +47,7 @@ namespace ShaderGraph
                 m_connectableTypes(connectableTypes)
         {
             (void) templateID;
-            setPinType(EPinType::TEMPLATE);
+            setBindedType(EPinType::TEMPLATE);
         };
 
         /// Constructor - RValue :
@@ -64,7 +64,7 @@ namespace ShaderGraph
                 m_templateID(templateID),
                 m_connectableTypes(connectableTypes)
         {
-            setPinType(EPinType::TEMPLATE);
+            setBindedType(EPinType::TEMPLATE);
         };
 
         ~Template() override = default;
@@ -79,7 +79,6 @@ namespace ShaderGraph
         }
 
         /// @return : the id and the name of this data.
-        // TODO : dynamic id.
         QtNodes::NodeDataType type() const override
         {
             return QtNodes::NodeDataType{m_typeId, name()};
@@ -88,6 +87,9 @@ namespace ShaderGraph
         /// Connect this pin.
         void connect(PIN inPin) override;
 
+        /// Disconnect this pin.
+        void disconnect() override;
+
         /// Getter : The connected pin.
         /// @warning : returns nullptr if this pin isn't connected.
         std::shared_ptr<QtNodes::NodeData> getConnectedPin() override;
@@ -95,22 +97,22 @@ namespace ShaderGraph
         /// Setter : The node which contains this pin.
         void setNode(QtNodes::NodeDataModel * owner) override;
 
+        /// Getter : The binded pin.
+        inline std::shared_ptr<QtNodes::NodeData> getBindedPin() const { return m_pin; }
 
-        /// Getter : The "true" pin.
-        inline std::shared_ptr<QtNodes::NodeData> getPin() { return m_pin; }
+        /// Setter : The new type of this pin.
+        void setBindedType(EPinType type);
 
-        /// Setter : The "true" pin.
-        void setPinType(EPinType type);
+        /// Getter : Get all the pins in the same node with the same @m_templateID.
+        /// @warning : this pin is included.
+        std::list<std::shared_ptr<Template>> getSiblings();
 
-
-        /// Force all the template pins in the node to be with the same type has @type.
-        void forceUpdateNode(EPinType type);
-
-        void forceUpdatePin(PIN pin, EPinType type);
+        /// Force all the template in the node to have the same type (see @type),
+        /// if they have the same @m_templateID.
+        void dispatch(EPinType type);
 
         /// Event triggered when an invalid connection has occurred.
-        void onConnectionInvalid(EPinType type);
-
+        void onConnectionInvalid(EPinType type) const;
 
         /// @return : Get the GLSL type (in string) which represents this pin.
         std::string typeToGLSL() override;
@@ -119,8 +121,8 @@ namespace ShaderGraph
         /// if this pin isn't connected during code generation.
         std::string defaultValueToGLSL() override;
 
-
-
+        /// Getter : The ID of this template,
+        /// all template with an equals ID must have the same EPinType.
         inline unsigned int getTemplateID() const { return m_templateID; }
 
     private:

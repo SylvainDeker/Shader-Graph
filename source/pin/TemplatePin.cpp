@@ -22,15 +22,55 @@ namespace ShaderGraph
 
         if (!isConnectable(connectedPinType))
         {
-            node->updateNodeValidation(NodeValidationState::Error, "Unexpected Connection");
+            node->setValidation(NodeValidationState::Error, "Unexpected Connection");
             onConnectionInvalid(connectedPinType);
-            setPinType(EPinType::TEMPLATE);
+            setBindedType(EPinType::TEMPLATE);
         }
         else
         {
-            node->updateNodeValidation(NodeValidationState::Valid);
+            node->setValidation(NodeValidationState::Valid);
             Pin::connect(inPin);
-            setPinType(pin->getType());
+            setBindedType(pin->getType());
+        }
+    }
+
+    /// Disconnect this pin.
+    void Template::disconnect()
+    {
+        Pin::disconnect();
+
+        auto node = dynamic_cast<Node*>(getNode());
+
+        // Note : Only for debug --
+        // knowing the number of connected pin is useless otherwise.
+        unsigned int connectedPinsCount = 0;
+
+        assert(node != nullptr);
+
+        for (PIN in : node->inputs())
+        {
+            auto pin = std::dynamic_pointer_cast<Template>(in);
+
+            if (pin && pin->getTemplateID() == m_templateID && pin->isConnected())
+            {
+                ++connectedPinsCount;
+            }
+        }
+
+        LOG_DEBUG("Template::disconnect : ");
+        LOG_DEBUG("{0} pin constrain the type to {1}", connectedPinsCount, pinTypeToString(getType()));
+
+        if (connectedPinsCount == 0)
+        {
+            for (PIN sibling : getSiblings())
+            {
+                auto pin = std::dynamic_pointer_cast<Template>(sibling);
+                assert(pin != nullptr);
+                pin->setBindedType(EPinType::TEMPLATE);
+            }
+
+            LOG_DEBUG("Template::disconnect : ");
+            LOG_DEBUG("Type reset");
         }
     }
 
@@ -75,11 +115,11 @@ namespace ShaderGraph
         return pin->defaultValueToGLSL();
     }
 
-    void Template::setPinType(EPinType type)
+    void Template::setBindedType(EPinType type)
     {
         if (type == EPinType::TEMPLATE)
         {
-            LOG_DEBUG("Template::setPin : Template type");
+            m_typeId = "Template";
         }
         else if (!isConnectable(type))
         {
@@ -88,7 +128,8 @@ namespace ShaderGraph
         }
         else
         {
-            LOG_DEBUG("Template::setPin : Set the template to : {0}", pinTypeToString(type));
+            LOG_DEBUG("Template::setPin :");
+            LOG_DEBUG("Set the template type to : {0}", pinTypeToString(type))
 
             switch (type)
             {
@@ -118,52 +159,63 @@ namespace ShaderGraph
                     break;
 
                 default :
-                    LOG_ERROR("Template::setPin : Invalid pin type");
                     break;
             }
 
             setType(type);
-            forceUpdateNode(type);
+            dispatch(type);
         }
     }
 
-    void Template::forceUpdatePin(PIN pin, EPinType type)
-    {
-        auto iPin  = std::dynamic_pointer_cast<IPin>(pin);
-        auto tPin = std::dynamic_pointer_cast<Template>(pin);
-
-        if (pin != nullptr)
-        {
-            EPinType pinType = iPin->getType();
-
-            if (tPin != nullptr &&
-                tPin->getTemplateID() == m_templateID &&
-                pinType != type)
-            {
-                if (tPin->isConnectable(type)) tPin->setPinType(type);
-                else LOG_CRITICAL("Template::updateNode : Design error...");
-            }
-        }
-        else
-        {
-            LOG_ERROR("Template::updateNode : A pin doesn't implement IPin");
-        }
-    }
-
-    void Template::forceUpdateNode(EPinType type)
+    void Template::dispatch(EPinType type)
     {
         auto node = dynamic_cast<Node*>(getNode());
-        for (PIN in : node->inputs()) forceUpdatePin(in, type);
-        for (PIN out : node->outputs()) forceUpdatePin(out, type);
+
+        assert(node != nullptr);
+
+        for (PIN sibling : getSiblings())
+        {
+            auto pin = std::dynamic_pointer_cast<Template>(sibling);
+
+            if (pin && pin->getTemplateID() == m_templateID && pin->getType() != type)
+            {
+                assert(pin->isConnectable(type));
+                pin->setBindedType(type);
+            }
+        }
     }
 
-    void Template::onConnectionInvalid(EPinType type)
+    void Template::onConnectionInvalid(EPinType type) const
     {
-        LOG_ERROR("Template::setPin : Invalid pin type : the IN type can be :");
+        LOG_ERROR("Template::setPin : ");
+        LOG_ERROR("Invalid pin type : the IN type can be :");
         for (EPinType connectableType : m_connectableTypes)
         {
             LOG_ERROR(pinTypeToString(connectableType));
         }
         LOG_ERROR("And not : {0}.", pinTypeToString(type));
+    }
+
+    std::list<std::shared_ptr<Template>> Template::getSiblings()
+    {
+        auto node = dynamic_cast<Node*>(getNode());
+
+        assert(node != nullptr);
+
+        std::list<std::shared_ptr<Template>> output;
+
+        for (PIN in : node->inputs())
+        {
+            auto pin = std::dynamic_pointer_cast<Template>(in);
+            if (pin && pin->getTemplateID() == m_templateID) output.push_back(pin);
+        }
+
+        for (PIN out : node->outputs())
+        {
+            auto pin = std::dynamic_pointer_cast<Template>(out);
+            if (pin && pin->getTemplateID() == m_templateID) output.push_back(pin);
+        }
+
+        return output;
     }
 }

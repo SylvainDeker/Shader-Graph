@@ -148,10 +148,14 @@ void Window::compile()
 
     if (outFound) {
         LOG_INFO("compiling shader");
-//         write the code in a file
-        std::ofstream shaderFile("shader.glsl");
+        // write the code in a file
+        std::ofstream shaderFile("../output/shader.glsl");
         if (shaderFile.is_open()) {
-            shaderFile << out->toGLSL();
+            std::string code = out->toGLSL();
+            // TODO compile the generated code
+            // and update the preview before writting the file
+            
+            shaderFile << code;
             shaderFile.close();
             LOG_INFO("file written");
         }
@@ -160,7 +164,7 @@ void Window::compile()
     else LOG_ERROR("No output node");
     
 
-
+    
     if (success)
     {
         LOG_INFO("The Shader is compiled");

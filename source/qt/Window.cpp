@@ -73,11 +73,13 @@ Window::Window(QWidget * Parent) :
     // Push each category
     for (auto const &category : scene->registry().categories())
     {
+      if(category !=QStringLiteral("Output")){  
         auto item = new QTreeWidgetItem(ui->treeWidget);
         item->setText(0, category);
         item->setData(0, Qt::UserRole, QStringLiteral("skip me"));
         item->setTextColor(0, QColor("white"));
         m_internalFunctionTree[category] = item;
+      }
     }
 
     // Push each function

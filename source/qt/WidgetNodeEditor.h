@@ -16,6 +16,8 @@
 #include <nodes/ConnectionStyle>
 #include <core/Core.h>
 #include "NodeGraphicsView.h"
+#include "../model/output/MasterMaterialOutput.h"
+
 
 using QtNodes::DataModelRegistry;
 using QtNodes::FlowScene;
@@ -32,6 +34,8 @@ public:
 
     inline FlowScene * getScene()   { return m_scene; }
     inline FlowView * getFlowView() { return m_graphicsView; }
+    inline ShaderGraph::MasterMaterialOutput * getMasterMaterialOutput()
+                { return m_masterMaterialOutput; }
 
     void setAssociatedDetailsLayout(QVBoxLayout * layout);
 
@@ -40,6 +44,7 @@ private:
     FlowScene   * m_scene;
     NodeGraphicsView    * m_graphicsView;
     QVBoxLayout * m_layout;
+    ShaderGraph::MasterMaterialOutput * m_masterMaterialOutput;
 };
 
 

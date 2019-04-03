@@ -33,7 +33,7 @@ public slots:
 
   void scaleDown();
 
-  void deleteSelectedNodes();
+  virtual void deleteSelectedNodes();
 
 protected:
 

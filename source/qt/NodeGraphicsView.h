@@ -32,6 +32,9 @@ public:
   void setAssociatedDetailsLayout(QVBoxLayout * layout){
     m_detailslayout = layout;
   }
+
+  void deleteSelectedNodes() override;
+
 protected:
   void mousePressEvent(QMouseEvent *event) override ;
 

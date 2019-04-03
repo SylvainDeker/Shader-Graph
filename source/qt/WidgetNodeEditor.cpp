@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 #include "model/manager/NodeManager.h"
+#include "model/Node.h"
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     QWidget(parent)
@@ -41,6 +42,18 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     m_graphicsView  = new NodeGraphicsView(m_scene);
 
     m_layout->addWidget(m_graphicsView);
+
+    // Setup MasterMaterialOutput
+    QString modelName = QStringLiteral("MasterMaterialOutput");
+
+    // create the node
+    QtNodes::Node & node = m_scene->createNode(std::move(m_scene->registry().create(modelName)));
+
+    // Set the node position to the center-right of the flow view
+    auto viewportDimension = m_graphicsView->viewport()->rect();
+    node.nodeGraphicsObject().setPos(QPointF((viewportDimension.width()*2)/3,0));
+    m_masterMaterialOutput = static_cast<ShaderGraph::MasterMaterialOutput*>(node.nodeDataModel());
+    LOG_INFO("Creating : {0} node", modelName.toStdString());
 }
 
 void

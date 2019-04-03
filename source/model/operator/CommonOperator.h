@@ -8,7 +8,7 @@
 #include "pin/PinDecl.h"
 
 
-#define COMMON_OPERATOR_TYPES std::vector<EPinType> {BOOLEAN, FLOAT, VEC2, VEC3, VEC4}
+#define COMMON_OPERATOR_TYPES std::vector<EPinType> {FLOAT, VEC2, VEC3, VEC4}
 
 namespace ShaderGraph
 {

@@ -4,7 +4,7 @@
 
 #include "pin/PinDecl.h"
 #include "model/NodeDecl.h"
-#include "manager/NodeManager.h"
+#include "nodeeditor/NodeManager.h"
 
 #include "nodeeditor/NodeGraphicsView.h"
 
@@ -52,7 +52,6 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
 
 
     ShaderGraph::registerToTemplateConverters(nodeManager.registry());
-    ShaderGraph::registerFromTemplateConverters(nodeManager.registry());
 
     m_layout        = new QVBoxLayout(this);
     m_scene         = new FlowScene(nodeManager.registry(),this);

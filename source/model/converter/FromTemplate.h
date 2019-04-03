@@ -43,7 +43,7 @@ namespace ShaderGraph
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("Scalar", this)
+                    std::make_shared<Float>("Scalar", this)
             };
         }
 
@@ -65,7 +65,7 @@ namespace ShaderGraph
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("Vec2", this)
+                    std::make_shared<Vector2>("Vec2", this)
             };
         }
 
@@ -87,7 +87,7 @@ namespace ShaderGraph
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("Vec3", this)
+                    std::make_shared<Vector3>("Vec3", this)
             };
         }
 
@@ -109,7 +109,7 @@ namespace ShaderGraph
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Boolean>("Vec4", this)
+                    std::make_shared<Vector4>("Vec4", this)
             };
         }
 

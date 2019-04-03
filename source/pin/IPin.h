@@ -18,6 +18,16 @@ namespace ShaderGraph
         VEC4
     };
 
+    inline EPinType pinTypeFromString(std::string& type)
+    {
+        if (type == "Boolean")      return EPinType::BOOLEAN;
+        else if (type == "Float")   return EPinType::FLOAT;
+        else if (type == "Vector2") return EPinType::VEC2;
+        else if (type == "Vector3") return EPinType::VEC3;
+        else if (type == "Vector4") return EPinType::VEC4;
+        else                        return EPinType::TEMPLATE;
+    }
+
     inline std::string pinTypeToString(EPinType type)
     {
         switch (type)
@@ -51,6 +61,8 @@ namespace ShaderGraph
         /// Getter : The connected pin.
         /// @return : nullptr if this pin isn't connected.
         virtual std::shared_ptr<QtNodes::NodeData> getConnectedPin() = 0;
+
+        /* ============================== Pin Type ============================== */
 
         virtual EPinType getType() = 0;
 

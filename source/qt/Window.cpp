@@ -67,7 +67,7 @@ Window::Window(QWidget * Parent) :
     {
       if(category !=QStringLiteral("Output"))
       {
-        auto item = new QTreeWidgetItem(ui->treeWidget);
+        auto item = new QTreeWidgetItem(m_ui->treeWidget);
         item->setText(0, category);
         item->setData(0, Qt::UserRole, QStringLiteral("skip me"));
         item->setTextColor(0, QColor("white"));

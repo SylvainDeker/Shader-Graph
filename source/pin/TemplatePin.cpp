@@ -42,7 +42,7 @@ namespace ShaderGraph
         auto node = dynamic_cast<Node*>(getNode());
 
         // Note : Only for debug --
-        // knowing the number of connected pin is useless otherwise.
+        // The number of connected pin is useless otherwise.
         unsigned int connectedPinsCount = 0;
 
         assert(node != nullptr);
@@ -57,9 +57,6 @@ namespace ShaderGraph
             }
         }
 
-        LOG_DEBUG("Template::disconnect : ");
-        LOG_DEBUG("{0} pin constrain the type to {1}", connectedPinsCount, pinTypeToString(getType()));
-
         if (connectedPinsCount == 0)
         {
             for (PIN sibling : getSiblings())
@@ -69,8 +66,7 @@ namespace ShaderGraph
                 pin->setBindedType(EPinType::TEMPLATE);
             }
 
-            LOG_DEBUG("Template::disconnect : ");
-            LOG_DEBUG("Type reset");
+            LOG_DEBUG("Template::disconnect : Type reset");
         }
     }
 
@@ -128,9 +124,6 @@ namespace ShaderGraph
         }
         else
         {
-            LOG_DEBUG("Template::setPin :");
-            LOG_DEBUG("Set the template type to : {0}", pinTypeToString(type))
-
             switch (type)
             {
                 case EPinType::BOOLEAN :
@@ -180,6 +173,7 @@ namespace ShaderGraph
             if (pin && pin->getTemplateID() == m_templateID && pin->getType() != type)
             {
                 assert(pin->isConnectable(type));
+
                 pin->setBindedType(type);
             }
         }
@@ -187,11 +181,12 @@ namespace ShaderGraph
 
     void Template::onConnectionInvalid(EPinType type) const
     {
-        LOG_ERROR("Template::setPin : ");
-        LOG_ERROR("Invalid pin type : the IN type can be :");
+        LOG_DEBUG("Template::setPin : ");
+        LOG_ERROR("Invalid pin type :");
+        LOG_ERROR("This node can be connected to : ")
         for (EPinType connectableType : m_connectableTypes)
         {
-            LOG_ERROR(pinTypeToString(connectableType));
+            LOG_ERROR("* {0}", pinTypeToString(connectableType));
         }
         LOG_ERROR("And not : {0}.", pinTypeToString(type));
     }

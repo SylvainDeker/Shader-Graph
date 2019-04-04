@@ -2,16 +2,10 @@
 
 #include <QVBoxLayout>
 
-#include "model/manager/NodeManager.h"
 #include "model/Node.h"
-
-#include "nodeeditor/NodeGraphicsView.h"
-
 #include "pin/PinDecl.h"
-
 #include "model/NodeDecl.h"
 #include "nodeeditor/NodeManager.h"
-
 #include "nodeeditor/NodeGraphicsView.h"
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
@@ -37,9 +31,6 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
 
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec4Node>("Vector");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec4Node>("Vector");
-
-    nodeManager.registry()->registerModel<ShaderGraph::FxVecN>("DebugOnly");
-    nodeManager.registry()->registerModel<ShaderGraph::GxOnlyVec2>("DebugOnly");
 
     nodeManager.registry()->registerModel<ShaderGraph::AndOperatorNode>("LogicalOperator");
     nodeManager.registry()->registerModel<ShaderGraph::OrOperatorNode>("LogicalOperator");
@@ -69,12 +60,12 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     QString modelName = QStringLiteral("MasterMaterialOutput");
 
     // create the node
-    QtNodes::Node & node = m_scene->createNode(std::move(m_scene->registry().create(modelName)));
+    QtNodes::Node & node = m_scene->createNode(m_scene->registry().create(modelName));
 
     // Set the node position to the center-right of the flow view
     auto viewportDimension = m_graphicsView->viewport()->rect();
-    node.nodeGraphicsObject().setPos(QPointF((viewportDimension.width()*2)/3,0));
-    m_masterMaterialOutput = static_cast<ShaderGraph::MasterMaterialOutput*>(node.nodeDataModel());
+    node.nodeGraphicsObject().setPos(QPointF((viewportDimension.width() * 2.0f) / 3.0f, 0));
+    m_masterMaterialOutput = dynamic_cast<ShaderGraph::MasterMaterialOutput*>(node.nodeDataModel());
     LOG_INFO("Creating : {0} node", modelName.toStdString());
 }
 

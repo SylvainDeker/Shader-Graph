@@ -31,18 +31,16 @@ namespace ShaderGraph
     {
         auto value = std::dynamic_pointer_cast<Boolean>(data);
 
-        if (value) m_out = std::make_shared<Template>(EPinType::BOOLEAN, 0, "T", value->getNode());
+        if (value) m_out = std::make_shared<Template>(EPinType::BOOLEAN, 0, value->type().name, value->getNode());
 
         return m_out;
     }
 
     PIN FloatToTemplate::operator()(PIN data)
     {
-        LOG_DEBUG("Cast :)");
-
         auto value = std::dynamic_pointer_cast<Float>(data);
 
-        if (value) m_out = std::make_shared<Template>(EPinType::FLOAT, 0, "T", value->getNode());
+        if (value) m_out = std::make_shared<Template>(EPinType::FLOAT, 0, value->type().name, value->getNode());
 
         return m_out;
     }
@@ -51,7 +49,7 @@ namespace ShaderGraph
     {
         auto value = std::dynamic_pointer_cast<Vector2>(data);
 
-        if (value) m_out = std::make_shared<Template>(EPinType::VEC2, 0, "T", value->getNode());
+        if (value) m_out = std::make_shared<Template>(EPinType::VEC2, 0, value->type().name, value->getNode());
 
         return m_out;
     }
@@ -60,7 +58,7 @@ namespace ShaderGraph
     {
         auto value = std::dynamic_pointer_cast<Vector3>(data);
 
-        if (value) m_out = std::make_shared<Template>(EPinType::VEC3, 0, "T", value->getNode());
+        if (value) m_out = std::make_shared<Template>(EPinType::VEC3, 0, value->type().name, value->getNode());
 
         return m_out;
     }
@@ -69,7 +67,7 @@ namespace ShaderGraph
     {
         auto value = std::dynamic_pointer_cast<Vector4>(data);
 
-        if (value) m_out = std::make_shared<Template>(EPinType::VEC4, 0, "T", value->getNode());
+        if (value) m_out = std::make_shared<Template>(EPinType::VEC4, 0, value->type().name, value->getNode());
 
         return m_out;
     }

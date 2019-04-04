@@ -41,12 +41,10 @@ namespace ShaderGraph
             auto input = std::dynamic_pointer_cast<IPin>(data);
             auto pin   = std::dynamic_pointer_cast<IPin>(m_inputs[index]);
 
-            if (pin != nullptr)
-            {
-                if (input == nullptr && pin->isConnected()) pin->disconnect();
-                else pin->connect(data);
-            }
-            else LOG_ERROR("ShaderGraph::Node::setInData : Pin doesn't implements IPin");
+            assert(pin != nullptr);
+
+            if (!input|| pin->isConnected()) pin->disconnect();
+            else pin->connect(data);
         }
         else LOG_ERROR("ShaderGraph::Node::setInData : Invalid port index");
     }

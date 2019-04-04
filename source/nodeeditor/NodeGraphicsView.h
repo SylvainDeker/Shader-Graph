@@ -34,6 +34,8 @@ public:
 
   inline void setDetailsTree(QTreeWidget * tree) { m_detailsTree = tree; }
 
+  void deleteSelectedNodes() override;
+
 protected:
   void mousePressEvent(QMouseEvent *event) override;
 

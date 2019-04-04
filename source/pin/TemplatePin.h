@@ -96,13 +96,6 @@ namespace ShaderGraph
 
         /// Setter : The node which contains this pin.
         void setNode(QtNodes::NodeDataModel * owner) override;
-        
-        /// @return : Get the GLSL type (in string) which represents this pin.
-        std::string typeToGLSL() override;
-
-        // @return : Get the GLSL default value (in string),
-        // in case of this pin is disconnected during code generation.
-        std::string defaultValueToGLSL() override;
 
         /// Getter : The binded pin.
         inline std::shared_ptr<QtNodes::NodeData> getBindedPin() const { return m_pin; }

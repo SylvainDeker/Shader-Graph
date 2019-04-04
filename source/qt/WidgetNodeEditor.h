@@ -6,8 +6,6 @@
 #include <QPushButton>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-
-// WIP
 #include <QTreeWidget>
 
 #include <nodes/NodeData>
@@ -20,10 +18,8 @@
 
 #include <core/Core.h>
 
-#include "NodeGraphicsView.h"
-#include "../model/output/MasterMaterialOutput.h"
-
 #include "nodeeditor/NodeGraphicsView.h"
+#include "../model/output/MasterMaterialOutput.h"
 
 // TODO : Do not do that
 using QtNodes::DataModelRegistry;

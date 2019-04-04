@@ -52,20 +52,22 @@ namespace ShaderGraph
         /// @return : True if this pin is connected to an other pin.
         virtual bool isConnected() const = 0;
 
+        /// Getter : The connected pin.
+        /// @return : nullptr if this pin isn't connected.
+        virtual std::shared_ptr<QtNodes::NodeData> getConnectedPin() = 0;
+
         /// Connect the pin to an other pin.
         virtual void connect(std::shared_ptr<QtNodes::NodeData> inPin) = 0;
 
         /// Disconnect this pin if it was connected.
         virtual void disconnect() = 0;
 
-        /// Getter : The connected pin.
-        /// @return : nullptr if this pin isn't connected.
-        virtual std::shared_ptr<QtNodes::NodeData> getConnectedPin() = 0;
-
         /* ============================== Pin Type ============================== */
 
+        /// Getter : The type of this pin.
         virtual EPinType getType() const = 0;
 
+        /// Setter : The type of this pin.
         virtual void setType(EPinType type) = 0;
 
         /* ============================== Container / Owner ============================== */

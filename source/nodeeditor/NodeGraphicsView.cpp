@@ -58,7 +58,8 @@ void NodeGraphicsView::mousePressEvent(QMouseEvent *event)
     FlowView::mousePressEvent(event);
 }
 
-void NodeGraphicsView::deleteSelectedNodes(){
+void NodeGraphicsView::deleteSelectedNodes()
+{
   ShaderGraph::Node * node;
   for (QGraphicsItem * item : scene()->selectedItems())
   {

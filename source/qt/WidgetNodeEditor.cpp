@@ -6,6 +6,10 @@
 #include "pin/PinDecl.h"
 #include "model/NodeDecl.h"
 #include "nodeeditor/NodeManager.h"
+
+#include "pin/PinDecl.h"
+#include "model/NodeDecl.h"
+#include "nodeeditor/NodeManager.h"
 #include "nodeeditor/NodeGraphicsView.h"
 
 WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
@@ -68,4 +72,3 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     m_masterMaterialOutput = dynamic_cast<ShaderGraph::MasterMaterialOutput*>(node.nodeDataModel());
     LOG_INFO("Creating : {0} node", modelName.toStdString());
 }
-

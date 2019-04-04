@@ -88,7 +88,7 @@ namespace ShaderGraph
 
         /// @return : Get name of this pin to std::string.
         virtual std::string nameToGLSL() = 0;
-};
+    };
 }
 
 #endif //SHADERGRAPH_INTERFACE_H

@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTreeWidget>
+#include <QTreeWidget>
 
 #include <nodes/NodeData>
 #include <nodes/FlowScene>
@@ -45,10 +46,8 @@ public:
 private:
     FlowScene           * m_scene;
     NodeGraphicsView    * m_graphicsView;
-
-    QVBoxLayout * m_layout;
+    QVBoxLayout         * m_layout;
     ShaderGraph::MasterMaterialOutput * m_masterMaterialOutput;
-
 };
 
 

@@ -22,8 +22,8 @@
 #define FORMAT_DEPTH_BUFFER_SIZE 24
 
 Window::Window(QWidget * Parent) :
-    QMainWindow(Parent),
-    m_ui(new Ui::Window)
+        QMainWindow(Parent),
+        m_ui(new Ui::Window)
 {
     // Step 0 : Initialise the default format
     QSurfaceFormat format;
@@ -65,14 +65,14 @@ Window::Window(QWidget * Parent) :
     // Push each category
     for (auto const &category : scene->registry().categories())
     {
-      if(category !=QStringLiteral("Output"))
-      {
-        auto item = new QTreeWidgetItem(m_ui->treeWidget);
-        item->setText(0, category);
-        item->setData(0, Qt::UserRole, QStringLiteral("skip me"));
-        item->setTextColor(0, QColor("white"));
-        m_internalFunctionTree[category] = item;
-      }
+        if(category !=QStringLiteral("Output"))
+        {
+            auto item = new QTreeWidgetItem(m_ui->treeWidget);
+            item->setText(0, category);
+            item->setData(0, Qt::UserRole, QStringLiteral("skip me"));
+            item->setTextColor(0, QColor("white"));
+            m_internalFunctionTree[category] = item;
+        }
     }
 
     // Push each common

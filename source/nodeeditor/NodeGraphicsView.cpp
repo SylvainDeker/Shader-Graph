@@ -1,7 +1,7 @@
 #include <QPushButton>
-#include "NodeGraphicsView.h"
-#include "model/Node.h"
 
+#include "model/Node.h"
+#include "NodeGraphicsView.h"
 #include "../model/output/MasterMaterialOutput.h"
 
 NodeGraphicsView::NodeGraphicsView(QWidget *parent):
@@ -58,13 +58,15 @@ void NodeGraphicsView::mousePressEvent(QMouseEvent *event)
     FlowView::mousePressEvent(event);
 }
 
+
 void NodeGraphicsView::deleteSelectedNodes()
 {
   ShaderGraph::Node * node;
   for (QGraphicsItem * item : scene()->selectedItems())
   {
-    if (auto n = qgraphicsitem_cast<QtNodes::NodeGraphicsObject*>(item)){
-      node = static_cast<ShaderGraph::Node*>(n->node().nodeDataModel());
+    if (auto n = qgraphicsitem_cast<QtNodes::NodeGraphicsObject*>(item))
+    {
+      node = dynamic_cast<ShaderGraph::Node*>(n->node().nodeDataModel());
       if(node->name()==QStringLiteral("MasterMaterialOutput")) return;
     }
   }

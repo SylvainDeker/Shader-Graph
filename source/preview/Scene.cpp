@@ -327,4 +327,10 @@ namespace ShaderGraph
         m_mouseY = ypos;
         m_camera->processMouseMovement(m_button, xpos, ypos);
     }
+
+    void Scene::refreshProgram()
+    {
+        m_shader->refresh();
+        draw();
+    }
 }

@@ -21,6 +21,8 @@ namespace ShaderGraph
         virtual void mouseClick(int button, float xpos, float ypos);
         virtual void mouseMove(float xpos, float ypos);
 
+        virtual void refreshProgram();
+
     protected:
         unsigned int m_width;  /// Width of the viewport
         unsigned int m_height; /// Heigth of the viewport

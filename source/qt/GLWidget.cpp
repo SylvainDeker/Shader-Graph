@@ -6,7 +6,7 @@
 #define LAST_TIME_START_VALUE 0
 
 GLWidget::GLWidget(QWidget *parent) :
-    QOpenGLWidget(parent), 
+    QOpenGLWidget(parent),
     QOpenGLFunctions_4_1_Core(),
     m_lastTime(LAST_TIME_START_VALUE)
 {
@@ -31,6 +31,11 @@ void GLWidget::paintGL()
 
     const unsigned int endTime   = QDateTime::currentMSecsSinceEpoch();
     m_lastTime = endTime - startTime;
+}
+
+void GLWidget::refreshSceneProgram()
+{
+    m_scene->refreshProgram();
 }
 
 void GLWidget::resizeGL(int width, int height)

@@ -132,9 +132,9 @@ void Window::compile()
     bool success = false;
 
     // TODO : compile this shader ;)
-    
+
     FlowScene * sc = m_ui->nodeEditor->getScene();
-    
+
     bool outFound = false;
     ShaderGraph::Node *out = nullptr;
     // looking for the output node
@@ -149,24 +149,24 @@ void Window::compile()
     if (outFound) {
         LOG_INFO("compiling shader");
         // write the code in a file
-        std::ofstream shaderFile("../output/shader.glsl");
+        std::ofstream shaderFile("../data/shaders/Material_output.glsl");
         if (shaderFile.is_open()) {
             std::string code = out->toGLSL();
             // TODO compile the generated code
             // and update the preview before writting the file
-            
-            shaderFile << code;
+
+            /* shaderFile << code; */
             shaderFile.close();
             LOG_INFO("file written");
+            success = true;
         }
         else LOG_INFO("could not open file");
     }
     else LOG_ERROR("No output node");
-    
 
-    
     if (success)
     {
+        m_ui->preview->refreshSceneProgram();
         LOG_INFO("The Shader is compiled");
     }
     else

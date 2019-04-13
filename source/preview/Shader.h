@@ -52,6 +52,7 @@ namespace ShaderGraph
         /// The id given by openGL.
         int m_id;
         std::string m_fragmentShaderPath;
+        int m_fs;
 
         struct ShaderProgramSource
         {

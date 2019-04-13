@@ -103,51 +103,18 @@ namespace ShaderGraph
         return "id" + std::to_string(m_id) + "_" + pin->type().name.toStdString();
     }
 
-    std::vector<PIN>& Node::inputs(){
-        assert(
-                ([ &pins = m_inputs]() -> bool{
-                    for (size_t i = 0; i< pins.size();i++){
-                        for (size_t j = 0; j< pins.size()/2;j++){
-                            if(i!=j && pins[i]->type().name.toStdString() == pins[j]->type().name.toStdString()){
-                                return false;
-                            }
-                        }
-                    }
-                    return true;}
-                )()
-        );
+    std::vector<PIN>& Node::inputs()
+    {
         return m_inputs;
     }
 
-    std::vector<PIN>& Node::outputs(){
-        assert(
-                ([&pins = m_outputs]() -> bool{
-                    for (size_t i = 0; i< pins.size();i++){
-                        for (size_t j = 0; j< pins.size()/2;j++){
-                            if(i!=j && pins[i]->type().name.toStdString() == pins[j]->type().name.toStdString()){
-                                return false;
-                            }
-                        }
-                    }
-                    return true;}
-                )()
-        );
+    std::vector<PIN>& Node::outputs()
+    {
         return m_outputs;
     }
 
-    std::vector<PIN>& Node::details(){
-        assert(
-                ([&pins = m_details]() -> bool{
-                    for (size_t i = 0; i< pins.size();i++){
-                        for (size_t j = 0; j< pins.size()/2;j++){
-                            if(i!=j && pins[i]->type().name.toStdString() == pins[j]->type().name.toStdString()){
-                                return false;
-                            }
-                        }
-                    }
-                    return true;}
-                )()
-        );
+    std::vector<PIN>& Node::details()
+    {
         return m_details;
     }
 
@@ -192,15 +159,16 @@ namespace ShaderGraph
                         LOG_ERROR("Parsing : A pin is connected to an invalid pin");
                         // TODO : parsing error handler
                     }
-
+                    
                     auto connectedNode = dynamic_cast<Node*>(connectedPin->getNode());
-
+                                        
                     code += connectedNode->toGLSL(nodes) + "\n";
+                    nodes.push_back(connectedNode->getID());
 
-                    value = std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
+                    value = "id" + std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
                 }
                 else value = pin->defaultValueToGLSL();
-
+                
                 std::string line = pin->typeToGLSL() + " " +
                                    autoName(input)   + "=" +
                                    value             + ";" ;
@@ -216,7 +184,7 @@ namespace ShaderGraph
     {
         std::string glslCode = "";
         std::list<unsigned int> nodes;
-
+        nodes.push_back(m_id);
         glslCode += inputsToGLSL(nodes);
         glslCode += outputsToGLSL();
         glslCode += nodeToGLSL();
@@ -232,6 +200,7 @@ namespace ShaderGraph
 
         if (!isFound)
         {
+            nodes.push_back(m_id);
             glslCode += inputsToGLSL(nodes);
             glslCode += outputsToGLSL();
             glslCode += nodeToGLSL();

@@ -88,7 +88,7 @@ namespace ShaderGraph
     {
 
         outputs() = std::vector<PIN>{
-                std::make_shared<Vector3>("Result", this)
+                std::make_shared<Vector2>("Result", this)
         };
 
         m_layout->addWidget(m_spinBoxX);

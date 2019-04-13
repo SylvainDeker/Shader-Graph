@@ -85,6 +85,8 @@ namespace ShaderGraph
 
         // @return : Get the GLSL default value (in string) in case of this pin is disconnected during code generation.
         virtual std::string defaultValueToGLSL() = 0;
+        
+        // virtual std::string valueToGLSL() = 0;
 
         /// @return : Get name of this pin to std::string.
         virtual std::string nameToGLSL() = 0;

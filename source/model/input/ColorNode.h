@@ -46,17 +46,6 @@ namespace ShaderGraph
         /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
-        std::string nodeToGLSL() override
-        {
-            std::string buffer;
-            GLSL_CODE(buffer,
-                      "declColor({0}, {1}, {2}, ...",
-                      autoName(outputs()[0]),
-                      autoName(outputs()[1]),
-                      autoName(outputs()[2]));
-            return buffer;
-        }
-
         /// @return : True if this node is a uniform.
         inline bool isUniform() override { return m_isUniform->isChecked(); }
 
@@ -74,6 +63,11 @@ namespace ShaderGraph
                     std::to_string(m_bSpinBox->value()) + ", " +
                     std::to_string(m_aSpinBox->value()) + ") " ;
         };
+
+        std::string nodeToGLSL() override
+        {
+            return "// Color : TODO";
+        }
 
     public slots:
         void onColorValueChanged(double value);
@@ -104,11 +98,10 @@ namespace ShaderGraph
 
         DetailNode m_colorDetails;
 
-        // Color :
-
+        /// Color Leaf
         DetailColor m_colorLeaf;
 
-        // Uniform :
+        /// Uniform Leaf
         DetailUniform m_uniformLeaf;
 
     };

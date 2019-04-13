@@ -57,8 +57,15 @@ namespace ShaderGraph
       }
 
   public slots:
-    inline void onValueChanged() { set(static_cast<float>(m_spinBoxX->value())); }
-    inline void onDetailValueChanged() { set(static_cast<float>(m_detailsPanelSpinBoxX->value())); }
+    inline void onValueChanged()
+    {
+          set(static_cast<float>(m_spinBoxX->value()));
+    }
+
+    inline void onDetailValueChanged()
+    {
+          set(static_cast<float>(m_detailsPanelSpinBoxX->value()));
+    }
 
   private:
       float m_value;
@@ -143,7 +150,6 @@ namespace ShaderGraph
         QDoubleSpinBox * m_detailsPanelSpinBoxY;
 
         /* =============== Start QTreeWidget items definition ===============*/
-
         QTreeWidgetItem * m_axisSection = nullptr;
 
         QTreeWidgetItem * m_xSection = nullptr;
@@ -153,7 +159,7 @@ namespace ShaderGraph
         QTreeWidgetItem * m_yItem = nullptr;
 
         /* =============== End QTreeWidget items definition ===============*/
-    };
+};
 
     class Vec3Node : public Node
     {
@@ -183,11 +189,7 @@ namespace ShaderGraph
 
         std::string nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
-                      "declVector({0}, ...",
-                      autoName(outputs()[0]));
-            return buffer;
+            return "";
         }
 
     public slots:
@@ -268,11 +270,7 @@ namespace ShaderGraph
 
         std::string nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
-                      "declVector({0}, ...",
-                      autoName(outputs()[0]));
-            return buffer;
+            return "";
         }
 
     public slots:

@@ -135,7 +135,7 @@ namespace ShaderGraph
 
         /// Generate the equivalent in GLSL code.
         /// @warning : Will generate the node that it depends on.
-        std::string toGLSL();
+        virtual std::string toGLSL();
 
         /// Generate the equivalent in GLSL code.
         /// @warning : Will generate the node that it depends on.

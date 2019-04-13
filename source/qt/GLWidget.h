@@ -32,6 +32,9 @@ public:
     void mousePressEvent(QMouseEvent * event) override;
     void mouseMoveEvent(QMouseEvent * event) override;
 
+    /// Refresh program with new fragment shader made
+    void refreshSceneProgram();
+
 private:
     unsigned int m_lastTime;
 

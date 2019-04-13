@@ -40,6 +40,7 @@ bin/
 external/Catch/
 external/glm/
 .idea/
+output/*
 
 # Files
 .DS_Store

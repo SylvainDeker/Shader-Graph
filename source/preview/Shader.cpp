@@ -47,7 +47,7 @@ namespace ShaderGraph
 
     int Shader::compileShader(unsigned int type, const std::string& source)
     {
-        unsigned int shaderId = glCreateShader(type);
+        int shaderId = glCreateShader(type);
         const char * cSource = source.c_str();
 
         GL_ASSERT(glShaderSource(shaderId, 1, &cSource, nullptr));
@@ -76,12 +76,12 @@ namespace ShaderGraph
     {
         int program = glCreateProgram();
         int vs = compileShader(GL_VERTEX_SHADER, vertexShader);
-        int fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
+        m_fs = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
 
-        if (vs < 0 || fs < 0) return -1; // The compilation has failed..
+        if (vs < 0 || m_fs < 0) return -1; // The compilation has failed..
 
         GL_ASSERT(glAttachShader(program, vs));
-        GL_ASSERT(glAttachShader(program, fs));
+        GL_ASSERT(glAttachShader(program, m_fs));
 
         GL_ASSERT(glLinkProgram(program));
 
@@ -95,15 +95,50 @@ namespace ShaderGraph
         GL_ASSERT(glValidateProgram(program));
 
         GL_ASSERT(glDeleteShader(vs));
-        GL_ASSERT(glDeleteShader(fs));
+        GL_ASSERT(glDeleteShader(m_fs));
 
         return program;
     }
 
     void Shader::refresh()
     {
-        //TODO : detach and delete previous fragment shader, read m_fragmentShaderPath,
-        // compile new shader and attach new shader to program
+        // Read new shader
+        std::stringstream new_frag;
+        new_frag << "#version 330\n\n"; // Header
+        new_frag << readGLSLFile(m_fragmentShaderPath, 0);
+
+        // Compile new shader
+        int new_fs = compileShader(GL_FRAGMENT_SHADER, new_frag.str());
+
+        if (new_fs == -1)
+        {
+            LOG_ERROR("Shader::refresh : could not compile shader");
+        }
+        else
+        {
+            // Detach and activate deletion flag of old shader
+            GL_ASSERT(glDetachShader(m_id, m_fs));
+
+            // Attach new shader
+            GL_ASSERT(glAttachShader(m_id, new_fs));
+            m_fs = new_fs;
+
+            GL_ASSERT(glLinkProgram(m_id));
+
+            int valid;
+            glGetProgramiv(m_id, GL_LINK_STATUS, &valid);
+            if (!valid)
+            {
+                LOG_CRITICAL("Shader::refresh : program could not be linked");
+            }
+
+            GL_ASSERT(glValidateProgram(m_id));
+
+            // Set deletion flag of new shader
+            GL_ASSERT(glDeleteShader(m_fs));
+
+            LOG_INFO("Successfully refreshed shader program");
+        }
     }
 
     std::string Shader::readGLSLFile(const std::string& filepath, int level)

@@ -121,7 +121,7 @@ namespace ShaderGraph
         /// Format : nodeID<nodeID>_<pinname>, with :
         ///     <nodeID> : The id of this node
         ///     <pinname>: The name of the pin, with the convention : lowercase.
-        std::string autoName(PIN pin);
+        virtual std::string autoName(PIN pin);
 
         /// Generate the declarations of this node outputs, for the GLSL code.
         std::string outputsToGLSL();

@@ -35,7 +35,7 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        inline std::string nodeToGLSL() override
         {
             std::string buffer;
             GLSL_CODE(buffer,
@@ -44,12 +44,17 @@ namespace ShaderGraph
                       autoName(inputs()[1]));
             return buffer;
         }
-        std::string toGLSL() override
+
+        inline std::string toGLSL() override
         {
             std::list<unsigned int> nodes;
             std::string glslCode  = inputsToGLSL(nodes) + nodeToGLSL();
-
             return glslCode;
+        }
+
+        inline std::string autoName(PIN pin) override
+        {
+            return pin->type().name.toStdString();
         }
     };
 }

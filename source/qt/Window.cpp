@@ -138,6 +138,8 @@ void Window::compile()
 {
     bool success = false;
 
+    std::string generatedCode = "";
+
     FlowScene * sc = m_ui->nodeEditor->getScene();
 
     bool outFound = false;
@@ -165,14 +167,13 @@ void Window::compile()
 
         if (shaderFile.is_open())
         {
-            std::string code = out->toGLSL();
+            generatedCode = out->toGLSL();
 
-            // TODO : Compile the generated code and update the preview before writting the file
-
-            shaderFile << code;
-
+            // Write and flush the generated code.
+            shaderFile << out->toGLSL();
             shaderFile.flush();
 
+            // Close the file.
             shaderFile.close();
 
             LOG_INFO("File written !");
@@ -187,6 +188,7 @@ void Window::compile()
 
     if (success)
     {
+        m_ui->preview->updateShaderCode(generatedCode);
         m_ui->preview->refreshSceneProgram();
         LOG_INFO("The Shader is compiled");
     }

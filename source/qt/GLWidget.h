@@ -35,6 +35,8 @@ public:
     /// Refresh program with new fragment shader made
     void refreshSceneProgram();
 
+    inline void updateShaderCode(std::string& code) { m_scene->updateShaderCode(code); }
+
 private:
     unsigned int m_lastTime;
 

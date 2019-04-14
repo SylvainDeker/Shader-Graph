@@ -1,15 +1,13 @@
-vec3 id6_Result=vec3(0.0f);
-
-vec3 id19_Diffuse = id6_Result;
-vec3 id19_Normal = vec3(0.0f);
-vec3 id19_Metallic = vec3(0.0f);
-vec3 id19_Roughness = vec3(0.0f);
-vec3 id19_Emissive = vec3(0.0f);
-vec3 id19_Opacity = vec3(0.0f);
-vec3 id19_World Position Offset = vec3(0.0f);
-vec3 id19_Ambient Occlusion = vec3(0.0f);
-vec3 id19_Refraction = vec3(0.0f);
-vec2 id19_Texture Coordinate = vec2(0.0f);
-vec3 id19_Tangent = vec3(0.0f);
-float id19_Depth = 0.0f;
+vec3 Diffuse = vec3(0.0f);
+vec3 Normal = vec3(0.0f);
+vec3 Metallic = vec3(0.0f);
+vec3 Roughness = vec3(0.0f);
+vec3 Emissive = vec3(0.0f);
+vec3 Opacity = vec3(0.0f);
+vec3 World Position Offset = vec3(0.0f);
+vec3 Ambient Occlusion = vec3(0.0f);
+vec3 Refraction = vec3(0.0f);
+vec2 Texture Coordinate = vec2(0.0f);
+vec3 Tangent = vec3(0.0f);
+float Depth = 0.0f;
 // End MasterMaterialOutput

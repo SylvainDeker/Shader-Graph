@@ -51,8 +51,11 @@ namespace ShaderGraph
       {
           std::string buffer;
           GLSL_CODE(buffer,
-                    "declVector({0}, ...",
-                    autoName(outputs()[0]));
+                    "// Input : Scalar \n"
+                    "{0} = {1};"
+                    "\n",
+                    autoName(outputs()[0]),
+                    m_value);
           return buffer;
       }
 
@@ -116,8 +119,12 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "declVector({0}, ...",
-                      autoName(outputs()[0]));
+                      "// Input : Vec2 \n"
+                      "{0} = vec2({1}, {2});"
+                      "\n",
+                      autoName(outputs()[0]),
+                      m_value.x,
+                      m_value.y);
             return buffer;
         }
 
@@ -189,7 +196,16 @@ namespace ShaderGraph
 
         std::string nodeToGLSL() override
         {
-            return "";
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "// Input : Vec3 \n"
+                      "{0} = vec3({1}, {2}, {3});"
+                      "\n",
+                      autoName(outputs()[0]),
+                      m_value.x,
+                      m_value.y,
+                      m_value.z);
+            return buffer;
         }
 
     public slots:
@@ -270,7 +286,17 @@ namespace ShaderGraph
 
         std::string nodeToGLSL() override
         {
-            return "";
+            std::string buffer;
+            GLSL_CODE(buffer,
+                      "// Input : Vec4 \n"
+                      "{0} = vec3({1}, {2}, {3});"
+                      "\n",
+                      autoName(outputs()[0]),
+                      m_value.x,
+                      m_value.y,
+                      m_value.z,
+                      m_value.a);
+            return buffer;
         }
 
     public slots:

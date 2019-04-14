@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <fstream>
+#include <string>
 #include <cmath>
 #include <QKeyEvent>
 
@@ -12,6 +14,20 @@ namespace ShaderGraph
         m_width(width),
         m_height(height)
     {
+        // Restore the MaterialModel
+        std::ifstream input("../data/shaders/source/MaterialModel.glsl");
+        assert(input.is_open());
+        std::string content((std::istreambuf_iterator<char>(input)),
+                            (std::istreambuf_iterator<char>()    ));
+
+        LOG_DEBUG(content);
+
+        std::ofstream output("../data/shaders/runtime/MaterialModel.glsl");
+        assert(output.is_open());
+        output << content;
+        output.flush();
+        output.close();
+
         /* ============================================================ */
         /* Step 0 : OpenGL setup */
         /* ============================================================ */
@@ -209,8 +225,8 @@ namespace ShaderGraph
         /* ============================================================ */
         /* Step 6 : Compile shaders */
         /* ============================================================ */
-        m_shader = new Shader("../data/shaders/Vertex.glsl",
-                              "../data/shaders/Fragment.glsl");
+        m_shader = new Shader("../data/shaders/runtime/Vertex.glsl",
+                              "../data/shaders/runtime/Fragment.glsl");
     }
 
     Scene::~Scene()
@@ -326,6 +342,47 @@ namespace ShaderGraph
         m_mouseX = xpos;
         m_mouseY = ypos;
         m_camera->processMouseMovement(m_button, xpos, ypos);
+    }
+
+    void Scene::updateShaderCode(std::string& code)
+    {
+        std::list<std::string> shader;
+        std::ifstream ifs("../data/shaders/runtime/MaterialModel.glsl");
+
+        // Save the last shader
+        for (std::string line; getline(ifs, line ); ) shader.push_back(line);
+
+        std::list<std::string>::iterator start;
+        std::list<std::string>::iterator stop;
+
+        for (auto it = shader.begin(); it != shader.end(); ++it)
+        {
+            std::string line = *it;
+
+            if (line == "// Flag")
+            {
+                start = it;
+            }
+            else if (line == "// end Flag")
+            {
+                stop = it;
+                shader.erase(start, stop);
+
+                fmt::memory_buffer membuf;
+                format_to(membuf, "vec3 getKd(Material material, vec2 texCoord) "
+                                  "{\n"
+                                  "{0}"
+                                  "return Diffuse;"
+                                  "}",
+                                  code);
+                shader.push_back(to_string(membuf));
+            }
+        }
+
+        for (std::string& line : shader)
+        {
+            LOG_DEBUG(line);
+        }
     }
 
     void Scene::refreshProgram()

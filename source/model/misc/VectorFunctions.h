@@ -25,8 +25,9 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
+                      "// MakeVec2Node \n"
                       "{0} = vec2({1}, {2});"
-                      "",
+                      "\n",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -54,8 +55,9 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
+                      "// MakeVec3Node \n"
                       "{0} = vec3({1}, {2}, {3});"
-                      "",
+                      "\n",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]),
@@ -85,8 +87,9 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
+                      "// MakeVec4Node \n"
                       "{0} = vec4({1}, {2}, {3}, {4});"
-                      "",
+                      "\n",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]),
@@ -115,9 +118,10 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
+                      "// BreakVec2Node \n"
                       "{1} = {0}.x;"
                       "{2} = {0}.y;"
-                      "",
+                      "\n",
 
                       autoName(inputs()[0]),
 
@@ -147,10 +151,11 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
+                      "// BreakVec3Node \n"
                       "{1} = {0}.x;"
                       "{2} = {0}.y;"
                       "{3} = {0}.z;"
-                      "",
+                      "\n",
 
                       autoName(inputs()[0]),
 
@@ -182,11 +187,12 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
+                      "// BreakVec4Node \n"
                       "{1} = {0}.x;"
                       "{2} = {0}.y;"
                       "{3} = {0}.z;"
                       "{4} = {0}.a;"
-                      "",
+                      "\n",
 
                       autoName(inputs()[0]),
 

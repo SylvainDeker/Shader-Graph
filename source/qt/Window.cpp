@@ -136,8 +136,6 @@ Window::Window(QWidget * Parent) :
 
 void Window::compile()
 {
-    LOG_INFO("Compiling...");
-
     bool success = false;
 
     FlowScene * sc = m_ui->nodeEditor->getScene();
@@ -160,10 +158,10 @@ void Window::compile()
 
     if (outFound)
     {
-        LOG_INFO("Compiling shader...");
+        LOG_INFO("Compiling...");
 
         // Write the code in a file
-        std::ofstream shaderFile("../data/Output.glsl");
+        std::ofstream shaderFile("../data/ShagerGraph_Output.txt");
 
         if (shaderFile.is_open())
         {
@@ -172,6 +170,8 @@ void Window::compile()
             // TODO : Compile the generated code and update the preview before writting the file
 
             shaderFile << code;
+
+            shaderFile.flush();
 
             shaderFile.close();
 

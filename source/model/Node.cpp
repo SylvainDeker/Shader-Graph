@@ -38,11 +38,6 @@ namespace ShaderGraph
     {
         if (index >= 0 || index < (int) m_inputs.size())
         {
-            if (!data)
-            {
-                LOG_ERROR("Node::setInData : nullptr");
-            }
-
             auto input = std::dynamic_pointer_cast<IPin>(data);
             auto pin   = std::dynamic_pointer_cast<IPin>(m_inputs[index]);
 
@@ -192,7 +187,7 @@ namespace ShaderGraph
                 else value = pin->defaultValueToGLSL();
                 
                 std::string line = pin->typeToGLSL() + " " +
-                                   autoName(input)   + "=" +
+                                   autoName(input)   + " = " +
                                    value             + ";" ;
 
                 code += line + "\n";

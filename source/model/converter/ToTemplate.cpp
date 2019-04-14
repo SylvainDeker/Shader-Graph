@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#define MAKE_TEMPLATE std::make_shared<Template>
+
 namespace ShaderGraph
 {
     void registerToTemplateConverters(std::shared_ptr<QtNodes::DataModelRegistry> registry)
@@ -27,47 +29,97 @@ namespace ShaderGraph
         registry->registerTypeConverter(pair, converter);
     }
 
-    PIN BoolToTemplate::operator()(PIN data)
+    PIN BoolToTemplate::operator()(const PIN data)
     {
-        auto value = std::dynamic_pointer_cast<Boolean>(data);
+        auto values = std::vector<std::shared_ptr<Pin>> {
+                std::dynamic_pointer_cast<Boolean>(data),
+                std::dynamic_pointer_cast<Template>(data)
+        };
 
-        if (value) m_out = std::make_shared<Template>(EPinType::BOOLEAN, 0, value->type().name, value->getNode());
+        if (values[0])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::BOOLEAN, 0, values[0]->type().name, values[0]->getNode());
+        }
+        else if (values[1])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::BOOLEAN, 0, values[1]->type().name, values[1]->getNode());
+        }
 
         return m_out;
     }
 
-    PIN FloatToTemplate::operator()(PIN data)
+    PIN FloatToTemplate::operator()(const PIN data)
     {
-        auto value = std::dynamic_pointer_cast<Float>(data);
+        auto values = std::vector<std::shared_ptr<Pin>> {
+            std::dynamic_pointer_cast<Float>(data),
+            std::dynamic_pointer_cast<Template>(data)
+        };
 
-        if (value) m_out = std::make_shared<Template>(EPinType::FLOAT, 0, value->type().name, value->getNode());
+        if (values[0])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::FLOAT, 0, values[0]->type().name, values[0]->getNode());
+        }
+        else if (values[1])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::FLOAT, 0, values[1]->type().name, values[1]->getNode());
+        }
 
         return m_out;
     }
 
-    PIN Vec2ToTemplate::operator()(PIN data)
+    PIN Vec2ToTemplate::operator()(const PIN data)
     {
-        auto value = std::dynamic_pointer_cast<Vector2>(data);
+        auto values = std::vector<std::shared_ptr<Pin>> {
+                std::dynamic_pointer_cast<Vector2>(data),
+                std::dynamic_pointer_cast<Template>(data)
+        };
 
-        if (value) m_out = std::make_shared<Template>(EPinType::VEC2, 0, value->type().name, value->getNode());
+        if (values[0])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::VEC2, 0, values[0]->type().name, values[0]->getNode());
+        }
+        else if (values[1])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::VEC2, 0, values[1]->type().name, values[1]->getNode());
+        }
 
         return m_out;
     }
 
-    PIN Vec3ToTemplate::operator()(PIN data)
+    PIN Vec3ToTemplate::operator()(const PIN data)
     {
-        auto value = std::dynamic_pointer_cast<Vector3>(data);
+        auto values = std::vector<std::shared_ptr<Pin>> {
+                std::dynamic_pointer_cast<Vector3>(data),
+                std::dynamic_pointer_cast<Template>(data)
+        };
 
-        if (value) m_out = std::make_shared<Template>(EPinType::VEC3, 0, value->type().name, value->getNode());
+        if (values[0])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::VEC3, 0, values[0]->type().name, values[0]->getNode());
+        }
+        else if (values[1])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::VEC3, 0, values[1]->type().name, values[1]->getNode());
+        }
 
         return m_out;
     }
 
-    PIN Vec4ToTemplate::operator()(PIN data)
+    PIN Vec4ToTemplate::operator()(const PIN data)
     {
-        auto value = std::dynamic_pointer_cast<Vector4>(data);
+        auto values = std::vector<std::shared_ptr<Pin>> {
+                std::dynamic_pointer_cast<Vector4>(data),
+                std::dynamic_pointer_cast<Template>(data)
+        };
 
-        if (value) m_out = std::make_shared<Template>(EPinType::VEC4, 0, value->type().name, value->getNode());
+        if (values[0])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::VEC4, 0, values[0]->type().name, values[0]->getNode());
+        }
+        else if (values[1])
+        {
+            m_out = MAKE_TEMPLATE(EPinType::VEC4, 0, values[1]->type().name, values[1]->getNode());
+        }
 
         return m_out;
     }

@@ -30,7 +30,7 @@ namespace ShaderGraph
         {
             node->setValidation(NodeValidationState::Valid);
             Pin::connect(inPin);
-            setBindedType(pin->getType());
+            setBindedType(pin->getType(), true);
         }
     }
 
@@ -68,13 +68,16 @@ namespace ShaderGraph
 
             LOG_DEBUG("Template::disconnect : Type reset");
         }
+        else
+        {
+            LOG_DEBUG("Template::disconnect : {0} type constraint", connectedPinsCount);
+        }
     }
 
     /// Getter : The connected pin.
     /// @warning : returns nullptr if this pin isn't connected.
     std::shared_ptr<QtNodes::NodeData> Template::getConnectedPin()
     {
-
         auto pin = std::dynamic_pointer_cast<IPin>(m_pin);
 
         assert(pin != nullptr);
@@ -111,11 +114,13 @@ namespace ShaderGraph
         return pin->defaultValueToGLSL();
     }
 
-    void Template::setBindedType(EPinType type)
+    void Template::setBindedType(EPinType type, bool doDispatch)
     {
         if (type == EPinType::TEMPLATE)
         {
+            setType(type);
             m_typeId = "Template";
+            LOG_DEBUG("{0} : Type set to : {1}", name().toStdString(), pinTypeToString(type));
         }
         else if (!isConnectable(type))
         {
@@ -124,39 +129,48 @@ namespace ShaderGraph
         }
         else
         {
-            switch (type)
+            if (doDispatch)
             {
-                case EPinType::BOOLEAN :
-                    m_pin = std::make_shared<Boolean>(name(), getNode());
-                    m_typeId = "Boolean";
-                    break;
-
-                case EPinType::FLOAT :
-                    m_pin = std::make_shared<Float>(name(), getNode());
-                    m_typeId = "Float";
-                    break;
-
-                case EPinType::VEC2 :
-                    m_pin = std::make_shared<Vector2>(name(), getNode());
-                    m_typeId = "Vector2";
-                    break;
-
-                case EPinType::VEC3 :
-                    m_pin = std::make_shared<Vector3>(name(), getNode());
-                    m_typeId = "Vector3";
-                    break;
-
-                case EPinType::VEC4 :
-                    m_pin = std::make_shared<Vector4>(name(), getNode());
-                    m_typeId = "Vector4";
-                    break;
-
-                default :
-                    break;
+                setType(type);
+                dispatch(type);
             }
+            else
+            {
+                switch (type)
+                {
+                    case EPinType::BOOLEAN :
+                        m_pin = std::make_shared<Boolean>(name(), getNode());
+                        m_typeId = "Boolean";
+                        break;
 
-            setType(type);
-            dispatch(type);
+                    case EPinType::FLOAT :
+                        m_pin = std::make_shared<Float>(name(), getNode());
+                        m_typeId = "Float";
+                        break;
+
+                    case EPinType::VEC2 :
+                        m_pin = std::make_shared<Vector2>(name(), getNode());
+                        m_typeId = "Vector2";
+                        break;
+
+                    case EPinType::VEC3 :
+                        m_pin = std::make_shared<Vector3>(name(), getNode());
+                        m_typeId = "Vector3";
+                        break;
+
+                    case EPinType::VEC4 :
+                        m_pin = std::make_shared<Vector4>(name(), getNode());
+                        m_typeId = "Vector4";
+                        break;
+
+                    default :
+                        break;
+                }
+
+                setType(type);
+
+                LOG_DEBUG("{0} : Type set to {1}", nameToGLSL(), pinTypeToString(type));
+            }
         }
     }
 
@@ -170,11 +184,11 @@ namespace ShaderGraph
         {
             auto pin = std::dynamic_pointer_cast<Template>(sibling);
 
-            if (pin && pin->getTemplateID() == m_templateID && pin->getType() != type)
+            if (pin && pin->getTemplateID() == m_templateID)
             {
                 assert(pin->isConnectable(type));
 
-                pin->setBindedType(type);
+                pin->setBindedType(type, false);
             }
         }
     }

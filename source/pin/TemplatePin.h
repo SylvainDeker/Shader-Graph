@@ -24,7 +24,7 @@ namespace ShaderGraph
                           unsigned int templateID = 0,
                           QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                Pin(std::move(name), owner, EPinType::TEMPLATE),
+                Pin(name, owner, EPinType::TEMPLATE),
                 m_templateID(templateID),
                 m_connectableTypes({type})
         {
@@ -42,7 +42,7 @@ namespace ShaderGraph
                           unsigned int templateID = 0,
                           QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                Pin(std::move(name), owner, EPinType::TEMPLATE),
+                Pin(name, owner, EPinType::TEMPLATE),
                 m_templateID(templateID),
                 m_connectableTypes(connectableTypes)
         {
@@ -60,7 +60,7 @@ namespace ShaderGraph
                           unsigned int templateID = 0,
                           QString name = "?",
                           QtNodes::NodeDataModel * owner = nullptr) :
-                Pin(std::move(name), owner, EPinType::TEMPLATE),
+                Pin(name, owner, EPinType::TEMPLATE),
                 m_templateID(templateID),
                 m_connectableTypes(connectableTypes)
         {
@@ -101,7 +101,7 @@ namespace ShaderGraph
         inline std::shared_ptr<QtNodes::NodeData> getBindedPin() const { return m_pin; }
 
         /// Setter : The new type of this pin.
-        void setBindedType(EPinType type);
+        void setBindedType(EPinType type, bool doDispatch = true);
 
         /// Getter : Get all the pins in the same node with the same @m_templateID.
         /// @warning : this pin is included.

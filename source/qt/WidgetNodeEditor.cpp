@@ -27,14 +27,14 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::Vec3Node>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::Vec4Node>("Input");
 
-    nodeManager.registry()->registerModel<ShaderGraph::MakeVec2Node>("Vector");
-    nodeManager.registry()->registerModel<ShaderGraph::BreakVec2Node>("Vector");
+    nodeManager.registry()->registerModel<ShaderGraph::MakeVec2Node>("VectorUtility");
+    nodeManager.registry()->registerModel<ShaderGraph::BreakVec2Node>("VectorUtility");
 
-    nodeManager.registry()->registerModel<ShaderGraph::MakeVec3Node>("Vector");
-    nodeManager.registry()->registerModel<ShaderGraph::BreakVec3Node>("Vector");
+    nodeManager.registry()->registerModel<ShaderGraph::MakeVec3Node>("VectorUtility");
+    nodeManager.registry()->registerModel<ShaderGraph::BreakVec3Node>("VectorUtility");
 
-    nodeManager.registry()->registerModel<ShaderGraph::MakeVec4Node>("Vector");
-    nodeManager.registry()->registerModel<ShaderGraph::BreakVec4Node>("Vector");
+    nodeManager.registry()->registerModel<ShaderGraph::MakeVec4Node>("VectorUtility");
+    nodeManager.registry()->registerModel<ShaderGraph::BreakVec4Node>("VectorUtility");
 
     nodeManager.registry()->registerModel<ShaderGraph::AndOperatorNode>("LogicalOperator");
     nodeManager.registry()->registerModel<ShaderGraph::OrOperatorNode>("LogicalOperator");

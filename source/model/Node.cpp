@@ -36,15 +36,26 @@ namespace ShaderGraph
     /// @index : the index of the port.
     void Node::setInData(std::shared_ptr<QtNodes::NodeData> data, QtNodes::PortIndex index)
     {
-        if (index >= 0 || index < (int) m_outputs.size())
+        if (index >= 0 || index < (int) m_inputs.size())
         {
+            if (!data)
+            {
+                LOG_ERROR("Node::setInData : nullptr");
+            }
+
             auto input = std::dynamic_pointer_cast<IPin>(data);
             auto pin   = std::dynamic_pointer_cast<IPin>(m_inputs[index]);
 
             assert(pin != nullptr);
 
-            if (!input|| pin->isConnected()) pin->disconnect();
-            else pin->connect(data);
+            if (!input || pin->isConnected())
+            {
+                pin->disconnect();
+            }
+            else
+            {
+                pin->connect(data);
+            }
         }
         else LOG_ERROR("ShaderGraph::Node::setInData : Invalid port index");
     }
@@ -54,7 +65,18 @@ namespace ShaderGraph
     /// @return : a shared point to the data to retrieve.
     std::shared_ptr<QtNodes::NodeData> Node::outData(QtNodes::PortIndex index)
     {
-        if (index >= 0 || index < (int) m_outputs.size()) return m_outputs[index];
+        if (index >= 0 || index < (int) m_outputs.size())
+        {
+            auto output = m_outputs[index];
+
+            if (output == nullptr)
+            {
+                LOG_WARN("Node::outData : An output data is null");
+            }
+
+            return output;
+        }
+
         LOG_ERROR("ShaderGraph::Node::outData : Invalid port index");
         return nullptr;
     }

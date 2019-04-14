@@ -14,7 +14,7 @@ namespace ShaderGraph
     class BoolToTemplate
     {
     public:
-        PIN operator()(PIN data);
+        PIN operator()(const PIN data);
 
     private:
         PIN m_out;
@@ -23,7 +23,7 @@ namespace ShaderGraph
     class FloatToTemplate
     {
     public:
-        PIN operator()(PIN data);
+        PIN operator()(const PIN data);
 
     private:
         PIN m_out;
@@ -32,7 +32,7 @@ namespace ShaderGraph
     class Vec2ToTemplate
     {
     public:
-        PIN operator()(PIN data);
+        PIN operator()(const PIN data);
 
     private:
         PIN m_out;
@@ -41,7 +41,7 @@ namespace ShaderGraph
     class Vec3ToTemplate
     {
     public:
-        PIN operator()(PIN data);
+        PIN operator()(const PIN data);
 
     private:
         PIN m_out;
@@ -50,7 +50,7 @@ namespace ShaderGraph
     class Vec4ToTemplate
     {
     public:
-        PIN operator()(PIN data);
+        PIN operator()(const PIN data);
 
     private:
         PIN m_out;

@@ -25,8 +25,12 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "MakeVector({0}, ...",
-                      autoName(inputs()[0]));
+                      "// MakeVec2Node \n"
+                      "{0} = vec2({1}, {2}); \n"
+                      "\n",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]));
             return buffer;
         }
     };
@@ -51,8 +55,13 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "MakeVector({0}, ...",
-                      autoName(inputs()[0]));
+                      "// MakeVec3Node \n"
+                      "{0} = vec3({1}, {2}, {3}); \n"
+                      "\n",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]),
+                      autoName(inputs()[2]));
             return buffer;
         }
     };
@@ -78,8 +87,14 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "MakeVector({0}, ...",
-                      autoName(inputs()[0]));
+                      "// MakeVec4Node \n"
+                      "{0} = vec4({1}, {2}, {3}, {4});"
+                      "\n",
+                      autoName(outputs()[0]),
+                      autoName(inputs()[0]),
+                      autoName(inputs()[1]),
+                      autoName(inputs()[2]),
+                      autoName(inputs()[3]));
             return buffer;
         }
     };
@@ -103,8 +118,15 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "BreakVector({0}, ...",
-                      autoName(inputs()[0]));
+                      "// BreakVec2Node \n"
+                      "{1} = {0}.x; \n"
+                      "{2} = {0}.y; \n"
+                      "\n",
+
+                      autoName(inputs()[0]),
+
+                      autoName(outputs()[0]),
+                      autoName(outputs()[1]));
             return buffer;
         }
     };
@@ -129,8 +151,17 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "BreakVector({0}, ...",
-                      autoName(inputs()[0]));
+                      "// BreakVec3Node \n"
+                      "{1} = {0}.x; \n"
+                      "{2} = {0}.y; \n"
+                      "{3} = {0}.z; \n"
+                      "\n",
+
+                      autoName(inputs()[0]),
+
+                      autoName(outputs()[0]),
+                      autoName(outputs()[1]),
+                      autoName(outputs()[2]));
             return buffer;
         }
     };
@@ -156,8 +187,19 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "BreakVector({0}, ...",
-                      autoName(inputs()[0]));
+                      "// BreakVec4Node \n"
+                      "{1} = {0}.x; \n"
+                      "{2} = {0}.y; \n"
+                      "{3} = {0}.z; \n"
+                      "{4} = {0}.a; \n"
+                      "\n",
+
+                      autoName(inputs()[0]),
+
+                      autoName(outputs()[0]),
+                      autoName(outputs()[1]),
+                      autoName(outputs()[2]),
+                      autoName(outputs()[3]));
             return buffer;
         }
     };

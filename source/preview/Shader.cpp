@@ -29,7 +29,8 @@ namespace ShaderGraph
         GL_ASSERT(glUseProgram(GL_NULL_ID));
     }
 
-    Shader::ShaderProgramSource Shader::parseShaderFile(const std::string& vertexshaderpath, const std::string& fragmentshaderpath)
+    Shader::ShaderProgramSource Shader::parseShaderFile(const std::string& vertexshaderpath,
+                                                        const std::string& fragmentshaderpath)
     {
         std::stringstream ss[2];
 
@@ -107,6 +108,8 @@ namespace ShaderGraph
         new_frag << "#version 330\n\n"; // Header
         new_frag << readGLSLFile(m_fragmentShaderPath, 0);
 
+        LOG_DEBUG(new_frag.str());
+
         // Compile new shader
         int new_fs = compileShader(GL_FRAGMENT_SHADER, new_frag.str());
 
@@ -136,8 +139,6 @@ namespace ShaderGraph
 
             // Set deletion flag of new shader
             GL_ASSERT(glDeleteShader(m_fs));
-
-            LOG_INFO("Successfully refreshed shader program");
         }
     }
 

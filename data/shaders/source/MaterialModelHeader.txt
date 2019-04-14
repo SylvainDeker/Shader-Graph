@@ -1,0 +1,36 @@
+#ifndef PLASTICMATERIAL_GLSL
+#define PLASTICMATERIAL_GLSL
+/*
+ * Implements material interface for Plastic material
+ * see at https://www.pbrt.org/fileformat-v3.html#materials for parameters and
+ * properties
+ */
+// Microfacet functions used
+#include "MicrofacetFunction.glsl"
+
+/* Material data structure
+ * Defines the input of the material
+ * All material parameters will be set by the application
+ */
+// Material parameters could be textured,
+struct MaterialTextures {
+    int 	hasKd;
+    int 	hasKs;
+    int		hasRoughness;
+    int 	hasNormal;
+
+    sampler2D kd;
+    sampler2D ks;
+    sampler2D roughness;
+    sampler2D normal;
+};
+
+// Main material description
+struct Material {
+    vec4 	kd;
+    vec4 	ks;
+    float 	roughness;
+    int 	remapRoughness;
+
+    MaterialTextures tex;
+};

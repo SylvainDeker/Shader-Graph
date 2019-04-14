@@ -6,4 +6,6 @@
 
 #include <cstdint>
 
+#include <cassert>
+
 #endif //SHADERGRAPH_DEFINES_H

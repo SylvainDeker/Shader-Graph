@@ -15,7 +15,7 @@ namespace ShaderGraph
     class AddNode : public Node
     {
     public:
-        AddNode() : Node("Add")
+        AddNode() : Node("+")
         {
             inputs() = std::vector<PIN> {
                     std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
@@ -23,7 +23,7 @@ namespace ShaderGraph
             };
 
             outputs() = std::vector<PIN> {
-                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "Result", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "ReturnValue", this)
             };
         }
 
@@ -31,7 +31,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} + {2}",
+                      "{0} = {1} + {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -42,11 +42,11 @@ namespace ShaderGraph
     class SubtractNode : public Node
     {
     public:
-        SubtractNode() : Node("Subtract")
+        SubtractNode() : Node("-")
         {
             inputs() = std::vector<PIN> {
-                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
-                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "B", this)
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "X", this),
+                    std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "Y", this)
             };
 
             outputs() = std::vector<PIN> {
@@ -58,7 +58,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} - {2}",
+                      "{0} = {1} - {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -69,7 +69,7 @@ namespace ShaderGraph
     class MultiplyNode : public Node
     {
     public:
-        MultiplyNode() : Node("Multiply")
+        MultiplyNode() : Node("*")
         {
             inputs() = std::vector<PIN> {
                     std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
@@ -85,7 +85,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} * {2}",
+                      "{0} = {1} * {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -96,7 +96,7 @@ namespace ShaderGraph
     class DivideNode : public Node
     {
     public:
-        DivideNode() : Node("Divide")
+        DivideNode() : Node("/")
         {
             inputs() = std::vector<PIN> {
                     std::make_shared<Template>(COMMON_OPERATOR_TYPES, 0, "A", this),
@@ -112,7 +112,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} / {2}",
+                      "{0} = {1} / {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));

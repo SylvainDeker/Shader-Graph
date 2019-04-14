@@ -21,30 +21,35 @@ namespace ShaderGraph
         virtual void mouseClick(int button, float xpos, float ypos);
         virtual void mouseMove(float xpos, float ypos);
 
-        virtual void refreshProgram();
+        void onShaderCompiled(const std::string& generatedCode);
 
     protected:
         unsigned int m_width;  /// Width of the viewport
         unsigned int m_height; /// Heigth of the viewport
 
     private:
+        /// Build Tangents and Bi-tangents
+        void computeTangents();
+
+    private:
         /* ==================================================================================== */
         /* Mouse management */
         /* ==================================================================================== */
-        float m_button = 0;
+
+        int   m_button = 0;
         float m_mouseX = 0;
         float m_mouseY = 0;
 
         /* ==================================================================================== */
         /* Managers */
         /* ==================================================================================== */
-        // TODO : add managers
 
         Shader * m_shader;
 
         /* ==================================================================================== */
         /* World stuffs */
         /* ==================================================================================== */
+
         Camera *    m_camera;
         glm::mat4   m_projection;
         glm::mat4   m_view;
@@ -54,45 +59,51 @@ namespace ShaderGraph
         glm::mat4   m_worldNormal;
         glm::mat4   m_viewNormal;
 
-        glm::vec4   m_Kd;
-        glm::vec4   m_Ks;
-        float       m_roughness;
-
-        glm::vec4   m_lightcolor;
-        glm::vec3   m_lightdir;
+        glm::vec4   m_lightColor;
+        glm::vec3   m_lightDir;
 
         /* ==================================================================================== */
         /* World stuffs */
         /* ==================================================================================== */
 
-        // A simple geometry
+        /// Mesh : Vertices
         std::vector<glm::vec3> m_vertices;
+
+        /// Mesh : Normals
         std::vector<glm::vec3> m_normals;
-        std::vector<glm::vec3> m_texcoords;
+
+        /// Mesh : texture coordinates
+        std::vector<glm::vec3> m_texCoords;
+
+        /// Mesh : tangents
         std::vector<glm::vec3> m_tangents;
-        std::vector<glm::vec3> m_bitangents;
+
+        /// Mesh : bi-tangents
+        std::vector<glm::vec3> m_biTangents;
+
+        /// Mesh : indices
         std::vector<unsigned int>  m_indices;
 
-        /// Build Tangents and Bitangents
-        void computeTangents();
-
-        // OpenGL object for geometry
-
-        // Vertex Array Buffer
+        /// Vertex Array Buffer Id
         unsigned int m_vao;
-        // Vertex Buffer Object
-        unsigned int m_vbo;
-        // Normal buffer
-        unsigned int m_nbo;
-        // Face buffer
-        unsigned int m_ibo;
-        // Texture Coords buffer
-        unsigned int m_ubo;
-        // Tangent buffer
-        unsigned int m_tbo;
-        // Bitangent buffer
-        unsigned int m_bbo;
 
+        /// Vertex Buffer Object Id
+        unsigned int m_vbo;
+
+        /// Normal buffer Id
+        unsigned int m_nbo;
+
+        /// Face buffer Id
+        unsigned int m_ibo;
+
+        /// Texture Coords buffer Id
+        unsigned int m_ubo;
+
+        /// Tangent buffer Id
+        unsigned int m_tbo;
+
+        /// Bi-tangent buffer Id
+        unsigned int m_bbo;
     };
 }
 

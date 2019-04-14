@@ -116,12 +116,16 @@ Window::Window(QWidget * Parent) :
     {
         for (auto& topLvlItem : m_internalFunctionTree)
         {
-            for (int i = 0; i < topLvlItem->childCount(); ++i)
+            // FIXME : A "Top Level Item" is nullptr...
+            if (topLvlItem)
             {
-                auto child = topLvlItem->child(i);
-                auto modelName = child->data(0, Qt::UserRole).toString();
-                const bool match = (modelName.contains(text, Qt::CaseInsensitive));
-                child->setHidden(!match);
+                for (int i = 0; i < topLvlItem->childCount(); ++i)
+                {
+                    auto child = topLvlItem->child(i);
+                    auto modelName = child->data(0, Qt::UserRole).toString();
+                    const bool match = modelName.contains(text, Qt::CaseInsensitive);
+                    child->setHidden(!match);
+                }
             }
         }
     });
@@ -132,51 +136,58 @@ Window::Window(QWidget * Parent) :
 
 void Window::compile()
 {
-    LOG_INFO("Compiling...");
-
     bool success = false;
+    std::string errmsg = "No error recorded";
 
-    // TODO : compile this shader ;)
+    std::string generatedCode;
 
     FlowScene * sc = m_ui->nodeEditor->getScene();
 
-    bool outFound = false;
-    ShaderGraph::Node *out = nullptr;
-    // looking for the output node
-    for (auto it = sc->nodes().begin();it != sc->nodes().end();it++)
+    bool isMasterMaterialOutputNodeFound = false;
+    ShaderGraph::Node * masterMaterialOutputNode = nullptr;
+
+    // Looking for the output node
+    for (auto& elt : sc->nodes())
     {
-        if (((ShaderGraph::Node*)it->second->nodeDataModel())->name() == "MasterMaterialOutput") {
-            outFound = true;
-            out = (ShaderGraph::Node*)it->second->nodeDataModel();
+        assert(dynamic_cast<ShaderGraph::Node*>(elt.second->nodeDataModel()));
+        auto node = dynamic_cast<ShaderGraph::Node*>(elt.second->nodeDataModel());
+
+        if (node->name() == "MasterMaterialOutput")
+        {
+            isMasterMaterialOutputNodeFound = true;
+            masterMaterialOutputNode = node;
         }
     }
 
-    if (outFound) {
-        LOG_INFO("compiling shader");
-        // write the code in a file
-        std::ofstream shaderFile("../data/shaders/Material_output.glsl");
-        if (shaderFile.is_open()) {
-            std::string code = out->toGLSL();
-            // TODO compile the generated code
-            // and update the preview before writting the file
+    if (isMasterMaterialOutputNodeFound)
+    {
+        // Write the code in a file
+        std::ofstream shaderFile("../data/ShaderGraph_Output.txt");
 
-            /* shaderFile << code; */
+        if (shaderFile.is_open())
+        {
+            generatedCode = masterMaterialOutputNode->toGLSL();
+
+            // Write and flush the generated code.
+            shaderFile << generatedCode;
+            shaderFile.flush();
+
+            // Close the file.
             shaderFile.close();
-            LOG_INFO("file written");
             success = true;
         }
-        else LOG_INFO("could not open file");
+        else errmsg = "Could not open file";
     }
-    else LOG_ERROR("No output node");
+    else errmsg = "No output node";
 
     if (success)
     {
-        m_ui->preview->refreshSceneProgram();
-        LOG_INFO("The Shader is compiled");
+        m_ui->preview->onShaderCompiled(generatedCode);
+        LOG_INFO("Shader : Compiled");
     }
     else
     {
-        LOG_ERROR("Compilation failed");
+        LOG_ERROR("Compilation failed : {0}", errmsg);
     }
 }
 

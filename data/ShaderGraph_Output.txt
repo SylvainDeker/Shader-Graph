@@ -1,0 +1,36 @@
+vec2   id8_UVs = vec2(0.0f);  
+float   id8_u = 0.0f;  
+float   id8_v = 0.0f;  
+// Input : UV 
+id8_UVs = texCoord; 
+id8_u = texCoord.x; 
+id8_v = texCoord.y; 
+
+
+float   id20_X = id8_u;  
+
+float   id20_Y = id8_v;  
+float   id20_Z = 0.0f;  
+vec3   id20_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id20_Vector3 = vec3(id20_X, id20_Y, id20_Z); 
+
+
+vec3   Diffuse = id20_Vector3;  
+vec3   Normal = vec3(0.0f);  
+vec3   Specular = vec3(0.0f);  
+float   Metallic = 0.0f;  
+float   id9_Result = 0.0f;  
+// Input : Scalar 
+id9_Result = 1;
+
+float   Roughness = id9_Result;  
+float   Emissive = 0.0f;  
+float   Opacity = 0.0f;  
+vec3   WorldPositionOffset = vec3(0.0f);  
+vec3   AmbientOcclusion = vec3(0.0f);  
+vec3   Refraction = vec3(0.0f);  
+vec2   TextureCoordinate = vec2(0.0f);  
+vec3   Tangent = vec3(0.0f);  
+float   Depth = 0.0f;  
+// End MasterMaterialOutput

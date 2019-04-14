@@ -14,47 +14,42 @@ namespace ShaderGraph
             inputs() = std::vector<PIN> {
                 std::make_shared<Vector3>("Diffuse", this),
                 std::make_shared<Vector3>("Normal", this),
+                std::make_shared<Vector3>("Specular", this),
 
-                std::make_shared<Vector3>("Metallic", this),
-                std::make_shared<Vector3>("Roughness", this),
-                std::make_shared<Vector3>("Emissive", this),
+                std::make_shared<Float>("Metallic", this),
+                std::make_shared<Float>("Roughness", this),
+                std::make_shared<Float>("Emissive", this),
+                std::make_shared<Float>("Opacity", this),
 
-                std::make_shared<Vector3>("Opacity", this),
-
-                std::make_shared<Vector3>("World Position Offset", this),
-
-                std::make_shared<Vector3>("Ambient Occlusion", this),
-
+                std::make_shared<Vector3>("WorldPositionOffset", this),
+                std::make_shared<Vector3>("AmbientOcclusion", this),
                 std::make_shared<Vector3>("Refraction", this),
-
-                std::make_shared<Vector2>("Texture Coordinate", this),
-
+                std::make_shared<Vector2>("TextureCoordinate", this),
                 std::make_shared<Vector3>("Tangent", this),
-
                 std::make_shared<Float>("Depth", this)
             };
         }
 
-        std::string nodeToGLSL() override
+        inline std::string nodeToGLSL() override
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "MASTER_MATERIAL_OUTPUT({0}, {1}, ...);",
+                      "// End MasterMaterialOutput",
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
             return buffer;
         }
-        std::string toGLSL() override
-        {
-            std::string glslCode = "out vec4 fragColor;\n";
-            glslCode += "void main() {\n";
-            std::list<unsigned int> nodes;
-            glslCode += inputsToGLSL(nodes);
-            glslCode += outputsToGLSL();
-            glslCode += nodeToGLSL();
-            glslCode += "\n}";
 
+        inline std::string toGLSL() override
+        {
+            std::list<unsigned int> nodes;
+            std::string glslCode  = inputsToGLSL(nodes) + nodeToGLSL();
             return glslCode;
+        }
+
+        inline std::string autoName(PIN pin) override
+        {
+            return pin->type().name.toStdString();
         }
     };
 }

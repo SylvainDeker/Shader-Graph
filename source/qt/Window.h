@@ -16,6 +16,7 @@ class Window : public QMainWindow
 
 public:
     explicit Window(QWidget * parent = nullptr);
+
     ~Window() override;
 
 public slots:

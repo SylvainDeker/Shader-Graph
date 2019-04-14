@@ -19,21 +19,33 @@ class GLWidget :
 {
 
 public:
-    explicit GLWidget(QWidget * parent = 0);
+    /// Constructor.
+    explicit GLWidget(QWidget * parent = nullptr);
 
-    ~GLWidget() = default;
+    /// Destructor.
+    ~GLWidget() override = default;
 
-    // OpenGL management
+    /// OpenGL management : Call when to init OpenGL.
     void initializeGL() override;
+
+    /// OpenGL management : Call every tick to do the rendering.
     void paintGL() override;
+
+    /// OpenGL management : Call when the window's dim changed.
     void resizeGL(int width, int height) override;
 
-    // Mouse events
+    /// Mouse event : Press
     void mousePressEvent(QMouseEvent * event) override;
+
+    /// Mouse event : Move
     void mouseMoveEvent(QMouseEvent * event) override;
 
-    /// Refresh program with new fragment shader made
-    void refreshSceneProgram();
+    /// Event call when the button "compile" is pressed. Will update the preview.
+    inline void onShaderCompiled(const std::string& generatedCode)
+    {
+        m_scene->onShaderCompiled(generatedCode);
+        update();
+    }
 
 private:
     unsigned int m_lastTime;

@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <fstream>
+#include <string>
 #include <cmath>
 #include <QKeyEvent>
 
@@ -12,6 +14,23 @@ namespace ShaderGraph
         m_width(width),
         m_height(height)
     {
+        /* ============================================================ */
+        /* Step -1 : Restore the "MaterialModel" */
+        /* ============================================================ */
+        // Copy the "MaterialModel" reference
+        std::ifstream input("../data/shaders/source/MaterialModel.glsl");
+        assert(input.is_open());
+        std::string content((std::istreambuf_iterator<char>(input)),
+                            (std::istreambuf_iterator<char>()    ));
+        input.close();
+
+        // Paste the "MaterialModel" reference
+        std::ofstream output("../data/shaders/runtime/Material.glsl");
+        assert(output.is_open());
+        output << content;
+        output.flush();
+        output.close();
+
         /* ============================================================ */
         /* Step 0 : OpenGL setup */
         /* ============================================================ */
@@ -40,19 +59,11 @@ namespace ShaderGraph
         /* ============================================================ */
 
         /* ============================================================ */
-        /* Step 3 : Build materials */
-        /* ============================================================ */
-
-        m_Kd = glm::vec4(0.54, 0.89, 0.63, 1.f);
-        m_Ks = glm::vec4(0.316228, 0.316228, 0.316228, 1.f);
-        m_roughness = 0.9;
-
-        /* ============================================================ */
         /* Step 4 : Build lights */
         /* ============================================================ */
 
-        m_lightcolor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-        m_lightdir = glm::normalize(glm::vec3(-0.5, -0.5, -0.5));
+        m_lightColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+        m_lightDir = glm::normalize(glm::vec3(-0.5, -0.5, -0.5));
 
         /* ============================================================ */
         /* Step 5 : Build static mesh */
@@ -65,31 +76,32 @@ namespace ShaderGraph
         float radius = 1.0f;
 
         /* VERTICES AND NORMALS */
-        m_vertices = std::vector<glm::vec3>(nbVertices);
-        m_normals = std::vector<glm::vec3>(nbVertices);
-        m_texcoords = std::vector<glm::vec3>(nbVertices);
+        m_vertices  = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
+        m_normals   = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
+        m_texCoords = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
 
         //North
         m_vertices[0] = glm::vec3(0,radius,0);
         m_normals[0] = glm::vec3(0,1,0);
         float u = std::atan2(m_normals[0][0], m_normals[0][2]) / (2*glm::pi<float>()) + 0.5;
         float v = m_normals[0][1] * 0.5 + 0.5;
-        m_texcoords[0] = glm::vec3(u, v, 0);
+        m_texCoords[0] = glm::vec3(u, v, 0);
 
         //South
         m_vertices[nbVertices - 1] = glm::vec3(0,-radius,0);
         m_normals[nbVertices - 1] = glm::vec3(0,-1,0);
         u = std::atan2(m_normals[nbVertices - 1][0], m_normals[nbVertices - 1][2]) / (2*glm::pi<float>()) + 0.5;
         v = m_normals[nbVertices - 1][1] * 0.5 + 0.5;
-        m_texcoords[nbVertices - 1] = glm::vec3(u, v, 0);
+        m_texCoords[nbVertices - 1] = glm::vec3(u, v, 0);
 
         float latitudeSpacing = 1.0f / (nbLatitudeLines + 1.0f);
         float longitudeSpacing = 1.0f / nbLongitudeLines;
 
         int index = 1;
-        for(int latitude = 0; latitude < nbLatitudeLines; ++latitude) {
-            for(int longitude = 0; longitude < nbLongitudeLines; ++longitude) {
-
+        for(int latitude = 0; latitude < nbLatitudeLines; ++latitude)
+        {
+            for(int longitude = 0; longitude < nbLongitudeLines; ++longitude)
+            {
                 float phi = longitude * longitudeSpacing * 2.0f * glm::pi<float>();
                 float theta = ((latitude + 1) * latitudeSpacing) * glm::pi<float>();
 
@@ -102,31 +114,34 @@ namespace ShaderGraph
 
                 u = std::atan2(m_normals[index][0], m_normals[index][2]) / (2*glm::pi<float>()) + 0.5;
                 v = m_normals[index][1] * 0.5 + 0.5;
-                m_texcoords[index++] = glm::vec3(u, v, 0);
+                m_texCoords[index++] = glm::vec3(u, v, 0);
 
             }
         }
 
         int nbTriangles = 2*nbLongitudeLines*nbLatitudeLines;
-        m_indices = std::vector<unsigned int>(3*nbTriangles);
+        m_indices = std::vector<unsigned int>(3 * static_cast<unsigned int>(nbTriangles));
         index = 0;
 
         /* TRIANGLES */
         // North and South
-        for (int longitude = 0; longitude < nbLongitudeLines; ++longitude) {
-            int tmp = (longitude + 1) % nbLongitudeLines + 1;
+        for (unsigned int longitude = 0; longitude < static_cast<unsigned int>(nbLongitudeLines); ++longitude)
+        {
+            unsigned int tmp = (longitude + 1) % nbLongitudeLines + 1;
             m_indices[index++] = 0;
             m_indices[index++] = longitude + 1;
             m_indices[index++] = tmp;
 
-            m_indices[index++] = nbVertices - 1;
-            m_indices[index++] = nbVertices - longitude - 2;
-            m_indices[index++] = nbVertices - tmp - 1;
+            m_indices[index++] = static_cast<unsigned int>(nbVertices) - 1;
+            m_indices[index++] = static_cast<unsigned int>(nbVertices) - longitude - 2;
+            m_indices[index++] = static_cast<unsigned int>(nbVertices) - tmp - 1;
         }
         // Others
-        for (int latitude = 0; latitude < nbLatitudeLines - 1; ++latitude){
-            for (int longitude = 0; longitude < nbLongitudeLines - 1; ++longitude){
-                int current = latitude*nbLongitudeLines + longitude + 1;
+        for (unsigned int latitude = 0; latitude < static_cast<unsigned int>(nbLatitudeLines) - 1; ++latitude)
+        {
+            for (unsigned int longitude = 0; longitude < static_cast<unsigned int>(nbLongitudeLines) - 1; ++longitude)
+            {
+                unsigned int current = latitude*nbLongitudeLines + longitude + 1;
                 m_indices[index++] = current;
                 m_indices[index++] = current + nbLongitudeLines;
                 m_indices[index++] = current + nbLongitudeLines + 1;
@@ -135,7 +150,8 @@ namespace ShaderGraph
                 m_indices[index++] = current + nbLongitudeLines + 1;
                 m_indices[index++] = current + 1;
             }
-            int current = latitude*nbLongitudeLines + nbLongitudeLines;
+
+            unsigned int current = latitude*nbLongitudeLines + nbLongitudeLines;
             m_indices[index++] = current;
             m_indices[index++] = current + nbLongitudeLines;
             m_indices[index++] = current + 1;
@@ -177,7 +193,7 @@ namespace ShaderGraph
 
         // 7. Copy our texture coordinates array in a buffer for OpenGL to use
         glBindBuffer(GL_ARRAY_BUFFER, m_ubo);
-        glBufferData(GL_ARRAY_BUFFER, m_texcoords.size()*sizeof (glm::vec3), m_texcoords.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_texCoords.size()*sizeof (glm::vec3), m_texCoords.data(), GL_STATIC_DRAW);
 
         // 8. Copy our vertices array in a buffer for OpenGL to use
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -193,7 +209,7 @@ namespace ShaderGraph
 
         // 11. Copy our bitangents array in a buffer for OpenGL to use
         glBindBuffer(GL_ARRAY_BUFFER, m_bbo);
-        glBufferData(GL_ARRAY_BUFFER, m_bitangents.size()*sizeof (glm::vec3), m_bitangents.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_biTangents.size()*sizeof (glm::vec3), m_biTangents.data(), GL_STATIC_DRAW);
 
         // 12. Copy our vertices array in a buffer for OpenGL to use
         glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -209,8 +225,8 @@ namespace ShaderGraph
         /* ============================================================ */
         /* Step 6 : Compile shaders */
         /* ============================================================ */
-        m_shader = new Shader("../data/shaders/Vertex.glsl",
-                              "../data/shaders/Fragment.glsl");
+        m_shader = new Shader("../data/shaders/runtime/Vertex.glsl",
+                              "../data/shaders/runtime/Fragment.glsl");
     }
 
     Scene::~Scene()
@@ -227,16 +243,15 @@ namespace ShaderGraph
     {
         for (size_t i=0; i < m_indices.size(); i += 3)
         {
-
             glm::vec3 & v0 = m_vertices[m_indices[i]];
             glm::vec3 & v1 = m_vertices[m_indices[i+1]];
             glm::vec3 & v2 = m_vertices[m_indices[i+2]];
 
-            glm::vec3 & uv0 = m_texcoords[m_indices[i]];
-            glm::vec3 & uv1 = m_texcoords[m_indices[i+1]];
-            glm::vec3 & uv2 = m_texcoords[m_indices[i+2]];
+            glm::vec3 & uv0 = m_texCoords[m_indices[i]];
+            glm::vec3 & uv1 = m_texCoords[m_indices[i+1]];
+            glm::vec3 & uv2 = m_texCoords[m_indices[i+2]];
 
-            // Edges of the triangle : postion delta
+            // Edges of the triangle : position delta
             glm::vec3 deltaPos1 = v1-v0;
             glm::vec3 deltaPos2 = v2-v0;
 
@@ -245,17 +260,16 @@ namespace ShaderGraph
             glm::vec3 deltaUV2 = uv2-uv0;
 
             float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
-            glm::vec3 tangent = (deltaPos1 * deltaUV2.y   - deltaPos2 * deltaUV1.y)*r;
-            glm::vec3 bitangent = (deltaPos2 * deltaUV1.x   - deltaPos1 * deltaUV2.x)*r;
+            glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r;
+            glm::vec3 biTangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x) * r;
 
             m_tangents.push_back(tangent);
             m_tangents.push_back(tangent);
             m_tangents.push_back(tangent);
 
-            m_bitangents.push_back(bitangent);
-            m_bitangents.push_back(bitangent);
-            m_bitangents.push_back(bitangent);
-
+            m_biTangents.push_back(biTangent);
+            m_biTangents.push_back(biTangent);
+            m_biTangents.push_back(biTangent);
         }
     }
 
@@ -294,19 +308,19 @@ namespace ShaderGraph
         m_shader->setMat4("transform.worldNormal", m_worldNormal);
         m_shader->setMat4("transform.viewNormal", m_viewNormal);
 
-        m_shader->setVec4("material.kd", m_Kd);
-        m_shader->setVec4("material.ks", m_Ks);
-        m_shader->setFloat("material.roughness", m_roughness);
+        m_shader->setVec4("material.kd", glm::vec4(0.f));
+        m_shader->setVec4("material.ks", glm::vec4(0.f));
+        m_shader->setFloat("material.roughness", 0.000f);
 
         m_shader->setInt("light.type", 0); // Directional Light
-        m_shader->setVec4("light.color", m_lightcolor);
-        m_shader->setVec3("light.directional.direction", m_lightdir);
+        m_shader->setVec4("light.color", m_lightColor);
+        m_shader->setVec3("light.directional.direction", m_lightDir);
 
         /* ============================================================ */
         /* Step 2 : Rendering */
         /* ============================================================ */
         glBindVertexArray(m_vao);
-        glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
 
         m_shader->unbind();
         glBindVertexArray(0);
@@ -328,9 +342,53 @@ namespace ShaderGraph
         m_camera->processMouseMovement(m_button, xpos, ypos);
     }
 
-    void Scene::refreshProgram()
+    void Scene::onShaderCompiled(const std::string& generatedCode)
     {
-        m_shader->refresh();
+        std::ofstream output("../data/shaders/runtime/Material.glsl");
+        assert(output.is_open());
+
+        // Copy the "MaterialModelHeader" reference
+        std::ifstream header("../data/shaders/source/MaterialModelHeader.txt");
+        assert(header.is_open());
+        std::string headerContent((std::istreambuf_iterator<char>(header)),
+                                  (std::istreambuf_iterator<char>()    ));
+        header.close();
+
+        output << headerContent;
+
+        std::string kdFunction = "vec3 getKd(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                       +
+                                 "\nreturn Diffuse; \n"                                +
+                                 "} \n"                                              ;
+
+        std::string ksFunction = "vec3 getKs(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                       +
+                                 "\nreturn Specular; \n"                               +
+                                 "} \n"                                              ;
+
+        std::string roughnessFunction = "vec2 getRoughness(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                                     +
+                                 "\nreturn vec2(Roughness); \n"                                    +
+                                 "} \n"                                                            ;
+
+        output << "\n\n" << kdFunction << "\n" << ksFunction << "\n" << roughnessFunction << "\n";
+
+        // Copy the "MaterialModelFooter" reference
+        std::ifstream footer("../data/shaders/source/MaterialModelFooter.txt");
+        assert(footer.is_open());
+        std::string footerContent((std::istreambuf_iterator<char>(footer)),
+                                  (std::istreambuf_iterator<char>()    ));
+        footer.close();
+
+        output << footerContent;
+
+        // Close and flush the header
+        output.flush();
+        output.close();
+
+        delete m_shader;
+        m_shader = new Shader("../data/shaders/runtime/Vertex.glsl",
+                              "../data/shaders/runtime/Fragment.glsl");
         draw();
     }
 }

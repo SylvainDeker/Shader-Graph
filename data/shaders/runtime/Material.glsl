@@ -35,41 +35,83 @@ struct Material {
     MaterialTextures tex;
 };
 
-/*
- *	Material interface : gives access on the parameter with sementic control
- */
-vec3 getKd(Material material, vec2 texCoord) {
-    if (material.tex.hasKd == 1) {
-        return vec3(texture(material.tex.kd, texCoord));
-    }
+vec3 getKd(Material material, vec2 texCoord) { 
+vec3   id6_Result = vec3(0.0f);  
+// Input : Vec3 
+id6_Result = vec3(1, 0, 0);
 
-    return material.kd.xyz;
-}
+vec3   Diffuse = id6_Result;  
+vec3   Normal = vec3(0.0f);  
+vec3   id7_Result = vec3(0.0f);  
+// Input : Vec3 
+id7_Result = vec3(0, 0, 0);
 
-vec3 getKs(Material material, vec2 texCoord) {
-    if (material.tex.hasKs == 1) {
-        return vec3(texture(material.tex.ks, texCoord));
-    }
+vec3   Specular = id7_Result;  
+vec3   Metallic = vec3(0.0f);  
+vec2   Roughness = vec2(0.0f);  
+vec3   Emissive = vec3(0.0f);  
+vec3   Opacity = vec3(0.0f);  
+vec3   WorldPositionOffset = vec3(0.0f);  
+vec3   AmbientOcclusion = vec3(0.0f);  
+vec3   Refraction = vec3(0.0f);  
+vec2   TextureCoordinate = vec2(0.0f);  
+vec3   Tangent = vec3(0.0f);  
+float   Depth = 0.0f;  
+// End MasterMaterialOutput
+return Diffuse; 
+} 
 
-    return material.ks.xyz;
-}
+vec3 getKs(Material material, vec2 texCoord) { 
+vec3   id6_Result = vec3(0.0f);  
+// Input : Vec3 
+id6_Result = vec3(1, 0, 0);
 
-vec2 getRoughness(Material material, vec2 texCoord) {
-    float roug;
+vec3   Diffuse = id6_Result;  
+vec3   Normal = vec3(0.0f);  
+vec3   id7_Result = vec3(0.0f);  
+// Input : Vec3 
+id7_Result = vec3(0, 0, 0);
 
-    if (material.tex.hasRoughness == 1) {
-        roug = texture(material.tex.roughness, texCoord).r;
-    }
-    else {
-        roug =  material.roughness;
-    }
+vec3   Specular = id7_Result;  
+vec3   Metallic = vec3(0.0f);  
+vec2   Roughness = vec2(0.0f);  
+vec3   Emissive = vec3(0.0f);  
+vec3   Opacity = vec3(0.0f);  
+vec3   WorldPositionOffset = vec3(0.0f);  
+vec3   AmbientOcclusion = vec3(0.0f);  
+vec3   Refraction = vec3(0.0f);  
+vec2   TextureCoordinate = vec2(0.0f);  
+vec3   Tangent = vec3(0.0f);  
+float   Depth = 0.0f;  
+// End MasterMaterialOutput
+return Specular; 
+} 
 
-    if (material.remapRoughness == 1) {
-        roug = TRD_RoughnessToAlpha(roug);
-    }
+vec2 getRoughness(Material material, vec2 texCoord) { 
+vec3   id6_Result = vec3(0.0f);  
+// Input : Vec3 
+id6_Result = vec3(1, 0, 0);
 
-    return vec2(roug);
-}
+vec3   Diffuse = id6_Result;  
+vec3   Normal = vec3(0.0f);  
+vec3   id7_Result = vec3(0.0f);  
+// Input : Vec3 
+id7_Result = vec3(0, 0, 0);
+
+vec3   Specular = id7_Result;  
+vec3   Metallic = vec3(0.0f);  
+vec2   Roughness = vec2(0.0f);  
+vec3   Emissive = vec3(0.0f);  
+vec3   Opacity = vec3(0.0f);  
+vec3   WorldPositionOffset = vec3(0.0f);  
+vec3   AmbientOcclusion = vec3(0.0f);  
+vec3   Refraction = vec3(0.0f);  
+vec2   TextureCoordinate = vec2(0.0f);  
+vec3   Tangent = vec3(0.0f);  
+float   Depth = 0.0f;  
+// End MasterMaterialOutput
+return Roughness; 
+} 
 
 vec3 getNormal(Material material, vec2 texCoord, vec3 N, vec3 T, vec3 B) {
     if (material.tex.hasNormal == 1) {
@@ -98,7 +140,7 @@ vec3 computeMaterialInternal(Material material, vec2 texC, vec3 wi, vec3 wo) {
      if (cosTi == 0 || cosTo == 0)
          return vec3(0.f);
 
-	
+
      bool reflect = (cosTi * cosTo > 0);
      vec3 result = vec3(0.f);
 

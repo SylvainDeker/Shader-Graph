@@ -14,15 +14,18 @@ namespace ShaderGraph
         m_width(width),
         m_height(height)
     {
-        // Restore the MaterialModel
+        /* ============================================================ */
+        /* Step -1 : Restore the "MaterialModel" */
+        /* ============================================================ */
+        // Copy the "MaterialModel" reference
         std::ifstream input("../data/shaders/source/MaterialModel.glsl");
         assert(input.is_open());
         std::string content((std::istreambuf_iterator<char>(input)),
                             (std::istreambuf_iterator<char>()    ));
+        input.close();
 
-        LOG_DEBUG(content);
-
-        std::ofstream output("../data/shaders/runtime/MaterialModel.glsl");
+        // Paste the "MaterialModel" reference
+        std::ofstream output("../data/shaders/runtime/Material.glsl");
         assert(output.is_open());
         output << content;
         output.flush();
@@ -81,9 +84,9 @@ namespace ShaderGraph
         float radius = 1.0f;
 
         /* VERTICES AND NORMALS */
-        m_vertices = std::vector<glm::vec3>(nbVertices);
-        m_normals = std::vector<glm::vec3>(nbVertices);
-        m_texcoords = std::vector<glm::vec3>(nbVertices);
+        m_vertices  = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
+        m_normals   = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
+        m_texcoords = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
 
         //North
         m_vertices[0] = glm::vec3(0,radius,0);
@@ -124,12 +127,13 @@ namespace ShaderGraph
         }
 
         int nbTriangles = 2*nbLongitudeLines*nbLatitudeLines;
-        m_indices = std::vector<unsigned int>(3*nbTriangles);
+        m_indices = std::vector<unsigned int>(3 * static_cast<unsigned int>(nbTriangles));
         index = 0;
 
         /* TRIANGLES */
         // North and South
-        for (int longitude = 0; longitude < nbLongitudeLines; ++longitude) {
+        for (int longitude = 0; longitude < nbLongitudeLines; ++longitude)
+        {
             int tmp = (longitude + 1) % nbLongitudeLines + 1;
             m_indices[index++] = 0;
             m_indices[index++] = longitude + 1;
@@ -243,7 +247,6 @@ namespace ShaderGraph
     {
         for (size_t i=0; i < m_indices.size(); i += 3)
         {
-
             glm::vec3 & v0 = m_vertices[m_indices[i]];
             glm::vec3 & v1 = m_vertices[m_indices[i+1]];
             glm::vec3 & v2 = m_vertices[m_indices[i+2]];
@@ -252,7 +255,7 @@ namespace ShaderGraph
             glm::vec3 & uv1 = m_texcoords[m_indices[i+1]];
             glm::vec3 & uv2 = m_texcoords[m_indices[i+2]];
 
-            // Edges of the triangle : postion delta
+            // Edges of the triangle : position delta
             glm::vec3 deltaPos1 = v1-v0;
             glm::vec3 deltaPos2 = v2-v0;
 
@@ -261,8 +264,8 @@ namespace ShaderGraph
             glm::vec3 deltaUV2 = uv2-uv0;
 
             float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
-            glm::vec3 tangent = (deltaPos1 * deltaUV2.y   - deltaPos2 * deltaUV1.y)*r;
-            glm::vec3 bitangent = (deltaPos2 * deltaUV1.x   - deltaPos1 * deltaUV2.x)*r;
+            glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r;
+            glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x) * r;
 
             m_tangents.push_back(tangent);
             m_tangents.push_back(tangent);
@@ -271,7 +274,6 @@ namespace ShaderGraph
             m_bitangents.push_back(bitangent);
             m_bitangents.push_back(bitangent);
             m_bitangents.push_back(bitangent);
-
         }
     }
 
@@ -322,7 +324,7 @@ namespace ShaderGraph
         /* Step 2 : Rendering */
         /* ============================================================ */
         glBindVertexArray(m_vao);
-        glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei >(m_indices.size()), GL_UNSIGNED_INT, nullptr);
 
         m_shader->unbind();
         glBindVertexArray(0);
@@ -344,50 +346,56 @@ namespace ShaderGraph
         m_camera->processMouseMovement(m_button, xpos, ypos);
     }
 
-    void Scene::updateShaderCode(std::string& code)
+    void Scene::onShaderCompiled(const std::string& generatedCode)
     {
-        std::list<std::string> shader;
-        std::ifstream ifs("../data/shaders/runtime/MaterialModel.glsl");
+        (void) generatedCode;
 
-        // Save the last shader
-        for (std::string line; getline(ifs, line ); ) shader.push_back(line);
+        std::ofstream output("../data/shaders/runtime/Material.glsl");
+        assert(output.is_open());
 
-        std::list<std::string>::iterator start;
-        std::list<std::string>::iterator stop;
+        // Copy the "MaterialModelHeader" reference
+        std::ifstream header("../data/shaders/source/MaterialModelHeader.txt");
+        assert(header.is_open());
+        std::string headerContent((std::istreambuf_iterator<char>(header)),
+                                  (std::istreambuf_iterator<char>()    ));
+        header.close();
 
-        for (auto it = shader.begin(); it != shader.end(); ++it)
-        {
-            std::string line = *it;
+        output << headerContent;
 
-            if (line == "// Flag")
-            {
-                start = it;
-            }
-            else if (line == "// end Flag")
-            {
-                stop = it;
-                shader.erase(start, stop);
+        std::string kdFunction = "vec3 getKd(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                       +
+                                 "\nreturn Diffuse; \n"                                +
+                                 "} \n"                                              ;
 
-                fmt::memory_buffer membuf;
-                format_to(membuf, "vec3 getKd(Material material, vec2 texCoord) "
-                                  "{\n"
-                                  "{0}"
-                                  "return Diffuse;"
-                                  "}",
-                                  code);
-                shader.push_back(to_string(membuf));
-            }
-        }
+        std::string ksFunction = "vec3 getKs(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                       +
+                                 "\nreturn Specular; \n"                               +
+                                 "} \n"                                              ;
 
-        for (std::string& line : shader)
-        {
-            LOG_DEBUG(line);
-        }
-    }
+        std::string roughnessFunction = "vec2 getRoughness(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                                     +
+                                 "\nreturn Roughness; \n"                                            +
+                                 "} \n"                                                            ;
 
-    void Scene::refreshProgram()
-    {
-        m_shader->refresh();
+        output << "\n\n" << kdFunction << "\n" << ksFunction << "\n" << roughnessFunction << "\n";
+
+        // Copy the "MaterialModelFooter" reference
+        std::ifstream footer("../data/shaders/source/MaterialModelFooter.txt");
+        assert(footer.is_open());
+        std::string footerContent((std::istreambuf_iterator<char>(footer)),
+                                  (std::istreambuf_iterator<char>()    ));
+        footer.close();
+
+        output << footerContent;
+
+        // Close and flush the header
+        output.flush();
+        output.close();
+
+
+        delete m_shader;
+        m_shader = new Shader("../data/shaders/runtime/Vertex.glsl",
+                              "../data/shaders/runtime/Fragment.glsl");
         draw();
     }
 }

@@ -159,13 +159,13 @@ namespace ShaderGraph
         inline unsigned int getID() const { return m_id; };
 
         /// Getter to the reference to a vector of inputs.
-        std::vector<PIN>& inputs();
+        inline std::vector<PIN>& inputs() { return m_inputs; }
 
         /// Getter to the reference to a vector of outputs.
-        std::vector<PIN>& outputs();
+        inline std::vector<PIN>& outputs() { return m_outputs; }
 
         /// Getter to the reference to a vector of details.
-        std::vector<PIN>& details();
+        inline std::vector<PIN>& details() { return m_details; }
 
     private:
         /// True if this node is displayed on the details panel.

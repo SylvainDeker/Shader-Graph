@@ -14,23 +14,16 @@ namespace ShaderGraph
             inputs() = std::vector<PIN> {
                 std::make_shared<Vector3>("Diffuse", this),
                 std::make_shared<Vector3>("Normal", this),
-
+                std::make_shared<Vector3>("Specular", this),
                 std::make_shared<Vector3>("Metallic", this),
-                std::make_shared<Vector3>("Roughness", this),
+                std::make_shared<Vector2>("Roughness", this),
                 std::make_shared<Vector3>("Emissive", this),
-
                 std::make_shared<Vector3>("Opacity", this),
-
-                std::make_shared<Vector3>("World Position Offset", this),
-
-                std::make_shared<Vector3>("Ambient Occlusion", this),
-
+                std::make_shared<Vector3>("WorldPositionOffset", this),
+                std::make_shared<Vector3>("AmbientOcclusion", this),
                 std::make_shared<Vector3>("Refraction", this),
-
-                std::make_shared<Vector2>("Texture Coordinate", this),
-
+                std::make_shared<Vector2>("TextureCoordinate", this),
                 std::make_shared<Vector3>("Tangent", this),
-
                 std::make_shared<Float>("Depth", this)
             };
         }

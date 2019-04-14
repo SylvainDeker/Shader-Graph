@@ -137,64 +137,57 @@ Window::Window(QWidget * Parent) :
 void Window::compile()
 {
     bool success = false;
+    std::string errmsg = "No error recorded";
 
-    std::string generatedCode = "";
+    std::string generatedCode;
 
     FlowScene * sc = m_ui->nodeEditor->getScene();
 
-    bool outFound = false;
-    ShaderGraph::Node * out = nullptr;
+    bool isMasterMaterialOutputNodeFound = false;
+    ShaderGraph::Node * masterMaterialOutputNode = nullptr;
 
     // Looking for the output node
-    for (auto it = sc->nodes().begin(); it != sc->nodes().end();it++)
+    for (auto& elt : sc->nodes())
     {
-        auto node = dynamic_cast<ShaderGraph::Node*>(it->second->nodeDataModel());
-        assert(node);
+        assert(dynamic_cast<ShaderGraph::Node*>(elt.second->nodeDataModel()));
+        auto node = dynamic_cast<ShaderGraph::Node*>(elt.second->nodeDataModel());
 
         if (node->name() == "MasterMaterialOutput")
         {
-            outFound = true;
-            out = node;
+            isMasterMaterialOutputNodeFound = true;
+            masterMaterialOutputNode = node;
         }
     }
 
-    if (outFound)
+    if (isMasterMaterialOutputNodeFound)
     {
-        LOG_INFO("Compiling...");
-
         // Write the code in a file
-        std::ofstream shaderFile("../data/ShagerGraph_Output.txt");
+        std::ofstream shaderFile("../data/ShaderGraph_Output.txt");
 
         if (shaderFile.is_open())
         {
-            generatedCode = out->toGLSL();
+            generatedCode = masterMaterialOutputNode->toGLSL();
 
             // Write and flush the generated code.
-            shaderFile << out->toGLSL();
+            shaderFile << generatedCode;
             shaderFile.flush();
 
             // Close the file.
             shaderFile.close();
-
-            LOG_INFO("File written !");
             success = true;
         }
-        else LOG_INFO("Could not open file");
+        else errmsg = "Could not open file";
     }
-    else
-    {
-        LOG_ERROR("No output node");
-    }
+    else errmsg = "No output node";
 
     if (success)
     {
-        m_ui->preview->updateShaderCode(generatedCode);
-        m_ui->preview->refreshSceneProgram();
-        LOG_INFO("The Shader is compiled");
+        m_ui->preview->onShaderCompiled(generatedCode);
+        LOG_INFO("Shader : Compiled");
     }
     else
     {
-        LOG_ERROR("Compilation failed");
+        LOG_ERROR("Compilation failed : {0}", errmsg);
     }
 }
 

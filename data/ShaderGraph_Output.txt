@@ -1,0 +1,22 @@
+vec3   id6_Result = vec3(0.0f);  
+// Input : Vec3 
+id6_Result = vec3(1, 0, 0);
+
+vec3   Diffuse = id6_Result;  
+vec3   Normal = vec3(0.0f);  
+vec3   id7_Result = vec3(0.0f);  
+// Input : Vec3 
+id7_Result = vec3(0, 0, 0);
+
+vec3   Specular = id7_Result;  
+vec3   Metallic = vec3(0.0f);  
+vec2   Roughness = vec2(0.0f);  
+vec3   Emissive = vec3(0.0f);  
+vec3   Opacity = vec3(0.0f);  
+vec3   WorldPositionOffset = vec3(0.0f);  
+vec3   AmbientOcclusion = vec3(0.0f);  
+vec3   Refraction = vec3(0.0f);  
+vec2   TextureCoordinate = vec2(0.0f);  
+vec3   Tangent = vec3(0.0f);  
+float   Depth = 0.0f;  
+// End MasterMaterialOutput

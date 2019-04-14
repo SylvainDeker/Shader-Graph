@@ -5,7 +5,7 @@
 
 #define LAST_TIME_START_VALUE 0
 
-GLWidget::GLWidget(QWidget *parent) :
+GLWidget::GLWidget(QWidget * parent) :
     QOpenGLWidget(parent),
     QOpenGLFunctions_4_1_Core(),
     m_lastTime(LAST_TIME_START_VALUE)
@@ -24,23 +24,19 @@ void GLWidget::initializeGL()
 
 void GLWidget::paintGL()
 {
-    const unsigned int startTime = QDateTime::currentMSecsSinceEpoch();
+    auto startTime = static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch());
 
     m_scene->draw();
     GL_ASSERT(glFinish());
 
-    const unsigned int endTime   = QDateTime::currentMSecsSinceEpoch();
-    m_lastTime = endTime - startTime;
-}
+    auto endTime = static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch());
 
-void GLWidget::refreshSceneProgram()
-{
-    m_scene->refreshProgram();
+    m_lastTime = endTime - startTime;
 }
 
 void GLWidget::resizeGL(int width, int height)
 {
-    m_scene->resize(width, height);
+    m_scene->resize(static_cast<unsigned int>(width), static_cast<unsigned int>(height));
 }
 
 void GLWidget::mousePressEvent(QMouseEvent * event)

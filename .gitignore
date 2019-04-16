@@ -42,5 +42,8 @@ external/glm/
 .idea/
 output/*
 
+data/ShaderGraph_Output.txt
+data/shaders/runtime/
+
 # Files
 .DS_Store

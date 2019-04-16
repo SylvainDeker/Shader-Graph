@@ -98,9 +98,10 @@ namespace ShaderGraph
         float longitudeSpacing = 1.0f / nbLongitudeLines;
 
         int index = 1;
-        for(int latitude = 0; latitude < nbLatitudeLines; ++latitude) {
-            for(int longitude = 0; longitude < nbLongitudeLines; ++longitude) {
-
+        for(int latitude = 0; latitude < nbLatitudeLines; ++latitude)
+        {
+            for(int longitude = 0; longitude < nbLongitudeLines; ++longitude)
+            {
                 float phi = longitude * longitudeSpacing * 2.0f * glm::pi<float>();
                 float theta = ((latitude + 1) * latitudeSpacing) * glm::pi<float>();
 
@@ -124,21 +125,23 @@ namespace ShaderGraph
 
         /* TRIANGLES */
         // North and South
-        for (int longitude = 0; longitude < nbLongitudeLines; ++longitude)
+        for (unsigned int longitude = 0; longitude < static_cast<unsigned int>(nbLongitudeLines); ++longitude)
         {
-            int tmp = (longitude + 1) % nbLongitudeLines + 1;
+            unsigned int tmp = (longitude + 1) % nbLongitudeLines + 1;
             m_indices[index++] = 0;
             m_indices[index++] = longitude + 1;
             m_indices[index++] = tmp;
 
-            m_indices[index++] = nbVertices - 1;
-            m_indices[index++] = nbVertices - longitude - 2;
-            m_indices[index++] = nbVertices - tmp - 1;
+            m_indices[index++] = static_cast<unsigned int>(nbVertices) - 1;
+            m_indices[index++] = static_cast<unsigned int>(nbVertices) - longitude - 2;
+            m_indices[index++] = static_cast<unsigned int>(nbVertices) - tmp - 1;
         }
         // Others
-        for (int latitude = 0; latitude < nbLatitudeLines - 1; ++latitude){
-            for (int longitude = 0; longitude < nbLongitudeLines - 1; ++longitude){
-                int current = latitude*nbLongitudeLines + longitude + 1;
+        for (unsigned int latitude = 0; latitude < static_cast<unsigned int>(nbLatitudeLines) - 1; ++latitude)
+        {
+            for (unsigned int longitude = 0; longitude < static_cast<unsigned int>(nbLongitudeLines) - 1; ++longitude)
+            {
+                unsigned int current = latitude*nbLongitudeLines + longitude + 1;
                 m_indices[index++] = current;
                 m_indices[index++] = current + nbLongitudeLines;
                 m_indices[index++] = current + nbLongitudeLines + 1;
@@ -147,7 +150,8 @@ namespace ShaderGraph
                 m_indices[index++] = current + nbLongitudeLines + 1;
                 m_indices[index++] = current + 1;
             }
-            int current = latitude*nbLongitudeLines + nbLongitudeLines;
+
+            unsigned int current = latitude*nbLongitudeLines + nbLongitudeLines;
             m_indices[index++] = current;
             m_indices[index++] = current + nbLongitudeLines;
             m_indices[index++] = current + 1;
@@ -257,15 +261,15 @@ namespace ShaderGraph
 
             float r = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
             glm::vec3 tangent = (deltaPos1 * deltaUV2.y - deltaPos2 * deltaUV1.y) * r;
-            glm::vec3 bitangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x) * r;
+            glm::vec3 biTangent = (deltaPos2 * deltaUV1.x - deltaPos1 * deltaUV2.x) * r;
 
             m_tangents.push_back(tangent);
             m_tangents.push_back(tangent);
             m_tangents.push_back(tangent);
 
-            m_biTangents.push_back(bitangent);
-            m_biTangents.push_back(bitangent);
-            m_biTangents.push_back(bitangent);
+            m_biTangents.push_back(biTangent);
+            m_biTangents.push_back(biTangent);
+            m_biTangents.push_back(biTangent);
         }
     }
 
@@ -316,7 +320,7 @@ namespace ShaderGraph
         /* Step 2 : Rendering */
         /* ============================================================ */
         glBindVertexArray(m_vao);
-        glDrawElements(GL_TRIANGLES, static_cast<GLsizei >(m_indices.size()), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
 
         m_shader->unbind();
         glBindVertexArray(0);

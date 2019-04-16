@@ -15,10 +15,12 @@ namespace ShaderGraph
                 std::make_shared<Vector3>("Diffuse", this),
                 std::make_shared<Vector3>("Normal", this),
                 std::make_shared<Vector3>("Specular", this),
-                std::make_shared<Vector3>("Metallic", this),
-                std::make_shared<Vector2>("Roughness", this),
-                std::make_shared<Vector3>("Emissive", this),
-                std::make_shared<Vector3>("Opacity", this),
+
+                std::make_shared<Float>("Metallic", this),
+                std::make_shared<Float>("Roughness", this),
+                std::make_shared<Float>("Emissive", this),
+                std::make_shared<Float>("Opacity", this),
+
                 std::make_shared<Vector3>("WorldPositionOffset", this),
                 std::make_shared<Vector3>("AmbientOcclusion", this),
                 std::make_shared<Vector3>("Refraction", this),

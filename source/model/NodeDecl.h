@@ -8,6 +8,7 @@
 #include "input/ColorNode.h"
 #include "input/VectorNode.h"
 #include "input/TextureNode.h"
+#include "input/GetterNode.h"
 
 #include "operator/Operator.h"
 

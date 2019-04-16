@@ -26,6 +26,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::Vec2Node>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::Vec3Node>("Input");
     nodeManager.registry()->registerModel<ShaderGraph::Vec4Node>("Input");
+    nodeManager.registry()->registerModel<ShaderGraph::UVNode>("Input");
 
     nodeManager.registry()->registerModel<ShaderGraph::MakeVec2Node>("VectorUtility");
     nodeManager.registry()->registerModel<ShaderGraph::BreakVec2Node>("VectorUtility");

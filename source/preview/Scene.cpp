@@ -59,19 +59,11 @@ namespace ShaderGraph
         /* ============================================================ */
 
         /* ============================================================ */
-        /* Step 3 : Build materials */
-        /* ============================================================ */
-
-        m_Kd = glm::vec4(0.54, 0.89, 0.63, 1.f);
-        m_Ks = glm::vec4(0.316228, 0.316228, 0.316228, 1.f);
-        m_roughness = 0.9;
-
-        /* ============================================================ */
         /* Step 4 : Build lights */
         /* ============================================================ */
 
-        m_lightcolor = glm::vec4(1.0, 1.0, 1.0, 1.0);
-        m_lightdir = glm::normalize(glm::vec3(-0.5, -0.5, -0.5));
+        m_lightColor = glm::vec4(1.0, 1.0, 1.0, 1.0);
+        m_lightDir = glm::normalize(glm::vec3(-0.5, -0.5, -0.5));
 
         /* ============================================================ */
         /* Step 5 : Build static mesh */
@@ -86,21 +78,21 @@ namespace ShaderGraph
         /* VERTICES AND NORMALS */
         m_vertices  = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
         m_normals   = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
-        m_texcoords = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
+        m_texCoords = std::vector<glm::vec3>(static_cast<unsigned int>(nbVertices));
 
         //North
         m_vertices[0] = glm::vec3(0,radius,0);
         m_normals[0] = glm::vec3(0,1,0);
         float u = std::atan2(m_normals[0][0], m_normals[0][2]) / (2*glm::pi<float>()) + 0.5;
         float v = m_normals[0][1] * 0.5 + 0.5;
-        m_texcoords[0] = glm::vec3(u, v, 0);
+        m_texCoords[0] = glm::vec3(u, v, 0);
 
         //South
         m_vertices[nbVertices - 1] = glm::vec3(0,-radius,0);
         m_normals[nbVertices - 1] = glm::vec3(0,-1,0);
         u = std::atan2(m_normals[nbVertices - 1][0], m_normals[nbVertices - 1][2]) / (2*glm::pi<float>()) + 0.5;
         v = m_normals[nbVertices - 1][1] * 0.5 + 0.5;
-        m_texcoords[nbVertices - 1] = glm::vec3(u, v, 0);
+        m_texCoords[nbVertices - 1] = glm::vec3(u, v, 0);
 
         float latitudeSpacing = 1.0f / (nbLatitudeLines + 1.0f);
         float longitudeSpacing = 1.0f / nbLongitudeLines;
@@ -121,7 +113,7 @@ namespace ShaderGraph
 
                 u = std::atan2(m_normals[index][0], m_normals[index][2]) / (2*glm::pi<float>()) + 0.5;
                 v = m_normals[index][1] * 0.5 + 0.5;
-                m_texcoords[index++] = glm::vec3(u, v, 0);
+                m_texCoords[index++] = glm::vec3(u, v, 0);
 
             }
         }
@@ -197,7 +189,7 @@ namespace ShaderGraph
 
         // 7. Copy our texture coordinates array in a buffer for OpenGL to use
         glBindBuffer(GL_ARRAY_BUFFER, m_ubo);
-        glBufferData(GL_ARRAY_BUFFER, m_texcoords.size()*sizeof (glm::vec3), m_texcoords.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_texCoords.size()*sizeof (glm::vec3), m_texCoords.data(), GL_STATIC_DRAW);
 
         // 8. Copy our vertices array in a buffer for OpenGL to use
         glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -213,7 +205,7 @@ namespace ShaderGraph
 
         // 11. Copy our bitangents array in a buffer for OpenGL to use
         glBindBuffer(GL_ARRAY_BUFFER, m_bbo);
-        glBufferData(GL_ARRAY_BUFFER, m_bitangents.size()*sizeof (glm::vec3), m_bitangents.data(), GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, m_biTangents.size()*sizeof (glm::vec3), m_biTangents.data(), GL_STATIC_DRAW);
 
         // 12. Copy our vertices array in a buffer for OpenGL to use
         glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -251,9 +243,9 @@ namespace ShaderGraph
             glm::vec3 & v1 = m_vertices[m_indices[i+1]];
             glm::vec3 & v2 = m_vertices[m_indices[i+2]];
 
-            glm::vec3 & uv0 = m_texcoords[m_indices[i]];
-            glm::vec3 & uv1 = m_texcoords[m_indices[i+1]];
-            glm::vec3 & uv2 = m_texcoords[m_indices[i+2]];
+            glm::vec3 & uv0 = m_texCoords[m_indices[i]];
+            glm::vec3 & uv1 = m_texCoords[m_indices[i+1]];
+            glm::vec3 & uv2 = m_texCoords[m_indices[i+2]];
 
             // Edges of the triangle : position delta
             glm::vec3 deltaPos1 = v1-v0;
@@ -271,9 +263,9 @@ namespace ShaderGraph
             m_tangents.push_back(tangent);
             m_tangents.push_back(tangent);
 
-            m_bitangents.push_back(bitangent);
-            m_bitangents.push_back(bitangent);
-            m_bitangents.push_back(bitangent);
+            m_biTangents.push_back(bitangent);
+            m_biTangents.push_back(bitangent);
+            m_biTangents.push_back(bitangent);
         }
     }
 
@@ -312,13 +304,13 @@ namespace ShaderGraph
         m_shader->setMat4("transform.worldNormal", m_worldNormal);
         m_shader->setMat4("transform.viewNormal", m_viewNormal);
 
-        m_shader->setVec4("material.kd", m_Kd);
-        m_shader->setVec4("material.ks", m_Ks);
-        m_shader->setFloat("material.roughness", m_roughness);
+        m_shader->setVec4("material.kd", glm::vec4(0.f));
+        m_shader->setVec4("material.ks", glm::vec4(0.f));
+        m_shader->setFloat("material.roughness", 0.000f);
 
         m_shader->setInt("light.type", 0); // Directional Light
-        m_shader->setVec4("light.color", m_lightcolor);
-        m_shader->setVec3("light.directional.direction", m_lightdir);
+        m_shader->setVec4("light.color", m_lightColor);
+        m_shader->setVec3("light.directional.direction", m_lightDir);
 
         /* ============================================================ */
         /* Step 2 : Rendering */
@@ -372,7 +364,7 @@ namespace ShaderGraph
 
         std::string roughnessFunction = "vec2 getRoughness(Material material, vec2 texCoord) { \n" +
                                  generatedCode                                                     +
-                                 "\nreturn Roughness; \n"                                            +
+                                 "\nreturn vec2(Roughness); \n"                                    +
                                  "} \n"                                                            ;
 
         output << "\n\n" << kdFunction << "\n" << ksFunction << "\n" << roughnessFunction << "\n";

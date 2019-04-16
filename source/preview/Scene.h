@@ -59,12 +59,8 @@ namespace ShaderGraph
         glm::mat4   m_worldNormal;
         glm::mat4   m_viewNormal;
 
-        glm::vec4   m_Kd;
-        glm::vec4   m_Ks;
-        float       m_roughness;
-
-        glm::vec4   m_lightcolor;
-        glm::vec3   m_lightdir;
+        glm::vec4   m_lightColor;
+        glm::vec3   m_lightDir;
 
         /* ==================================================================================== */
         /* World stuffs */
@@ -77,13 +73,13 @@ namespace ShaderGraph
         std::vector<glm::vec3> m_normals;
 
         /// Mesh : texture coordinates
-        std::vector<glm::vec3> m_texcoords;
+        std::vector<glm::vec3> m_texCoords;
 
         /// Mesh : tangents
         std::vector<glm::vec3> m_tangents;
 
         /// Mesh : bi-tangents
-        std::vector<glm::vec3> m_bitangents;
+        std::vector<glm::vec3> m_biTangents;
 
         /// Mesh : indices
         std::vector<unsigned int>  m_indices;

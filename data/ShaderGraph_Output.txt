@@ -1,52 +1,32 @@
-float   id6_Result = 0.0f;  
-// Input : Scalar 
-id6_Result = 1;
+vec2   id8_UVs = vec2(0.0f);  
+float   id8_u = 0.0f;  
+float   id8_v = 0.0f;  
+// Input : UV 
+id8_UVs = texCoord; 
+id8_u = texCoord.x; 
+id8_v = texCoord.y; 
 
-float   id20_X = id6_Result;  
-float   id20_Y = 0.0f;  
+
+float   id20_X = id8_u;  
+
+float   id20_Y = id8_v;  
 float   id20_Z = 0.0f;  
 vec3   id20_Vector3 = vec3(0.0f);  
 // MakeVec3Node 
 id20_Vector3 = vec3(id20_X, id20_Y, id20_Z); 
 
 
-vec3   id21_A = id20_Vector3;  
-vec4   id7_Result = vec4(0.0f);  
-// Input : Vec4 
-id7_Result = vec4(0, 1, 0, 999);
-
-vec4   id22_Vector4 = id7_Result;  
-float   id22_X = 0.0f;  
-float   id22_Y = 0.0f;  
-float   id22_Z = 0.0f;  
-float   id22_A = 0.0f;  
-// BreakVec4Node 
-id22_X = id22_Vector4.x; 
-id22_Y = id22_Vector4.y; 
-id22_Z = id22_Vector4.z; 
-id22_A = id22_Vector4.a; 
-
-
-float   id23_X = id22_X;  
-
-float   id23_Y = id22_Y;  
-
-float   id23_Z = id22_Z;  
-vec3   id23_Vector3 = vec3(0.0f);  
-// MakeVec3Node 
-id23_Vector3 = vec3(id23_X, id23_Y, id23_Z); 
-
-
-vec3   id21_B = id23_Vector3;  
-vec3   id21_ReturnValue = vec3(0.0f);  
-id21_ReturnValue = id21_A + id21_B;
-vec3   Diffuse = id21_ReturnValue;  
+vec3   Diffuse = id20_Vector3;  
 vec3   Normal = vec3(0.0f);  
 vec3   Specular = vec3(0.0f);  
-vec3   Metallic = vec3(0.0f);  
-vec2   Roughness = vec2(0.0f);  
-vec3   Emissive = vec3(0.0f);  
-vec3   Opacity = vec3(0.0f);  
+float   Metallic = 0.0f;  
+float   id9_Result = 0.0f;  
+// Input : Scalar 
+id9_Result = 1;
+
+float   Roughness = id9_Result;  
+float   Emissive = 0.0f;  
+float   Opacity = 0.0f;  
 vec3   WorldPositionOffset = vec3(0.0f);  
 vec3   AmbientOcclusion = vec3(0.0f);  
 vec3   Refraction = vec3(0.0f);  

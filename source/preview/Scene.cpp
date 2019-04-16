@@ -348,8 +348,6 @@ namespace ShaderGraph
 
     void Scene::onShaderCompiled(const std::string& generatedCode)
     {
-        (void) generatedCode;
-
         std::ofstream output("../data/shaders/runtime/Material.glsl");
         assert(output.is_open());
 
@@ -391,7 +389,6 @@ namespace ShaderGraph
         // Close and flush the header
         output.flush();
         output.close();
-
 
         delete m_shader;
         m_shader = new Shader("../data/shaders/runtime/Vertex.glsl",

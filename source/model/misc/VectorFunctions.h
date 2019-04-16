@@ -26,7 +26,7 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "// MakeVec2Node \n"
-                      "{0} = vec2({1}, {2});"
+                      "{0} = vec2({1}, {2}); \n"
                       "\n",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
@@ -56,7 +56,7 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "// MakeVec3Node \n"
-                      "{0} = vec3({1}, {2}, {3});"
+                      "{0} = vec3({1}, {2}, {3}); \n"
                       "\n",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
@@ -119,8 +119,8 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "// BreakVec2Node \n"
-                      "{1} = {0}.x;"
-                      "{2} = {0}.y;"
+                      "{1} = {0}.x; \n"
+                      "{2} = {0}.y; \n"
                       "\n",
 
                       autoName(inputs()[0]),
@@ -152,9 +152,9 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "// BreakVec3Node \n"
-                      "{1} = {0}.x;"
-                      "{2} = {0}.y;"
-                      "{3} = {0}.z;"
+                      "{1} = {0}.x; \n"
+                      "{2} = {0}.y; \n"
+                      "{3} = {0}.z; \n"
                       "\n",
 
                       autoName(inputs()[0]),
@@ -188,10 +188,10 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "// BreakVec4Node \n"
-                      "{1} = {0}.x;"
-                      "{2} = {0}.y;"
-                      "{3} = {0}.z;"
-                      "{4} = {0}.a;"
+                      "{1} = {0}.x; \n"
+                      "{2} = {0}.y; \n"
+                      "{3} = {0}.z; \n"
+                      "{4} = {0}.a; \n"
                       "\n",
 
                       autoName(inputs()[0]),

@@ -27,7 +27,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} && {2}",
+                      "{0} = {1} && {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -54,7 +54,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} || {2}",
+                      "{0} = {1} || {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -82,7 +82,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} == {2}",
+                      "{0} = {1} == {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -109,7 +109,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} != {2}",
+                      "{0} = {1} != {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -136,7 +136,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} > {2}",
+                      "{0} = {1} > {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -163,7 +163,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} >= {2}",
+                      "{0} = {1} >= {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -190,7 +190,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} < {2}",
+                      "{0} = {1} < {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
@@ -217,7 +217,7 @@ namespace ShaderGraph
         {
             std::string buffer;
             GLSL_CODE(buffer,
-                      "{0} = {1} <= {2}",
+                      "{0} = {1} <= {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));

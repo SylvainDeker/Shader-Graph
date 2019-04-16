@@ -180,7 +180,7 @@ namespace ShaderGraph
 
     std::string Node::toGLSL()
     {
-        std::string glslCode = "";
+        std::string glslCode;
         std::list<unsigned int> nodes;
         nodes.push_back(m_id);
         glslCode += inputsToGLSL(nodes);
@@ -192,7 +192,7 @@ namespace ShaderGraph
 
     std::string Node::toGLSL(std::list<unsigned int> nodes)
     {
-        std::string glslCode = "";
+        std::string glslCode;
 
         bool isFound = std::find(nodes.begin(), nodes.end(), m_id) != nodes.end();
 

@@ -289,7 +289,7 @@ namespace ShaderGraph
             std::string buffer;
             GLSL_CODE(buffer,
                       "// Input : Vec4 \n"
-                      "{0} = vec3({1}, {2}, {3});"
+                      "{0} = vec4({1}, {2}, {3}, {4});"
                       "\n",
                       autoName(outputs()[0]),
                       m_value.x,

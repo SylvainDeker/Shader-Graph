@@ -36,17 +36,51 @@ struct Material {
 };
 
 vec3 getKd(Material material, vec2 texCoord) { 
-vec3   id6_Result = vec3(0.0f);  
-// Input : Vec3 
-id6_Result = vec3(1, 0, 0);
+float   id6_Result = 0.0f;  
+// Input : Scalar 
+id6_Result = 1;
 
-vec3   Diffuse = id6_Result;  
+float   id20_X = id6_Result;  
+float   id20_Y = 0.0f;  
+float   id20_Z = 0.0f;  
+vec3   id20_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id20_Vector3 = vec3(id20_X, id20_Y, id20_Z); 
+
+
+vec3   id21_A = id20_Vector3;  
+vec4   id7_Result = vec4(0.0f);  
+// Input : Vec4 
+id7_Result = vec4(0, 1, 0, 999);
+
+vec4   id22_Vector4 = id7_Result;  
+float   id22_X = 0.0f;  
+float   id22_Y = 0.0f;  
+float   id22_Z = 0.0f;  
+float   id22_A = 0.0f;  
+// BreakVec4Node 
+id22_X = id22_Vector4.x; 
+id22_Y = id22_Vector4.y; 
+id22_Z = id22_Vector4.z; 
+id22_A = id22_Vector4.a; 
+
+
+float   id23_X = id22_X;  
+
+float   id23_Y = id22_Y;  
+
+float   id23_Z = id22_Z;  
+vec3   id23_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id23_Vector3 = vec3(id23_X, id23_Y, id23_Z); 
+
+
+vec3   id21_B = id23_Vector3;  
+vec3   id21_ReturnValue = vec3(0.0f);  
+id21_ReturnValue = id21_A + id21_B;
+vec3   Diffuse = id21_ReturnValue;  
 vec3   Normal = vec3(0.0f);  
-vec3   id7_Result = vec3(0.0f);  
-// Input : Vec3 
-id7_Result = vec3(0, 0, 0);
-
-vec3   Specular = id7_Result;  
+vec3   Specular = vec3(0.0f);  
 vec3   Metallic = vec3(0.0f);  
 vec2   Roughness = vec2(0.0f);  
 vec3   Emissive = vec3(0.0f);  
@@ -62,17 +96,51 @@ return Diffuse;
 } 
 
 vec3 getKs(Material material, vec2 texCoord) { 
-vec3   id6_Result = vec3(0.0f);  
-// Input : Vec3 
-id6_Result = vec3(1, 0, 0);
+float   id6_Result = 0.0f;  
+// Input : Scalar 
+id6_Result = 1;
 
-vec3   Diffuse = id6_Result;  
+float   id20_X = id6_Result;  
+float   id20_Y = 0.0f;  
+float   id20_Z = 0.0f;  
+vec3   id20_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id20_Vector3 = vec3(id20_X, id20_Y, id20_Z); 
+
+
+vec3   id21_A = id20_Vector3;  
+vec4   id7_Result = vec4(0.0f);  
+// Input : Vec4 
+id7_Result = vec4(0, 1, 0, 999);
+
+vec4   id22_Vector4 = id7_Result;  
+float   id22_X = 0.0f;  
+float   id22_Y = 0.0f;  
+float   id22_Z = 0.0f;  
+float   id22_A = 0.0f;  
+// BreakVec4Node 
+id22_X = id22_Vector4.x; 
+id22_Y = id22_Vector4.y; 
+id22_Z = id22_Vector4.z; 
+id22_A = id22_Vector4.a; 
+
+
+float   id23_X = id22_X;  
+
+float   id23_Y = id22_Y;  
+
+float   id23_Z = id22_Z;  
+vec3   id23_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id23_Vector3 = vec3(id23_X, id23_Y, id23_Z); 
+
+
+vec3   id21_B = id23_Vector3;  
+vec3   id21_ReturnValue = vec3(0.0f);  
+id21_ReturnValue = id21_A + id21_B;
+vec3   Diffuse = id21_ReturnValue;  
 vec3   Normal = vec3(0.0f);  
-vec3   id7_Result = vec3(0.0f);  
-// Input : Vec3 
-id7_Result = vec3(0, 0, 0);
-
-vec3   Specular = id7_Result;  
+vec3   Specular = vec3(0.0f);  
 vec3   Metallic = vec3(0.0f);  
 vec2   Roughness = vec2(0.0f);  
 vec3   Emissive = vec3(0.0f);  
@@ -88,17 +156,51 @@ return Specular;
 } 
 
 vec2 getRoughness(Material material, vec2 texCoord) { 
-vec3   id6_Result = vec3(0.0f);  
-// Input : Vec3 
-id6_Result = vec3(1, 0, 0);
+float   id6_Result = 0.0f;  
+// Input : Scalar 
+id6_Result = 1;
 
-vec3   Diffuse = id6_Result;  
+float   id20_X = id6_Result;  
+float   id20_Y = 0.0f;  
+float   id20_Z = 0.0f;  
+vec3   id20_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id20_Vector3 = vec3(id20_X, id20_Y, id20_Z); 
+
+
+vec3   id21_A = id20_Vector3;  
+vec4   id7_Result = vec4(0.0f);  
+// Input : Vec4 
+id7_Result = vec4(0, 1, 0, 999);
+
+vec4   id22_Vector4 = id7_Result;  
+float   id22_X = 0.0f;  
+float   id22_Y = 0.0f;  
+float   id22_Z = 0.0f;  
+float   id22_A = 0.0f;  
+// BreakVec4Node 
+id22_X = id22_Vector4.x; 
+id22_Y = id22_Vector4.y; 
+id22_Z = id22_Vector4.z; 
+id22_A = id22_Vector4.a; 
+
+
+float   id23_X = id22_X;  
+
+float   id23_Y = id22_Y;  
+
+float   id23_Z = id22_Z;  
+vec3   id23_Vector3 = vec3(0.0f);  
+// MakeVec3Node 
+id23_Vector3 = vec3(id23_X, id23_Y, id23_Z); 
+
+
+vec3   id21_B = id23_Vector3;  
+vec3   id21_ReturnValue = vec3(0.0f);  
+id21_ReturnValue = id21_A + id21_B;
+vec3   Diffuse = id21_ReturnValue;  
 vec3   Normal = vec3(0.0f);  
-vec3   id7_Result = vec3(0.0f);  
-// Input : Vec3 
-id7_Result = vec3(0, 0, 0);
-
-vec3   Specular = id7_Result;  
+vec3   Specular = vec3(0.0f);  
 vec3   Metallic = vec3(0.0f);  
 vec2   Roughness = vec2(0.0f);  
 vec3   Emissive = vec3(0.0f);  

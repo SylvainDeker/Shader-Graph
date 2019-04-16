@@ -90,13 +90,6 @@ namespace ShaderGraph
         /// Disconnect this pin.
         void disconnect() override;
 
-        /// Getter : The connected pin.
-        /// @warning : returns nullptr if this pin isn't connected.
-        std::shared_ptr<QtNodes::NodeData> getConnectedPin() override;
-
-        /// Setter : The node which contains this pin.
-        void setNode(QtNodes::NodeDataModel * owner) override;
-
         /// Getter : The binded pin.
         inline std::shared_ptr<QtNodes::NodeData> getBindedPin() const { return m_pin; }
 

@@ -74,27 +74,6 @@ namespace ShaderGraph
         }
     }
 
-    /// Getter : The connected pin.
-    /// @warning : returns nullptr if this pin isn't connected.
-    std::shared_ptr<QtNodes::NodeData> Template::getConnectedPin()
-    {
-        auto pin = std::dynamic_pointer_cast<IPin>(m_pin);
-
-        assert(pin != nullptr);
-
-        return pin->getConnectedPin();
-    }
-
-    /// Setter : The node which contains this pin.
-    void Template::setNode(QtNodes::NodeDataModel * owner)
-    {
-        auto pin = std::dynamic_pointer_cast<IPin>(m_pin);
-
-        assert(pin != nullptr);
-
-        pin->setNode(owner);
-    }
-
     /// @return : Get the GLSL type (in string) which represents this pin.
     std::string Template::typeToGLSL()
     {

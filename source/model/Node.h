@@ -121,7 +121,7 @@ namespace ShaderGraph
         /// Format : nodeID<nodeID>_<pinname>, with :
         ///     <nodeID> : The id of this node
         ///     <pinname>: The name of the pin, with the convention : lowercase.
-        virtual std::string autoName(PIN pin);
+        virtual std::string autoName(PIN& pin);
 
         /// Generate the declarations of this node outputs, for the GLSL code.
         std::string outputsToGLSL();
@@ -164,9 +164,6 @@ namespace ShaderGraph
         /// Getter to the reference to a vector of outputs.
         inline std::vector<PIN>& outputs() { return m_outputs; }
 
-        /// Getter to the reference to a vector of details.
-        inline std::vector<PIN>& details() { return m_details; }
-
     private:
         /// True if this node is displayed on the details panel.
         bool m_isDetailedNode = false;
@@ -181,18 +178,11 @@ namespace ShaderGraph
         /// Each node has a unique id.
         unsigned int m_id;
 
-        /// The layer of this node.
-        /// A layer is the max between the value of each.
-        unsigned int m_layer = 0;
-
         /// The internal representation of the input pins.
         std::vector<PIN> m_inputs;
 
         /// The internal representation of the output pins.
         std::vector<PIN> m_outputs;
-
-        /// The hidden properties.
-        std::vector<PIN> m_details;
 
         /// The error/warning message. "No message" if no error/warning.
         QString m_validationMessage = "No message";

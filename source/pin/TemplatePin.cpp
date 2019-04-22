@@ -28,8 +28,8 @@ namespace ShaderGraph
         }
         else
         {
-            node->setValidation(NodeValidationState::Valid);
             Pin::connect(inPin);
+            node->setValidation(NodeValidationState::Valid);
             setBindedType(pin->getType(), true);
         }
     }
@@ -41,8 +41,7 @@ namespace ShaderGraph
 
         auto node = dynamic_cast<Node*>(getNode());
 
-        // Note : Only for debug --
-        // The number of connected pin is useless otherwise.
+        // Note : Only for debug -- The number of connected pin is useless otherwise.
         unsigned int connectedPinsCount = 0;
 
         assert(node != nullptr);
@@ -65,12 +64,6 @@ namespace ShaderGraph
                 assert(pin != nullptr);
                 pin->setBindedType(EPinType::TEMPLATE);
             }
-
-            LOG_DEBUG("Template::disconnect : Type reset");
-        }
-        else
-        {
-            LOG_DEBUG("Template::disconnect : {0} type constraint", connectedPinsCount);
         }
     }
 
@@ -99,7 +92,6 @@ namespace ShaderGraph
         {
             setType(type);
             m_typeId = "Template";
-            LOG_DEBUG("{0} : Type set to : {1}", name().toStdString(), pinTypeToString(type));
         }
         else if (!isConnectable(type))
         {
@@ -147,8 +139,6 @@ namespace ShaderGraph
                 }
 
                 setType(type);
-
-                LOG_DEBUG("{0} : Type set to {1}", nameToGLSL(), pinTypeToString(type));
             }
         }
     }

@@ -8,9 +8,11 @@
 #include "input/ColorNode.h"
 #include "input/VectorNode.h"
 #include "input/TextureNode.h"
-#include "input/GetterNode.h"
+#include "input/CoordinatesExpressions.h"
 
 #include "operator/Operator.h"
+
+#include "math/Math.h"
 
 #include "misc/VectorFunctions.h"
 

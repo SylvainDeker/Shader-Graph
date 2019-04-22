@@ -143,9 +143,9 @@ namespace ShaderGraph
     std::string Node::inputsToGLSL(std::list<unsigned int>& nodes)
     {
         std::string code;
+
         for (PIN input : m_inputs)
         {
-            // Get the pin interface
             auto pin = dynamic_cast<IPin*>(input.get());
             assert(pin);
 
@@ -162,7 +162,6 @@ namespace ShaderGraph
                 assert(connectedNode);
 
                 code += connectedNode->toGLSL(nodes) + "\n";
-                nodes.push_back(connectedNode->getID());
 
                 value = "id" + std::to_string(connectedNode->getID()) + "_" + connectedPin->nameToGLSL();
             }
@@ -190,7 +189,7 @@ namespace ShaderGraph
         return glslCode;
     }
 
-    std::string Node::toGLSL(std::list<unsigned int> nodes)
+    std::string Node::toGLSL(std::list<unsigned int>& nodes)
     {
         std::string glslCode;
 
@@ -199,6 +198,7 @@ namespace ShaderGraph
         if (!isFound)
         {
             nodes.push_back(m_id);
+
             glslCode += inputsToGLSL(nodes);
             glslCode += outputsToGLSL();
             glslCode += nodeToGLSL();

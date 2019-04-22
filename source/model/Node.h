@@ -140,7 +140,7 @@ namespace ShaderGraph
         /// Generate the equivalent in GLSL code.
         /// @warning : Will generate the node that it depends on.
         /// @nodes : A list of nodeID, use to store the visited/generated nodes.
-        std::string toGLSL(std::list<unsigned int> nodes);
+        std::string toGLSL(std::list<unsigned int>& nodes);
 
         /* ============================== Details ============================== */
 

@@ -1,3 +1,32 @@
+float   id10_Result = 0.0f;  
+// Input : Scalar 
+id10_Result = 4;
+
+float   id21_A = id10_Result;  
+vec2   id9_UVs = vec2(0.0f);  
+float   id9_u = 0.0f;  
+float   id9_v = 0.0f;  
+// Input : UV 
+id9_UVs = texCoord; 
+id9_u = texCoord.x; 
+id9_v = texCoord.y; 
+
+
+float   id15_Value = id9_u;  
+float   id13_Result = 0.0f;  
+// Input : Scalar 
+id13_Result = 0.2;
+
+float   id15_Step = id13_Result;  
+float   id15_Result = 0.0f;  
+// Step 
+id15_Result = floor(id15_Value / id15_Step) * id15_Step;
+
+
+float   id21_B = id15_Result;  
+float   id21_Result = 0.0f;  
+id21_Result = id21_A * id21_B;
+float   id22_X = id21_Result;  
 vec2   id8_UVs = vec2(0.0f);  
 float   id8_u = 0.0f;  
 float   id8_v = 0.0f;  
@@ -7,24 +36,37 @@ id8_u = texCoord.x;
 id8_v = texCoord.y; 
 
 
-float   id20_X = id8_u;  
+float   id14_Value = id8_v;  
+float   id12_Result = 0.0f;  
+// Input : Scalar 
+id12_Result = 0.2;
 
-float   id20_Y = id8_v;  
-float   id20_Z = 0.0f;  
-vec3   id20_Vector3 = vec3(0.0f);  
+float   id14_Step = id12_Result;  
+float   id14_Result = 0.0f;  
+// Step 
+id14_Result = floor(id14_Value / id14_Step) * id14_Step;
+
+
+float   id20_A = id14_Result;  
+float   id11_Result = 0.0f;  
+// Input : Scalar 
+id11_Result = 4;
+
+float   id20_B = id11_Result;  
+float   id20_Result = 0.0f;  
+id20_Result = id20_A * id20_B;
+float   id22_Y = id20_Result;  
+float   id22_Z = 0.0f;  
+vec3   id22_Vector3 = vec3(0.0f);  
 // MakeVec3Node 
-id20_Vector3 = vec3(id20_X, id20_Y, id20_Z); 
+id22_Vector3 = vec3(id22_X, id22_Y, id22_Z); 
 
 
-vec3   Diffuse = id20_Vector3;  
+vec3   Diffuse = id22_Vector3;  
 vec3   Normal = vec3(0.0f);  
 vec3   Specular = vec3(0.0f);  
 float   Metallic = 0.0f;  
-float   id9_Result = 0.0f;  
-// Input : Scalar 
-id9_Result = 1;
-
-float   Roughness = id9_Result;  
+float   Roughness = 0.0f;  
 float   Emissive = 0.0f;  
 float   Opacity = 0.0f;  
 vec3   WorldPositionOffset = vec3(0.0f);  

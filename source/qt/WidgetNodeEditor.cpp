@@ -52,6 +52,7 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::MultiplyNode>("Operator");
     nodeManager.registry()->registerModel<ShaderGraph::DivideNode>("Operator");
 
+    nodeManager.registry()->registerModel<ShaderGraph::StepNode>("Functions");
 
     ShaderGraph::registerToTemplateConverters(nodeManager.registry());
 

@@ -61,14 +61,31 @@ void NodeGraphicsView::mousePressEvent(QMouseEvent *event)
 
 void NodeGraphicsView::deleteSelectedNodes()
 {
-  ShaderGraph::Node * node;
-  for (QGraphicsItem * item : scene()->selectedItems())
-  {
-    if (auto n = qgraphicsitem_cast<QtNodes::NodeGraphicsObject*>(item))
+    ShaderGraph::Node * node;
+
+    bool isDeletingTheDetailedNode = false;
+
+    // Check if the MasterMaterialOutputNode is in the selectedItems.
+    // If it is, then "cancel" this event, else continue.
+    for (QGraphicsItem * item : scene()->selectedItems())
     {
-      node = dynamic_cast<ShaderGraph::Node*>(n->node().nodeDataModel());
-      if(node->name()==QStringLiteral("MasterMaterialOutput")) return;
+        if (auto n = qgraphicsitem_cast<QtNodes::NodeGraphicsObject*>(item))
+        {
+          node = dynamic_cast<ShaderGraph::Node*>(n->node().nodeDataModel());
+
+          assert(node);
+
+          if (node->name() == QStringLiteral("MasterMaterialOutput"))
+          {
+              LOG_WARN("Cannot delete the MasterMaterialOutput");
+              return;
+          }
+
+            isDeletingTheDetailedNode |= node->isDetailedNode();
+        }
     }
-  }
-  FlowView::deleteSelectedNodes();
+
+    if (isDeletingTheDetailedNode) m_detailedNode = nullptr;
+
+    FlowView::deleteSelectedNodes();
 }

@@ -118,6 +118,9 @@ public:
   void
   setTypeConverter(TypeConverter converter);
 
+  bool
+  complete() const;
+
 public: // data propagation
 
   void
@@ -125,6 +128,14 @@ public: // data propagation
 
   void
   propagateEmptyData() const;
+
+Q_SIGNALS:
+
+  void
+  connectionCompleted(Connection const&) const;
+
+  void
+  connectionMadeIncomplete(Connection const&) const;
 
 private:
 
@@ -147,7 +158,7 @@ private:
 
   TypeConverter _converter;
 
-signals:
+Q_SIGNALS:
 
   void
   updated(Connection& conn) const;

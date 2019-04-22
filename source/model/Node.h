@@ -19,6 +19,9 @@
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
 
+// Forward declaration of 'QtNodes::Connection'
+namespace QtNodes { class Connection; }
+
 #define GLSL_CODE(_code_, ...) \
 do \
 { \
@@ -29,7 +32,7 @@ do \
 
 namespace ShaderGraph
 {
-    /// The node ID giver.
+    /// The node ID factory.
     static unsigned int g_nodeId = 0;
     #define GET_NEW_NODE_ID g_nodeId++
 
@@ -121,7 +124,7 @@ namespace ShaderGraph
         /// Format : nodeID<nodeID>_<pinname>, with :
         ///     <nodeID> : The id of this node
         ///     <pinname>: The name of the pin, with the convention : lowercase.
-        virtual std::string autoName(PIN pin);
+        virtual std::string autoName(PIN& pin);
 
         /// Generate the declarations of this node outputs, for the GLSL code.
         std::string outputsToGLSL();
@@ -140,7 +143,7 @@ namespace ShaderGraph
         /// Generate the equivalent in GLSL code.
         /// @warning : Will generate the node that it depends on.
         /// @nodes : A list of nodeID, use to store the visited/generated nodes.
-        std::string toGLSL(std::list<unsigned int> nodes);
+        std::string toGLSL(std::list<unsigned int>& nodes);
 
         /* ============================== Details ============================== */
 
@@ -164,26 +167,29 @@ namespace ShaderGraph
         /// Getter to the reference to a vector of outputs.
         inline std::vector<PIN>& outputs() { return m_outputs; }
 
-        /// Getter to the reference to a vector of details.
-        inline std::vector<PIN>& details() { return m_details; }
+    public Q_SLOTS:
+
+        void inputConnectionCreated(QtNodes::Connection const& c) override;
+
+        void inputConnectionDeleted(QtNodes::Connection const& c) override;
+
+        void outputConnectionCreated(QtNodes::Connection const& c) override;
+
+        void outputConnectionDeleted(QtNodes::Connection const& c) override;
 
     private:
         /// True if this node is displayed on the details panel.
         bool m_isDetailedNode = false;
 
-        /// The name of the node or what will be displayed on the screen.
+        /// The name of the node.
         QString m_name;
 
-        /// The caption or a brief description.
+        /// The caption aka a brief description.
         QString m_caption;
 
         /// The ID of this node.
-        /// Each node has a unique id.
+        /// @note : Each node has a unique id.
         unsigned int m_id;
-
-        /// The layer of this node.
-        /// A layer is the max between the value of each.
-        unsigned int m_layer = 0;
 
         /// The internal representation of the input pins.
         std::vector<PIN> m_inputs;
@@ -191,10 +197,8 @@ namespace ShaderGraph
         /// The internal representation of the output pins.
         std::vector<PIN> m_outputs;
 
-        /// The hidden properties.
-        std::vector<PIN> m_details;
-
-        /// The error/warning message. "No message" if no error/warning.
+        /// The error/warning message.
+        /// Equals to "No message" if no error/warning.
         QString m_validationMessage = "No message";
 
         /// The state (valid, warning, error) state of this node.

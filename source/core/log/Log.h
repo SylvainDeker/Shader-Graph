@@ -220,7 +220,6 @@ do \
 /* ============================================================ */
 /* Set Log Level */
 /* ============================================================ */
-
 #define SET_LOG_LEVEL_TO_DEBUG    spdlog::set_level(spdlog::level::debug);
 #define SET_LOG_LEVEL_TO_INFO     spdlog::set_level(spdlog::level::info);
 #define SET_LOG_LEVEL_TO_WARN     spdlog::set_level(spdlog::level::warn);

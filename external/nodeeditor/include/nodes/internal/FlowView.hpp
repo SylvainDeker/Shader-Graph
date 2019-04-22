@@ -15,11 +15,10 @@ class NODE_EDITOR_PUBLIC FlowView
   Q_OBJECT
 public:
 
-  FlowView(QWidget *parent = Q_NULLPTR);
-  FlowView(FlowScene *scene, QWidget *parent = Q_NULLPTR);
+  explicit FlowView(QWidget *parent = Q_NULLPTR);
+  explicit FlowView(FlowScene *scene, QWidget *parent = Q_NULLPTR);
 
   FlowView(const FlowView&) = delete;
-  FlowView operator=(const FlowView&) = delete;
 
   QAction* clearSelectionAction() const;
 
@@ -27,13 +26,13 @@ public:
 
   void setScene(FlowScene *scene);
 
-public slots:
+public Q_SLOTS:
 
   void scaleUp();
 
   void scaleDown();
 
-  virtual void deleteSelectedNodes();
+  void deleteSelectedNodes();
 
 protected:
 

@@ -10,9 +10,8 @@
 #include "pin/PinDecl.h"
 #include "model/NodeDecl.h"
 #include "nodeeditor/NodeManager.h"
-#include "nodeeditor/NodeGraphicsView.h"
 
-WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
+WidgetNodeEditor::WidgetNodeEditor(QWidget * parent) :
     QWidget(parent)
 {
     ShaderGraph::NodeManager nodeManager;
@@ -52,23 +51,24 @@ WidgetNodeEditor::WidgetNodeEditor(QWidget *parent):
     nodeManager.registry()->registerModel<ShaderGraph::MultiplyNode>("Operator");
     nodeManager.registry()->registerModel<ShaderGraph::DivideNode>("Operator");
 
+    nodeManager.registry()->registerModel<ShaderGraph::StepNode>("Functions");
 
     ShaderGraph::registerToTemplateConverters(nodeManager.registry());
 
-    m_layout        = new QVBoxLayout(this);
-    m_scene         = new FlowScene(nodeManager.registry(),this);
-    m_graphicsView  = new NodeGraphicsView(m_scene);
+    m_layout    = new QVBoxLayout(this);
+    m_scene     = new ShaderGraph::FlowScene(nodeManager.registry(),this);
+    m_flowView  = new ShaderGraph::FlowView(m_scene);
 
-    m_layout->addWidget(m_graphicsView);
+    m_layout->addWidget(m_flowView);
 
     // Setup MasterMaterialOutput
     QString modelName = QStringLiteral("MasterMaterialOutput");
 
     // create the node
-    QtNodes::Node & node = m_scene->createNode(m_scene->registry().create(modelName));
+    QtNodes::Node& node = m_scene->createNode(m_scene->registry().create(modelName));
 
     // Set the node position to the center-right of the flow view
-    auto viewportDimension = m_graphicsView->viewport()->rect();
+    auto viewportDimension = m_flowView->viewport()->rect();
     node.nodeGraphicsObject().setPos(QPointF((viewportDimension.width() * 2.0f) / 3.0f, 0));
     m_masterMaterialOutput = dynamic_cast<ShaderGraph::MasterMaterialOutput*>(node.nodeDataModel());
     LOG_INFO("Creating : {0} node", modelName.toStdString());

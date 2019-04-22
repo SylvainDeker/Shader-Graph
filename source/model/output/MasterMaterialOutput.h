@@ -47,7 +47,7 @@ namespace ShaderGraph
             return glslCode;
         }
 
-        inline std::string autoName(PIN pin) override
+        inline std::string autoName(PIN& pin) override
         {
             return pin->type().name.toStdString();
         }

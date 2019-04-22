@@ -19,35 +19,30 @@
 
 #include <core/Core.h>
 
-#include "nodeeditor/NodeGraphicsView.h"
-#include "../model/output/MasterMaterialOutput.h"
+#include "nodeeditor/FlowScene.h"
+#include "nodeeditor/FlowView.h"
 
-// TODO : Do not do that
-using QtNodes::DataModelRegistry;
-using QtNodes::FlowScene;
-using QtNodes::FlowView;
-using QtNodes::ConnectionStyle;
+#include "../model/output/MasterMaterialOutput.h"
 
 class WidgetNodeEditor : public QWidget
 {
     Q_OBJECT
 public:
-    explicit WidgetNodeEditor(QWidget *parent = nullptr);
+    explicit WidgetNodeEditor(QWidget * parent = nullptr);
 
     ~WidgetNodeEditor() override = default;
 
-    inline FlowScene * getScene()   { return m_scene; }
-    inline FlowView * getFlowView() { return m_graphicsView; }
-    inline ShaderGraph::MasterMaterialOutput * getMasterMaterialOutput()
-                { return m_masterMaterialOutput; }
+    inline ShaderGraph::FlowScene * getScene()   { return m_scene; }
+    inline ShaderGraph::FlowView * getFlowView() { return m_flowView; }
+    inline ShaderGraph::MasterMaterialOutput * getMasterMaterialOutput() { return m_masterMaterialOutput; }
 
-    inline void setDetailsTree(QTreeWidget * tree) { m_graphicsView->setDetailsTree(tree); }
+    inline void setDetailsTree(QTreeWidget * tree) { m_flowView->setDetailsTree(tree); }
 
 private:
-    FlowScene           * m_scene;
-    NodeGraphicsView    * m_graphicsView;
-    QVBoxLayout         * m_layout;
-    ShaderGraph::MasterMaterialOutput * m_masterMaterialOutput;
+    ShaderGraph::FlowScene              * m_scene;
+    ShaderGraph::FlowView               * m_flowView;
+    QVBoxLayout                         * m_layout;
+    ShaderGraph::MasterMaterialOutput   * m_masterMaterialOutput;
 };
 
 

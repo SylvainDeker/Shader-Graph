@@ -386,9 +386,7 @@ namespace ShaderGraph
         output.flush();
         output.close();
 
-        delete m_shader;
-        m_shader = new Shader("../data/shaders/runtime/Vertex.glsl",
-                              "../data/shaders/runtime/Fragment.glsl");
+        m_shader->refresh();
         draw();
     }
 }

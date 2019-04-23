@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <limits>
+#include <sstream>
 
 #include <QBoxLayout>
 #include <QTreeWidget>
@@ -18,6 +19,14 @@
 
 namespace ShaderGraph
 {
+  template<typename T> std::string to_str(const T a_value, const int precision = 6)
+  {
+      std::ostringstream out;
+      out.precision(precision);
+      out << std::fixed << a_value;
+      return out.str();
+  }
+
   class ScalarNode : public Node
   {
       Q_OBJECT
@@ -55,7 +64,7 @@ namespace ShaderGraph
                     "{0} = {1};"
                     "\n",
                     autoName(outputs()[0]),
-                    m_value);
+                    to_str(m_value));
           return buffer;
       }
 
@@ -87,6 +96,7 @@ namespace ShaderGraph
             QTreeWidgetItem * m_xItem = nullptr;
 
       /* =============== End QTreeWidget items definition ===============*/
+
   };
 
     class Vec2Node : public Node
@@ -123,8 +133,8 @@ namespace ShaderGraph
                       "{0} = vec2({1}, {2});"
                       "\n",
                       autoName(outputs()[0]),
-                      m_value.x,
-                      m_value.y);
+                      to_str(m_value.x),
+                      to_str(m_value.y));
             return buffer;
         }
 
@@ -202,9 +212,9 @@ namespace ShaderGraph
                       "{0} = vec3({1}, {2}, {3});"
                       "\n",
                       autoName(outputs()[0]),
-                      m_value.x,
-                      m_value.y,
-                      m_value.z);
+                      to_str(m_value.x),
+                      to_str(m_value.y),
+                      to_str(m_value.z));
             return buffer;
         }
 
@@ -292,10 +302,10 @@ namespace ShaderGraph
                       "{0} = vec4({1}, {2}, {3}, {4});"
                       "\n",
                       autoName(outputs()[0]),
-                      m_value.x,
-                      m_value.y,
-                      m_value.z,
-                      m_value.a);
+                      to_str(m_value.x),
+                      to_str(m_value.y),
+                      to_str(m_value.z),
+                      to_str(m_value.a));
             return buffer;
         }
 

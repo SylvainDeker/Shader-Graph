@@ -19,6 +19,8 @@
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
 
+namespace QtNodes { class Connection; }
+
 #define GLSL_CODE(_code_, ...) \
 do \
 { \
@@ -29,7 +31,7 @@ do \
 
 namespace ShaderGraph
 {
-    /// The node ID giver.
+    /// The node ID factory.
     static unsigned int g_nodeId = 0;
     #define GET_NEW_NODE_ID g_nodeId++
 
@@ -168,14 +170,14 @@ namespace ShaderGraph
         /// True if this node is displayed on the details panel.
         bool m_isDetailedNode = false;
 
-        /// The name of the node or what will be displayed on the screen.
+        /// The name of the node.
         QString m_name;
 
-        /// The caption or a brief description.
+        /// The caption aka a brief description.
         QString m_caption;
 
         /// The ID of this node.
-        /// Each node has a unique id.
+        /// @note : Each node has a unique id.
         unsigned int m_id;
 
         /// The internal representation of the input pins.
@@ -184,7 +186,8 @@ namespace ShaderGraph
         /// The internal representation of the output pins.
         std::vector<PIN> m_outputs;
 
-        /// The error/warning message. "No message" if no error/warning.
+        /// The error/warning message.
+        /// Equals to "No message" if no error/warning.
         QString m_validationMessage = "No message";
 
         /// The state (valid, warning, error) state of this node.

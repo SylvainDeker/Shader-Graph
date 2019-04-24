@@ -2,30 +2,27 @@ clone_depth: 5
 
 environment:
   matrix:
-    - GENERATOR : "Visual Studio 14 2015 Win64"
-      QTDIR: C:\Qt\5.6.3\msvc2015_64
+    - GENERATOR : "Visual Studio 15 2017 Win64"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      QTDIR: C:\Qt\5.12.2\msvc2017_64
       PLATFORM: x64
-    - GENERATOR : "Visual Studio 14 2015"
-      QTDIR: C:\Qt\5.6.3\msvc2015
+    - GENERATOR : "Visual Studio 15 2017"
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      QTDIR: C:\Qt\5.12.2\msvc2017
       PLATFORM: Win32
     - GENERATOR : "MinGW Makefiles"
-      QTDIR: C:\Qt\5.6\mingw49_32
+      QTDIR: C:\Qt\5.11.3\mingw53_32
       PLATFORM: x86
       CMAKE_CXX_FLAGS_INIT: -DCATCH_CONFIG_NO_CPP11_TO_STRING
 
-image: Visual Studio 2015
-
 configuration:
   - Release
-
-#branches:
-  #only:
-    #- master
 
 install:
   - set PATH=%QTDIR%\bin;%PATH%
   - set Qt5_DIR=%QTDIR%\lib\cmake\Qt5
   - set PATH=C:\MinGW\bin;C:\MinGW\msys\1.0;%PATH%
+  - set PATH=C:\Qt\Tools\mingw530_32;%PATH%
   - set PATH=%PATH:C:\Program Files\Git\usr\bin=% # trick to remove sh.exe
 
 before_build:
@@ -44,7 +41,8 @@ build_script:
   - cmake --build .
 
 test_script:
-  - ctest --output-on-failure -C Debug
+  - ps: $env:isX86 = $env:PLATFORM.Contains("x86")
+  - IF %isX86% == False ctest --output-on-failure -C Debug
 
 
 after_build:

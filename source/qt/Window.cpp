@@ -141,7 +141,7 @@ void Window::compile()
 
     std::string generatedCode;
 
-    FlowScene * sc = m_ui->nodeEditor->getScene();
+    ShaderGraph::FlowScene * sc = m_ui->nodeEditor->getScene();
 
     bool isMasterMaterialOutputNodeFound = false;
     ShaderGraph::Node * masterMaterialOutputNode = nullptr;

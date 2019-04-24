@@ -6,6 +6,8 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
+#include <nodes/FlowScene>
+
 #include <core/Core.h>
 
 namespace Ui { class Window; }

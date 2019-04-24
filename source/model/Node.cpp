@@ -1,5 +1,7 @@
 #include "Node.h"
 
+#include <nodes/Connection>
+
 namespace ShaderGraph
 {
     /// Give for a specified port, the number of data.
@@ -43,14 +45,7 @@ namespace ShaderGraph
 
             assert(pin != nullptr);
 
-            if (!input)
-            {
-                std::string inputName = m_inputs[index]->type().name.toStdString();
-                LOG_DEBUG("Disconnect : Input {0} is now disconnected", inputName);
-
-                pin->disconnect();
-            }
-            else
+            if (input)
             {
                 std::string connectedPinName = data->type().name.toStdString();
                 std::string inputName = m_inputs[index]->type().name.toStdString();
@@ -204,4 +199,22 @@ namespace ShaderGraph
         return glslCode;
     }
 
+    void Node::inputConnectionDeleted(const QtNodes::Connection& c)
+    {
+        Q_UNUSED(c);
+
+        QtNodes::PortIndex portIndex = c.getPortIndex(QtNodes::PortType::In);
+        auto pin = std::dynamic_pointer_cast<IPin>(m_inputs[portIndex]);
+
+        assert(pin);
+
+        std::string inputName = m_inputs[portIndex]->type().name.toStdString();
+        LOG_DEBUG("Disconnect : Input {0} is now disconnected", inputName);
+
+        pin->disconnect();
+    }
+
+    void Node::inputConnectionCreated(const QtNodes::Connection& c)  { Q_UNUSED(c); }
+    void Node::outputConnectionCreated(const QtNodes::Connection& c) { Q_UNUSED(c); }
+    void Node::outputConnectionDeleted(const QtNodes::Connection& c) { Q_UNUSED(c); }
 }

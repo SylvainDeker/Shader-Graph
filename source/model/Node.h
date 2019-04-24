@@ -19,6 +19,7 @@
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
 
+// Forward declaration of 'QtNodes::Connection'
 namespace QtNodes { class Connection; }
 
 #define GLSL_CODE(_code_, ...) \
@@ -165,6 +166,16 @@ namespace ShaderGraph
 
         /// Getter to the reference to a vector of outputs.
         inline std::vector<PIN>& outputs() { return m_outputs; }
+
+    public Q_SLOTS:
+
+        void inputConnectionCreated(QtNodes::Connection const& c) override;
+
+        void inputConnectionDeleted(QtNodes::Connection const& c) override;
+
+        void outputConnectionCreated(QtNodes::Connection const& c) override;
+
+        void outputConnectionDeleted(QtNodes::Connection const& c) override;
 
     private:
         /// True if this node is displayed on the details panel.

@@ -1,12 +1,49 @@
-vec3 id8_Result = vec3(0.0f); // Output
-// Input : Vec3 
-id8_Result = vec3(4, 0, 0);
+vec2 id11_UVs = vec2(0.0f); // Output
+float id11_u = 0.0f; // Output
+float id11_v = 0.0f; // Output
+// Input : UV 
+id11_UVs = texCoord; 
+id11_u = texCoord.x; 
+id11_v = texCoord.y; 
 
-vec3 id20_A = id8_Result;  // Input
-vec3 id20_B = vec3(0.0f);  // Input
-vec3 id20_ReturnValue = vec3(0.0f); // Output
-id20_ReturnValue = id20_A + id20_B;
-vec3 Diffuse = id20_ReturnValue;  // Input
+
+float id12_Value = id11_u;  // Input
+float id14_Result = 0.0f; // Output
+// Input : Scalar 
+id14_Result = 0.02;
+
+float id12_Step = id14_Result;  // Input
+float id12_Result = 0.0f; // Output
+// Step 
+id12_Result = floor(id12_Value / id12_Step) * id12_Step;
+
+
+float id21_X = id12_Result;  // Input
+
+float id13_Value = id11_v;  // Input
+
+float id13_Step = id14_Result;  // Input
+float id13_Result = 0.0f; // Output
+// Step 
+id13_Result = floor(id13_Value / id13_Step) * id13_Step;
+
+
+float id21_Y = id13_Result;  // Input
+float id21_Z = 0.0f;  // Input
+vec3 id21_Vector3 = vec3(0.0f); // Output
+// MakeVec3Node 
+id21_Vector3 = vec3(id21_X, id21_Y, id21_Z); 
+
+
+vec3 id22_A = id21_Vector3;  // Input
+vec3 id15_Result = vec3(0.0f); // Output
+// Input : Vec3 
+id15_Result = vec3(4, 4, 4);
+
+vec3 id22_B = id15_Result;  // Input
+vec3 id22_Result = vec3(0.0f); // Output
+id22_Result = id22_A * id22_B;
+vec3 Diffuse = id22_Result;  // Input
 vec3 Normal = vec3(0.0f);  // Input
 vec3 Specular = vec3(0.0f);  // Input
 float Metallic = 0.0f;  // Input

@@ -310,7 +310,7 @@ namespace ShaderGraph
 
         m_shader->setVec4("material.kd", glm::vec4(0.f));
         m_shader->setVec4("material.ks", glm::vec4(0.f));
-        m_shader->setFloat("material.roughness", 0.000f);
+        m_shader->setInt("material.remapRoughness", 0);
 
         m_shader->setInt("light.type", 0); // Directional Light
         m_shader->setVec4("light.color", m_lightColor);
@@ -371,7 +371,12 @@ namespace ShaderGraph
                                  "\nreturn vec2(Roughness); \n"                                    +
                                  "} \n"                                                            ;
 
-        output << "\n\n" << kdFunction << "\n" << ksFunction << "\n" << roughnessFunction << "\n";
+        std::string metalnessFunction = "float getMetalness() { \n" +
+                                 generatedCode                                                     +
+                                 "\nreturn Metallic; \n"                                    +
+                                 "} \n"                                                            ;
+
+        output << "\n\n" << kdFunction << "\n" << ksFunction << "\n" << roughnessFunction << "\n" << metalnessFunction << "\n";
 
         // Copy the "MaterialModelFooter" reference
         std::ifstream footer("../data/shaders/source/MaterialModelFooter.txt");

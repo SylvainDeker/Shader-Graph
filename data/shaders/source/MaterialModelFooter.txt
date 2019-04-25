@@ -41,11 +41,14 @@ vec3 computeMaterialInternal(Material material, vec2 texC, vec3 wi, vec3 wo) {
         if (!(wh.x == 0 && wh.y == 0 && wh.z == 0)) {
             wh = normalize(wh);
             vec3 ks = getKs(material, texC);
-            float F = FresnelDielectric(dot(wi, wh), 1, 1.5);
+            vec3 F0 = vec3(0.04);
+            F0 = mix(F0, ks, vec3(getMetalness()));
+            vec3 F90 = kd;
+            vec3 F = FresnelShlick(dot(wi, wh), F0, F90);
             vec2 rough = getRoughness(material, texC);
             float D = TRD_D(wh, rough.x, rough.y);
             float G = TRD_G(wo, wi, rough.x, rough.y);
-            result += (ks * F * D * G /(4 * cosTi * cosTo));
+            result += (F * D * G /(4 * cosTi * cosTo));
         }
      }
      /* result + ambient */

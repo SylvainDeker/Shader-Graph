@@ -29,11 +29,12 @@ vec3 computeMaterialInternal(Material material, vec2 texC, vec3 wi, vec3 wo) {
      bool reflect = (cosTi * cosTo > 0);
      vec3 result = vec3(0.f);
 
+     vec3 kd = getKd(material, texC);
+
      if (reflect) {
         cosTi = abs(cosTi);
         cosTo = abs(cosTo);
 
-        vec3 kd = getKd(material, texC);
         result = (kd * InvPi);
 
         vec3 wh = wi + wo;
@@ -47,7 +48,8 @@ vec3 computeMaterialInternal(Material material, vec2 texC, vec3 wi, vec3 wo) {
             result += (ks * F * D * G /(4 * cosTi * cosTo));
         }
      }
-     return result * cosTi;
+     /* result + ambient */
+     return result * cosTi + 0.1 * kd;
 }
 
 // Define the uniform that could be accessed from th application

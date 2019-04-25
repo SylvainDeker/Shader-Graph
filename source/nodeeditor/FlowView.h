@@ -41,6 +41,8 @@ namespace ShaderGraph
 
         void onNodeDeleted(QtNodes::Node &n);
 
+        void deleteSelectedNodes() override ;
+
     protected:
 
         void mousePressEvent(QMouseEvent *event) override;

@@ -18,14 +18,10 @@
 #include <nodes/ConnectionStyle>
 
 #include <core/Core.h>
-#include "NodeGraphicsView.h"
 #include "../model/output/MasterMaterialOutput.h"
-
 
 #include "nodeeditor/FlowScene.h"
 #include "nodeeditor/FlowView.h"
-
-#include "../model/output/MasterMaterialOutput.h"
 
 class WidgetNodeEditor : public QWidget
 {

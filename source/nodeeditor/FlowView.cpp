@@ -38,12 +38,6 @@ namespace ShaderGraph
 
               assert(node);
 
-              if (node->name() == QStringLiteral("MasterMaterialOutput"))
-              {
-                  LOG_WARN("Cannot delete the MasterMaterialOutput");
-                  return;
-              }
-
                 isDeletingTheDetailedNode |= node->isDetailedNode();
             }
         }
@@ -70,7 +64,7 @@ namespace ShaderGraph
 
                 if (sgNode == nullptr) // cast failed
                 {
-                    LOG_ERROR("NodeGraphicsView::mousePressEvent : Invalid node : Ignored");
+                    LOG_ERROR("FlowView::mousePressEvent : Invalid node : Ignored");
                 }
                 else
                 {
@@ -85,10 +79,25 @@ namespace ShaderGraph
 
             if (!hasPromotedNode)
             {
-                LOG_ERROR("NodeGraphicsView::mousePressEvent : Any selected nodes has been promoted");
+                LOG_ERROR("FlowView::mousePressEvent : Any selected nodes has been promoted");
                 m_detailedNode = nullptr;
             }
         }
         QtNodes::FlowView::mousePressEvent(event);
+    }
+
+    void FlowView::deleteSelectedNodes(){
+        ShaderGraph::Node * node;
+        for (QGraphicsItem * item : scene()->selectedItems())
+        {
+          if (auto n = qgraphicsitem_cast<QtNodes::NodeGraphicsObject*>(item)){
+            node = static_cast<ShaderGraph::Node*>(n->node().nodeDataModel());
+            if(node->name()==QStringLiteral("MasterMaterialOutput")){
+              LOG_WARN("Cannot delete the MasterMaterialOutput");
+              return;
+            }
+          }
+        }
+        QtNodes::FlowView::deleteSelectedNodes();
     }
 }

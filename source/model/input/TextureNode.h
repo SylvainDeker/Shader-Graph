@@ -63,7 +63,6 @@ namespace ShaderGraph
 
         // detail
         QWidget * m_detail;
-        QLabel *m_labeldetail;
         QVBoxLayout * m_mainlayout;
 
     };

@@ -77,7 +77,6 @@ namespace ShaderGraph
       if (!m_pixmap.isNull())
       {
           m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
-          m_labeldetail->setPixmap(m_pixmap.scaled(w*1.7, h*1.7, Qt::KeepAspectRatio));
           setValidation(NodeValidationState::Valid);
       }
       else

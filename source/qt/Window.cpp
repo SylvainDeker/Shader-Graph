@@ -81,6 +81,7 @@ Window::Window(QWidget * Parent) :
         }
     }
 
+
     // Push each common
     for (auto const &assoc : scene->registry().registeredModelsCategoryAssociation())
     {
@@ -131,6 +132,10 @@ Window::Window(QWidget * Parent) :
                 }
             }
         }
+        if(m_ui->functionFilter->text()!=QStringLiteral(""))
+          m_ui->treeWidget->expandAll();
+        else
+          m_ui->treeWidget->collapseAll();
     });
 
     // Step 5 : Setup Details Panel

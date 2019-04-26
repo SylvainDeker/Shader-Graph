@@ -44,7 +44,7 @@ output/*
 
 data/ShaderGraph_Output.txt
 data/shaders/runtime/
-data/shaders/source/Material.glsl
+data/shaders/runtime/Material.glsl
 
 # Files
 .DS_Store

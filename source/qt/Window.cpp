@@ -135,6 +135,11 @@ Window::Window(QWidget * Parent) :
 
     // Step 5 : Setup Details Panel
     m_ui->nodeEditor->setDetailsTree(m_ui->detailsTree);
+
+    // Set default stylesheet
+    #ifndef _APPLE_
+    setStyleSheet("color:  rgb(200,200,200);" "opacity: 150;" "background-color: rgb(75,75,75); ");
+    #endif
 }
 
 void Window::compile()

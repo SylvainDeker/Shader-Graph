@@ -49,7 +49,7 @@ namespace ShaderGraph
                     ) // glTexImage2D
             ); // GL_ASSERT
 
-            // GL_ASSERT(glBindTexture(GL_TEXTURE_2D, GL_NULL_ID));
+            GL_ASSERT(glBindTexture(GL_TEXTURE_2D, GL_NULL_ID));
         }
 
         // free the buffer if the it's valid

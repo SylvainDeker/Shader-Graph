@@ -71,7 +71,7 @@ namespace ShaderGraph
         /* World stuffs */
         /* ==================================================================================== */
 
-        std::vector<Texture> m_texture;
+        std::vector<std::shared_ptr<Texture>> m_texture;
 
         /// Mesh : Vertices
         std::vector<glm::vec3> m_vertices;

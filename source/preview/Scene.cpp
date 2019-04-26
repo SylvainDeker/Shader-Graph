@@ -36,7 +36,10 @@ namespace ShaderGraph
         /* ============================================================ */
         GL_ASSERT(glEnable(GL_BLEND));
         GL_ASSERT(glEnable(GL_DEPTH_TEST));
+
         GL_ASSERT(glActiveTexture(GL_TEXTURE0));
+        GL_ASSERT(glActiveTexture(GL_TEXTURE1));
+        GL_ASSERT(glActiveTexture(GL_TEXTURE2));
 
         GL_ASSERT(glViewport(0, 0, m_width, m_height));
         GL_ASSERT(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -318,16 +321,10 @@ namespace ShaderGraph
         m_shader->setVec3("light.directional.direction", m_lightDir);
 
         unsigned int slot = 0;
-        for (Texture& texture : m_texture)
+        for (const std::shared_ptr<Texture>& texture : m_texture)
         {
-//            //texture.bind(slot);
-//            LOG_DEBUG("Binded slot : {0}, name : u_{1}, path : {2}",
-//                      texture.getSlot(),
-//                      texture.getName(),
-//                      texture.getPath());
-
-            m_shader->setInt("u_" + texture.getName(), texture.getSlot());
-            ++slot;
+            texture->bind(slot++);
+            m_shader->setInt("u_" + texture->getName(), texture->getSlot());
         }
 
         /* ============================================================ */
@@ -335,6 +332,11 @@ namespace ShaderGraph
         /* ============================================================ */
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
+
+        for (const std::shared_ptr<Texture>& texture : m_texture)
+        {
+            texture->unbind();
+        }
 
         m_shader->unbind();
         glBindVertexArray(0);
@@ -365,7 +367,8 @@ namespace ShaderGraph
 
         for (const TextureData& data : textureData)
         {
-            m_texture.emplace_back(Texture(data.path, data.name));
+            auto texture = std::make_shared<Texture>(data.path, data.name);
+            m_texture.emplace_back(texture);
         }
 
         std::ofstream output("../data/shaders/runtime/Material.glsl");

@@ -1,38 +1,56 @@
 
 
-vec3 id13_Result = vec3(0.0f); // Output
-// Input : Vec3 
-id13_Result = vec3(4, 4, 4);
-vec3 id24_A = id13_Result;  // Input
+
+vec2 id8_UVs = vec2(0.0f);  // Input
+vec4 id8_RGBA = vec4(0.0f); // Output
+float id8_R = 0.0f; // Output
+float id8_G = 0.0f; // Output
+float id8_B = 0.0f; // Output
+float id8_A = 0.0f; // Output
+id8_RGBA = texture(u_UsersvalentinDesktopWorkspaceShaderGraphdatatexturesBrickpng, texCoord); 
+id8_R = id8_RGBA.r; 
+id8_G = id8_RGBA.g; 
+id8_B = id8_RGBA.b; 
+id8_A = id8_RGBA.a; 
+float id20_A = id8_R;  // Input
+
+vec2 id9_UVs = vec2(0.0f);  // Input
+vec4 id9_RGBA = vec4(0.0f); // Output
+float id9_R = 0.0f; // Output
+float id9_G = 0.0f; // Output
+float id9_B = 0.0f; // Output
+float id9_A = 0.0f; // Output
+id9_RGBA = texture(u_UsersvalentinDesktopWorkspaceShaderGraphdatatexturesShaderGraphpng, texCoord); 
+id9_R = id9_RGBA.r; 
+id9_G = id9_RGBA.g; 
+id9_B = id9_RGBA.b; 
+id9_A = id9_RGBA.a; 
+float id20_B = id9_R;  // Input
+float id20_ReturnValue = 0.0f; // Output
+id20_ReturnValue = id20_A + id20_B;float id23_X = id20_ReturnValue;  // Input
 
 
-vec2 id11_UVs = vec2(0.0f); // Output
-float id11_u = 0.0f; // Output
-float id11_v = 0.0f; // Output
-// Input : UV 
-id11_UVs = texCoord; 
-id11_u = texCoord.x; 
-id11_v = texCoord.y; 
+float id21_A = id8_G;  // Input
 
-float id23_X = id11_u;  // Input
+float id21_B = id9_G;  // Input
+float id21_ReturnValue = 0.0f; // Output
+id21_ReturnValue = id21_A + id21_B;float id23_Y = id21_ReturnValue;  // Input
 
-float id23_Y = id11_v;  // Input
-float id23_Z = 0.0f;  // Input
+
+float id22_A = id8_B;  // Input
+
+float id22_B = id9_B;  // Input
+float id22_ReturnValue = 0.0f; // Output
+id22_ReturnValue = id22_A + id22_B;float id23_Z = id22_ReturnValue;  // Input
 vec3 id23_Vector3 = vec3(0.0f); // Output
 // MakeVec3Node 
 id23_Vector3 = vec3(id23_X, id23_Y, id23_Z); 
 
-vec3 id24_B = id23_Vector3;  // Input
-vec3 id24_Result = vec3(0.0f); // Output
-id24_Result = id24_A * id24_B;vec3 Diffuse = id24_Result;  // Input
+vec3 Diffuse = id23_Vector3;  // Input
 vec3 Normal = vec3(0.0f);  // Input
 vec3 Specular = vec3(0.0f);  // Input
 float Metallic = 0.0f;  // Input
-
-float id12_Result = 0.0f; // Output
-// Input : Scalar 
-id12_Result = 0;
-float Roughness = id12_Result;  // Input
+float Roughness = 0.0f;  // Input
 float Emissive = 0.0f;  // Input
 float Opacity = 0.0f;  // Input
 vec3 WorldPositionOffset = vec3(0.0f);  // Input

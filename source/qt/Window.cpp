@@ -11,6 +11,7 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 #include <QtWidgets/QGraphicsScene>
+#include <QScrollBar>
 
 #include <nodes/Node>
 #include <nodes/FlowView>
@@ -51,6 +52,8 @@ Window::Window(QWidget * Parent) :
     m_ui->detailsTree->header()->close();
 
     // Step 2 : Setup the logger
+    m_ui->logPanel->setReadOnly(true);
+    m_ui->logPanel->setTextColor(QColor(220,220,220));
     LOG_INIT("../data/ShaderGraph.log", m_ui->logPanel);
     LOG_CONNECT(m_ui->logFilter);
 

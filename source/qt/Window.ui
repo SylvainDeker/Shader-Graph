@@ -456,7 +456,7 @@ background-color: rgb(123, 123, 123);</string>
         <item>
          <widget class="QTextEdit" name="logPanel">
           <property name="enabled">
-           <bool>false</bool>
+           <bool>true</bool>
           </property>
           <property name="minimumSize">
            <size>
@@ -475,6 +475,9 @@ background-color: rgb(123, 123, 123);</string>
             <width>0</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="mouseTracking">
+           <bool>false</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">background-color: rgb(20, 20, 20);</string>

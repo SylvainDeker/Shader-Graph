@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AlphaEngine</string>
+   <string>ShaderGraph</string>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">

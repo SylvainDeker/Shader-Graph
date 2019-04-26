@@ -36,7 +36,7 @@ public Q_SLOTS:
 
 protected:
 
-  void contextMenuEvent(QContextMenuEvent *event) override;
+  virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
   void wheelEvent(QWheelEvent *event) override;
 

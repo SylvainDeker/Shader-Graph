@@ -36,25 +36,17 @@ struct Material {
 };
 
 vec3 getKd(Material material, vec2 texCoord) { 
-vec3 Diffuse = vec3(0.0f);  // Input
+vec3 id8_Result = vec3(0.0f); // Output
+// Input : Vec3 
+id8_Result = vec3(0.000000, 0.000000, 0.000000);
+
+vec3 Diffuse = id8_Result;  // Input
 vec3 Normal = vec3(0.0f);  // Input
 vec3 Specular = vec3(0.0f);  // Input
 float Metallic = 0.0f;  // Input
 float Roughness = 0.0f;  // Input
 float Emissive = 0.0f;  // Input
-float id9_Result = 0.0f; // Output
-// Input : Scalar 
-id9_Result = 2.300000;
-
-float id8_Value = id9_Result;  // Input
-
-float id8_Step = id9_Result;  // Input
-float id8_Result = 0.0f; // Output
-// Step 
-id8_Result = floor(id8_Value / id8_Step) * id8_Step;
-
-
-float Opacity = id8_Result;  // Input
+float Opacity = 0.0f;  // Input
 vec3 WorldPositionOffset = vec3(0.0f);  // Input
 vec3 AmbientOcclusion = vec3(0.0f);  // Input
 vec3 Refraction = vec3(0.0f);  // Input
@@ -66,25 +58,17 @@ return Diffuse;
 } 
 
 vec3 getKs(Material material, vec2 texCoord) { 
-vec3 Diffuse = vec3(0.0f);  // Input
+vec3 id8_Result = vec3(0.0f); // Output
+// Input : Vec3 
+id8_Result = vec3(0.000000, 0.000000, 0.000000);
+
+vec3 Diffuse = id8_Result;  // Input
 vec3 Normal = vec3(0.0f);  // Input
 vec3 Specular = vec3(0.0f);  // Input
 float Metallic = 0.0f;  // Input
 float Roughness = 0.0f;  // Input
 float Emissive = 0.0f;  // Input
-float id9_Result = 0.0f; // Output
-// Input : Scalar 
-id9_Result = 2.300000;
-
-float id8_Value = id9_Result;  // Input
-
-float id8_Step = id9_Result;  // Input
-float id8_Result = 0.0f; // Output
-// Step 
-id8_Result = floor(id8_Value / id8_Step) * id8_Step;
-
-
-float Opacity = id8_Result;  // Input
+float Opacity = 0.0f;  // Input
 vec3 WorldPositionOffset = vec3(0.0f);  // Input
 vec3 AmbientOcclusion = vec3(0.0f);  // Input
 vec3 Refraction = vec3(0.0f);  // Input
@@ -96,25 +80,17 @@ return Specular;
 } 
 
 vec2 getRoughness(Material material, vec2 texCoord) { 
-vec3 Diffuse = vec3(0.0f);  // Input
+vec3 id8_Result = vec3(0.0f); // Output
+// Input : Vec3 
+id8_Result = vec3(0.000000, 0.000000, 0.000000);
+
+vec3 Diffuse = id8_Result;  // Input
 vec3 Normal = vec3(0.0f);  // Input
 vec3 Specular = vec3(0.0f);  // Input
 float Metallic = 0.0f;  // Input
 float Roughness = 0.0f;  // Input
 float Emissive = 0.0f;  // Input
-float id9_Result = 0.0f; // Output
-// Input : Scalar 
-id9_Result = 2.300000;
-
-float id8_Value = id9_Result;  // Input
-
-float id8_Step = id9_Result;  // Input
-float id8_Result = 0.0f; // Output
-// Step 
-id8_Result = floor(id8_Value / id8_Step) * id8_Step;
-
-
-float Opacity = id8_Result;  // Input
+float Opacity = 0.0f;  // Input
 vec3 WorldPositionOffset = vec3(0.0f);  // Input
 vec3 AmbientOcclusion = vec3(0.0f);  // Input
 vec3 Refraction = vec3(0.0f);  // Input
@@ -126,25 +102,17 @@ return vec2(Roughness);
 } 
 
 float getMetalness() { 
-vec3 Diffuse = vec3(0.0f);  // Input
+vec3 id8_Result = vec3(0.0f); // Output
+// Input : Vec3 
+id8_Result = vec3(0.000000, 0.000000, 0.000000);
+
+vec3 Diffuse = id8_Result;  // Input
 vec3 Normal = vec3(0.0f);  // Input
 vec3 Specular = vec3(0.0f);  // Input
 float Metallic = 0.0f;  // Input
 float Roughness = 0.0f;  // Input
 float Emissive = 0.0f;  // Input
-float id9_Result = 0.0f; // Output
-// Input : Scalar 
-id9_Result = 2.300000;
-
-float id8_Value = id9_Result;  // Input
-
-float id8_Step = id9_Result;  // Input
-float id8_Result = 0.0f; // Output
-// Step 
-id8_Result = floor(id8_Value / id8_Step) * id8_Step;
-
-
-float Opacity = id8_Result;  // Input
+float Opacity = 0.0f;  // Input
 vec3 WorldPositionOffset = vec3(0.0f);  // Input
 vec3 AmbientOcclusion = vec3(0.0f);  // Input
 vec3 Refraction = vec3(0.0f);  // Input

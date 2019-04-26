@@ -358,23 +358,24 @@ namespace ShaderGraph
 
         std::string kdFunction = "vec3 getKd(Material material, vec2 texCoord) { \n" +
                                  generatedCode                                       +
-                                 "\nreturn Diffuse; \n"                                +
+                                 "\nreturn Diffuse; \n"                              +
                                  "} \n"                                              ;
 
         std::string ksFunction = "vec3 getKs(Material material, vec2 texCoord) { \n" +
                                  generatedCode                                       +
-                                 "\nreturn Specular; \n"                               +
+                                 "\nreturn Specular; \n"                             +
                                  "} \n"                                              ;
 
         std::string roughnessFunction = "vec2 getRoughness(Material material, vec2 texCoord) { \n" +
                                  generatedCode                                                     +
-                                 "\nreturn vec2(Roughness); \n"                                    +
+                                 "\nRoughness = clamp(Roughness, 0.00000001f, 1.0f); \n"           +
+                                 "return vec2(Roughness); \n"                                      +
                                  "} \n"                                                            ;
 
-        std::string metalnessFunction = "float getMetalness() { \n" +
-                                 generatedCode                                                     +
-                                 "\nreturn Metallic; \n"                                    +
-                                 "} \n"                                                            ;
+        std::string metalnessFunction = "float getMetalness(Material material, vec2 texCoord) { \n" +
+                                 generatedCode                                                      +
+                                 "\nreturn clamp(Metallic, 0.0f, 1.0f); \n"                         +
+                                 "} \n"                                                             ;
 
         output << "\n\n" << kdFunction << "\n" << ksFunction << "\n" << roughnessFunction << "\n" << metalnessFunction << "\n";
 

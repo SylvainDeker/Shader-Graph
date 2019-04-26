@@ -21,6 +21,7 @@ namespace ShaderGraph
         virtual void mouseClick(int button, float xpos, float ypos);
         virtual void mouseMove(float xpos, float ypos);
 
+        /// Builds new Material.glsl file and updates shader program
         void onShaderCompiled(const std::string& generatedCode);
 
     protected:

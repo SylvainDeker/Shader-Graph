@@ -42,7 +42,7 @@ vec3 computeMaterialInternal(Material material, vec2 texC, vec3 wi, vec3 wo) {
             wh = normalize(wh);
             vec3 ks = getKs(material, texC);
             vec3 F0 = vec3(0.04);
-            F0 = mix(F0, ks, vec3(getMetalness()));
+            F0 = mix(F0, ks, vec3(getMetalness(material, texC)));
             vec3 F90 = kd;
             vec3 F = FresnelShlick(dot(wi, wh), F0, F90);
             vec2 rough = getRoughness(material, texC);

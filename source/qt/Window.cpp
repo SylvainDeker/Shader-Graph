@@ -11,6 +11,7 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 #include <QtWidgets/QGraphicsScene>
+#include <QScrollBar>
 
 #include <nodes/Node>
 #include <nodes/FlowView>
@@ -51,6 +52,8 @@ Window::Window(QWidget * Parent) :
     m_ui->detailsTree->header()->close();
 
     // Step 2 : Setup the logger
+    m_ui->logPanel->setReadOnly(true);
+    m_ui->logPanel->setTextColor(QColor(220,220,220));
     LOG_INIT("../data/ShaderGraph.log", m_ui->logPanel);
     LOG_CONNECT(m_ui->logFilter);
 
@@ -77,6 +80,7 @@ Window::Window(QWidget * Parent) :
             m_internalFunctionTree[category] = item;
         }
     }
+
 
     // Push each common
     for (auto const &assoc : scene->registry().registeredModelsCategoryAssociation())
@@ -128,10 +132,19 @@ Window::Window(QWidget * Parent) :
                 }
             }
         }
+        if(m_ui->functionFilter->text()!=QStringLiteral(""))
+          m_ui->treeWidget->expandAll();
+        else
+          m_ui->treeWidget->collapseAll();
     });
 
     // Step 5 : Setup Details Panel
     m_ui->nodeEditor->setDetailsTree(m_ui->detailsTree);
+
+    // Set default stylesheet
+    #ifndef _APPLE_
+    setStyleSheet("color:  rgb(200,200,200);" "opacity: 150;" "background-color: rgb(75,75,75); ");
+    #endif
 }
 
 void Window::compile()

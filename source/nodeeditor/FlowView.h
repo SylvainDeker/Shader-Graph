@@ -47,6 +47,8 @@ namespace ShaderGraph
 
         void mousePressEvent(QMouseEvent *event) override;
 
+        void contextMenuEvent(QContextMenuEvent *event) override ;
+
     private:
         QTreeWidget * m_detailsTree;
         ShaderGraph::Node * m_detailedNode = nullptr;

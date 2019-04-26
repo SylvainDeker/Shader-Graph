@@ -10,7 +10,7 @@ namespace ShaderGraph
     TextureNode::TextureNode() :
             Node("Texture", "Load a texture"),
             m_path(QString()),
-            m_label(new QLabel("Double click \n to load image"))
+            m_label(new QLabel("Click here\n to load an image"))
 
     {
         inputs() = std::vector<PIN> {
@@ -31,8 +31,8 @@ namespace ShaderGraph
         m_label->setFont(font);
 
         m_label->setAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-        m_label->setFixedSize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
         m_label->installEventFilter(this);
+        m_label->resize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
 
         setValidation(NodeValidationState::Warning, "Invalid Texture");
     }
@@ -60,6 +60,7 @@ namespace ShaderGraph
                 if (!m_pixmap.isNull())
                 {
                     m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
+
                 }
             }
         }
@@ -77,12 +78,14 @@ namespace ShaderGraph
       if (!m_pixmap.isNull())
       {
           m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
+          m_label->adjustSize();
           setValidation(NodeValidationState::Valid);
       }
       else
       {
           LOG_INFO("TextureNode : No texture or Invalid texture");
-          m_label->setText("Double click \n to load image");
+          m_label->setText("Click here\n to load an image");
+          m_label->resize(IMAGE_NODE_SIZE, IMAGE_NODE_SIZE);
           setValidation(NodeValidationState::Warning, "Invalid Texture");
       }
 

@@ -13,6 +13,8 @@
 #include "../preview/Scene.h"
 #include "../preview/OpenGL.h"
 
+#include "../model/Compilation.h"
+
 class GLWidget :
     public QOpenGLWidget, 
     public QOpenGLFunctions_4_1_Core 
@@ -41,9 +43,11 @@ public:
     void mouseMoveEvent(QMouseEvent * event) override;
 
     /// Event call when the button "compile" is pressed. Will update the preview.
-    inline void onShaderCompiled(const std::string& generatedCode)
+    inline void onShaderCompiled(const std::string& uniforms,
+                                 const std::string& generatedCode,
+                                 const std::list<ShaderGraph::TextureData> texturePaths)
     {
-        m_scene->onShaderCompiled(generatedCode);
+        m_scene->onShaderCompiled(uniforms, generatedCode, texturePaths);
         update();
     }
 

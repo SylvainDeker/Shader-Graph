@@ -27,10 +27,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "{0} = {1} + {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
@@ -54,10 +54,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "{0} = {1} - {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
@@ -81,10 +81,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "{0} = {1} * {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),
@@ -108,10 +108,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "{0} = {1} / {2};",
                       autoName(outputs()[0]),
                       autoName(inputs()[0]),

@@ -37,6 +37,10 @@ namespace ShaderGraph
         GL_ASSERT(glEnable(GL_BLEND));
         GL_ASSERT(glEnable(GL_DEPTH_TEST));
 
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0));
+        GL_ASSERT(glActiveTexture(GL_TEXTURE1));
+        GL_ASSERT(glActiveTexture(GL_TEXTURE2));
+
         GL_ASSERT(glViewport(0, 0, m_width, m_height));
         GL_ASSERT(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
@@ -316,11 +320,23 @@ namespace ShaderGraph
         m_shader->setVec4("light.color", m_lightColor);
         m_shader->setVec3("light.directional.direction", m_lightDir);
 
+        unsigned int slot = 0;
+        for (const std::shared_ptr<Texture>& texture : m_texture)
+        {
+            texture->bind(slot++);
+            m_shader->setInt("u_" + texture->getName(), texture->getSlot());
+        }
+
         /* ============================================================ */
         /* Step 2 : Rendering */
         /* ============================================================ */
         glBindVertexArray(m_vao);
         glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indices.size()), GL_UNSIGNED_INT, nullptr);
+
+        for (const std::shared_ptr<Texture>& texture : m_texture)
+        {
+            texture->unbind();
+        }
 
         m_shader->unbind();
         glBindVertexArray(0);
@@ -342,8 +358,19 @@ namespace ShaderGraph
         m_camera->processMouseMovement(m_button, xpos, ypos);
     }
 
-    void Scene::onShaderCompiled(const std::string& generatedCode)
+    void Scene::onShaderCompiled(const std::string& uniforms,
+                                 const std::string& generatedCode,
+                                 const std::list<TextureData> textureData)
     {
+        // Prepare the texture buffer.
+        m_texture.clear();
+
+        for (const TextureData& data : textureData)
+        {
+            auto texture = std::make_shared<Texture>(data.path, data.name);
+            m_texture.emplace_back(texture);
+        }
+
         std::ofstream output("../data/shaders/runtime/Material.glsl");
         assert(output.is_open());
 
@@ -355,6 +382,8 @@ namespace ShaderGraph
         header.close();
 
         output << headerContent;
+
+        output << uniforms;
 
         std::string kdFunction = "vec3 getKd(Material material, vec2 texCoord) { \n" +
                                  generatedCode                                       +

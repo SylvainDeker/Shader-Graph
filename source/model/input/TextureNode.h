@@ -34,18 +34,10 @@ namespace ShaderGraph
         /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
+        /// Setter : The path to the image.
         void setPath(const QString &path);
 
-        std::string nodeToGLSL() override
-        {
-            std::string buffer;
-            GLSL_CODE(buffer,
-                      "declTexture({0}, {1}, {2}, ...",
-                      autoName(outputs()[0]),
-                      autoName(outputs()[1]),
-                      autoName(outputs()[2]));
-            return buffer;
-        }
+        GLSLData nodeToGLSL() override;
 
     protected:
         /// The event filter: see Qt documentation.
@@ -60,11 +52,6 @@ namespace ShaderGraph
 
         /// Where the image is stored.
         QPixmap m_pixmap;
-
-        // detail
-        QWidget * m_detail;
-        QVBoxLayout * m_mainlayout;
-
     };
 
 

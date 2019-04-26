@@ -21,10 +21,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// MakeVec2Node \n"
                       "{0} = vec2({1}, {2}); \n"
                       "\n",
@@ -51,10 +51,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// MakeVec3Node \n"
                       "{0} = vec3({1}, {2}, {3}); \n"
                       "\n",
@@ -83,10 +83,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// MakeVec4Node \n"
                       "{0} = vec4({1}, {2}, {3}, {4});"
                       "\n",
@@ -114,10 +114,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// BreakVec2Node \n"
                       "{1} = {0}.x; \n"
                       "{2} = {0}.y; \n"
@@ -147,10 +147,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// BreakVec3Node \n"
                       "{1} = {0}.x; \n"
                       "{2} = {0}.y; \n"
@@ -183,10 +183,10 @@ namespace ShaderGraph
             };
         }
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// BreakVec4Node \n"
                       "{1} = {0}.x; \n"
                       "{2} = {0}.y; \n"

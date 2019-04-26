@@ -30,21 +30,21 @@ namespace ShaderGraph
             };
         }
 
-        inline std::string nodeToGLSL() override
+        inline GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData glslData;
+            GLSL_CODE(glslData.generatedCode,
                       "// End MasterMaterialOutput",
                       autoName(inputs()[0]),
                       autoName(inputs()[1]));
-            return buffer;
+            return glslData;
         }
 
-        inline std::string toGLSL() override
+        inline GLSLData toGLSL() override
         {
             std::list<unsigned int> nodes;
-            std::string glslCode  = inputsToGLSL(nodes) + nodeToGLSL();
-            return glslCode;
+            GLSLData glslData = inputsToGLSL(nodes) + nodeToGLSL();
+            return glslData;
         }
 
         inline std::string autoName(PIN& pin) override

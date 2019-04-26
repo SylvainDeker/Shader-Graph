@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Compiler.hpp"
+#include "Compilation.hpp"
 #include "OperatingSystem.hpp"
 
 #ifdef NODE_EDITOR_PLATFORM_WINDOWS

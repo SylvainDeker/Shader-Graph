@@ -28,7 +28,31 @@ add_custom_target(external-glm-update
 # set include directory
 set(EXTERNAL_GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/glm/src/glm/" PARENT_SCOPE)
 
-
+##------------------------------------------------------------------------------
+## STB -
+##  * sets EXTERNAL_CATCH_INCLUDE_DIR
+#
+#ExternalProject_Add(
+#        stb
+#        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/stb
+#        GIT_REPOSITORY https://github.com/nothings/stb.git
+#        # For shallow git clone (without downloading whole history)
+#        # GIT_SHALLOW 1
+#        # For point at certain tag
+#        # GIT_TAG 1.5.7
+#        #disables auto update on every build
+#        UPDATE_DISCONNECTED 1
+#        #disable following
+#        CONFIGURE_COMMAND "" BUILD_COMMAND "" INSTALL_DIR "" INSTALL_COMMAND ""
+#)
+## Update Catch target
+#add_custom_target(external-stb-update
+#        COMMENT "Updated stb"
+#        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/stb/src/stb
+#        COMMAND ${GIT_EXECUTABLE} pull
+#        DEPENDS stb)
+## set include directory
+#set(EXTERNAL_GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/stb/src/stb/" PARENT_SCOPE)
 
 #------------------------------------------------------------------------------
 # Catch - Unit test header only library

@@ -6,6 +6,9 @@
 #include "OpenGL.h"
 #include "Camera.h"
 #include "Shader.h"
+#include "Texture.h"
+
+#include "../model/Compilation.h"
 
 namespace ShaderGraph
 {
@@ -21,8 +24,9 @@ namespace ShaderGraph
         virtual void mouseClick(int button, float xpos, float ypos);
         virtual void mouseMove(float xpos, float ypos);
 
-        /// Builds new Material.glsl file and updates shader program
-        void onShaderCompiled(const std::string& generatedCode);
+        void onShaderCompiled(const std::string& uniforms,
+                              const std::string& generatedCode,
+                              const std::list<TextureData> textureData);
 
     protected:
         unsigned int m_width;  /// Width of the viewport
@@ -66,6 +70,8 @@ namespace ShaderGraph
         /* ==================================================================================== */
         /* World stuffs */
         /* ==================================================================================== */
+
+        std::vector<std::shared_ptr<Texture>> m_texture;
 
         /// Mesh : Vertices
         std::vector<glm::vec3> m_vertices;

@@ -74,7 +74,7 @@ namespace ShaderGraph
       int w = m_label->width();
       int h = m_label->height();
 
-      // If the image is valid display it else print a log message.
+      // Display this image if valid, else print a log message.
       if (!m_pixmap.isNull())
       {
           m_label->setPixmap(m_pixmap.scaled(w, h, Qt::KeepAspectRatio));
@@ -101,5 +101,42 @@ namespace ShaderGraph
     void TextureNode::hideDetails(QTreeWidget * tree)
     {
         Node::hideDetails(tree);
+    }
+
+    GLSLData TextureNode::nodeToGLSL() {
+        GLSLData buffer;
+
+        if (m_path.isNull())
+        {
+            buffer.hasFailed = true;
+            buffer.errmsg = "Invalid Path\n";
+            setValidation(NodeValidationState::Error, "Invalid Path");
+        }
+        else
+        {
+            std::string uName = m_path.toStdString();
+            auto pred = []( auto const& c ) -> bool { return !std::isalnum(c); };
+            uName.erase(std::remove_if(uName.begin(), uName.end(), pred), uName.end());
+            GLSL_CODE(buffer.uniforms,
+                      "// Uniform : \n"
+                      "uniform sampler2D u_{0}; \n",
+                      uName);
+
+            buffer.texturePaths.push_back({uName, m_path.toStdString()});
+
+            GLSL_CODE(buffer.generatedCode,
+                      "{0} = texture(u_{1}, texCoord); \n"
+                      "{2} = {0}.r; \n"
+                      "{3} = {0}.g; \n"
+                      "{4} = {0}.b; \n"
+                      "{5} = {0}.a; \n",
+                      autoName(outputs()[0]),
+                      uName,
+                      autoName(outputs()[1]),
+                      autoName(outputs()[2]),
+                      autoName(outputs()[3]),
+                      autoName(outputs()[4]));
+        }
+        return buffer;
     }
 }

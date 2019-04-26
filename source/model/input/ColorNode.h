@@ -64,10 +64,7 @@ namespace ShaderGraph
                     std::to_string(m_aSpinBox->value()) + ") " ;
         };
 
-        std::string nodeToGLSL() override
-        {
-            return "// Color : TODO";
-        }
+        GLSLData nodeToGLSL() override;
 
     public slots:
         void onColorValueChanged(double value);

@@ -42,4 +42,8 @@ void main()
     
 	// Set the final color
     fragColor = vec4(materialColor * contribution, 1.0);
+
+    // apply gamma correction
+    float gamma = 2.2;
+    fragColor.rgb = pow(fragColor.rgb, vec3(1.0 / gamma));
 }

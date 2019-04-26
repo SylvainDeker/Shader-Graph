@@ -15,10 +15,10 @@ namespace ShaderGraph
     public:
         StepNode();
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// Step \n"
                       "{0} = floor({1} / {2}) * {2};\n"
                       "\n",

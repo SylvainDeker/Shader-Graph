@@ -47,10 +47,10 @@ namespace ShaderGraph
 
       void hideDetails(QTreeWidget * tree) override;
 
-      std::string nodeToGLSL() override
+      GLSLData nodeToGLSL() override
       {
-          std::string buffer;
-          GLSL_CODE(buffer,
+          GLSLData buffer;
+          GLSL_CODE(buffer.generatedCode,
                     "// Input : Scalar \n"
                     "{0} = {1};"
                     "\n",
@@ -115,10 +115,10 @@ namespace ShaderGraph
         /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// Input : Vec2 \n"
                       "{0} = vec2({1}, {2});"
                       "\n",
@@ -194,10 +194,10 @@ namespace ShaderGraph
         /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// Input : Vec3 \n"
                       "{0} = vec3({1}, {2}, {3});"
                       "\n",
@@ -284,10 +284,10 @@ namespace ShaderGraph
         /// Hide all node's properties from the node panel.
         void hideDetails(QTreeWidget * tree) override;
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// Input : Vec4 \n"
                       "{0} = vec4({1}, {2}, {3}, {4});"
                       "\n",

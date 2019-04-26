@@ -19,10 +19,10 @@ namespace ShaderGraph
     public:
         UVNode();
 
-        std::string nodeToGLSL() override
+        GLSLData nodeToGLSL() override
         {
-            std::string buffer;
-            GLSL_CODE(buffer,
+            GLSLData buffer;
+            GLSL_CODE(buffer.generatedCode,
                       "// Input : UV \n"
                       "{0} = texCoord; \n"
                       "{1} = texCoord.x; \n"

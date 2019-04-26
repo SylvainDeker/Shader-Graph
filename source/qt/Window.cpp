@@ -19,7 +19,7 @@
 #include <core/Core.h>
 
 #include "ui_Window.h"
-#include <model/input/ColorNode.h>
+#include "model/Compilation.h"
 
 #define FORMAT_VERSION 4, 1
 #define FORMAT_DEPTH_BUFFER_SIZE 24
@@ -139,7 +139,7 @@ void Window::compile()
     bool success = false;
     std::string errmsg = "No error recorded";
 
-    std::string generatedCode;
+    ShaderGraph::GLSLData glslData;
 
     ShaderGraph::FlowScene * sc = m_ui->nodeEditor->getScene();
 
@@ -166,15 +166,20 @@ void Window::compile()
 
         if (shaderFile.is_open())
         {
-            generatedCode = masterMaterialOutputNode->toGLSL();
+            glslData = masterMaterialOutputNode->toGLSL();
 
-            // Write and flush the generated code.
-            shaderFile << generatedCode;
-            shaderFile.flush();
+            success = !glslData.hasFailed;
 
-            // Close the file.
-            shaderFile.close();
-            success = true;
+            if (success)
+            {
+                // Write and flush the generated code.
+                shaderFile << glslData.generatedCode;
+                shaderFile.flush();
+
+                // Close the file.
+                shaderFile.close();
+            }
+            else errmsg = glslData.errmsg;
         }
         else errmsg = "Could not open file";
     }
@@ -182,7 +187,9 @@ void Window::compile()
 
     if (success)
     {
-        m_ui->preview->onShaderCompiled(generatedCode);
+        m_ui->preview->onShaderCompiled(glslData.uniforms,
+                                        glslData.generatedCode,
+                                        glslData.texturePaths);
         LOG_INFO("Shader : Compiled");
     }
     else

@@ -157,4 +157,45 @@ namespace ShaderGraph
         m_colorDetails.hide();
         Node::hideDetails(tree);
     }
+
+    GLSLData ColorNode::nodeToGLSL() {
+        GLSLData buffer;
+
+        setValidation(NodeValidationState::Valid);
+
+        if (isUniform())
+        {
+            if (getUniformName().empty())
+            {
+                buffer.hasFailed = true;
+                buffer.errmsg = "Uniform name invalid \n";
+                setValidation(NodeValidationState::Error, "Uniform name invalid");
+            }
+            else
+            {
+                GLSL_CODE(buffer.uniforms,
+                          "// Uniform : \n"
+                          "uniform vec4 u_{0} = {1}; \n",
+                          getUniformName(),
+                          getUniformDefaultValue());
+            }
+        }
+        GLSL_CODE(buffer.generatedCode,
+                  "// Input : Color \n"
+                  "{0} = {5}; \n"
+                  "{1} = {0}.r; \n"
+                  "{2} = {0}.g; \n"
+                  "{3} = {0}.b;"
+                  "{4} = {0}.a;"
+                  "\n",
+                  autoName(outputs()[0]),
+                  autoName(outputs()[1]),
+                  autoName(outputs()[2]),
+                  autoName(outputs()[3]),
+                  autoName(outputs()[4]),
+
+                  isUniform() ? "u_" + getUniformName() : getUniformDefaultValue());
+
+        return buffer;
+    }
 }

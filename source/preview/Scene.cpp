@@ -36,6 +36,7 @@ namespace ShaderGraph
         /* ============================================================ */
         GL_ASSERT(glEnable(GL_BLEND));
         GL_ASSERT(glEnable(GL_DEPTH_TEST));
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0));
 
         GL_ASSERT(glViewport(0, 0, m_width, m_height));
         GL_ASSERT(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
@@ -316,6 +317,19 @@ namespace ShaderGraph
         m_shader->setVec4("light.color", m_lightColor);
         m_shader->setVec3("light.directional.direction", m_lightDir);
 
+        unsigned int slot = 0;
+        for (Texture& texture : m_texture)
+        {
+//            //texture.bind(slot);
+//            LOG_DEBUG("Binded slot : {0}, name : u_{1}, path : {2}",
+//                      texture.getSlot(),
+//                      texture.getName(),
+//                      texture.getPath());
+
+            m_shader->setInt("u_" + texture.getName(), texture.getSlot());
+            ++slot;
+        }
+
         /* ============================================================ */
         /* Step 2 : Rendering */
         /* ============================================================ */
@@ -342,8 +356,18 @@ namespace ShaderGraph
         m_camera->processMouseMovement(m_button, xpos, ypos);
     }
 
-    void Scene::onShaderCompiled(const std::string& generatedCode)
+    void Scene::onShaderCompiled(const std::string& uniforms,
+                                 const std::string& generatedCode,
+                                 const std::list<TextureData> textureData)
     {
+        // Prepare the texture buffer.
+        m_texture.clear();
+
+        for (const TextureData& data : textureData)
+        {
+            m_texture.emplace_back(Texture(data.path, data.name));
+        }
+
         std::ofstream output("../data/shaders/runtime/Material.glsl");
         assert(output.is_open());
 
@@ -355,6 +379,8 @@ namespace ShaderGraph
         header.close();
 
         output << headerContent;
+
+        output << uniforms;
 
         std::string kdFunction = "vec3 getKd(Material material, vec2 texCoord) { \n" +
                                  generatedCode                                       +

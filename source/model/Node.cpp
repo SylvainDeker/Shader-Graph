@@ -113,9 +113,10 @@ namespace ShaderGraph
         return "id" + std::to_string(m_id) + "_" + pin->type().name.toStdString();
     }
 
-    std::string Node::outputsToGLSL()
+    GLSLData Node::outputsToGLSL()
     {
-        std::string code;
+        GLSLData glslData;
+
         for (PIN output : m_outputs)
         {
             auto pin = std::dynamic_pointer_cast<IPin>(output);
@@ -125,14 +126,14 @@ namespace ShaderGraph
                                autoName(output)          + " = " +
                                pin->defaultValueToGLSL() + "; // Output" ;
 
-            code += line + "\n";
+            glslData.generatedCode += line + "\n";
         }
-        return code;
+        return glslData;
     }
 
-    std::string Node::inputsToGLSL(std::list<unsigned int>& nodes)
+    GLSLData Node::inputsToGLSL(std::list<unsigned int>& nodes)
     {
-        std::string code;
+        GLSLData glslData;
 
         for (PIN input : m_inputs)
         {
@@ -151,7 +152,8 @@ namespace ShaderGraph
                 auto connectedNode = dynamic_cast<Node*>(connectedPin->getNode());
                 assert(connectedNode);
 
-                code += connectedNode->toGLSL(nodes) + "\n";
+                glslData.generatedCode += "\n";
+                glslData = glslData + connectedNode->toGLSL(nodes);
 
                 value = connectedNode->autoName(connectedNodeData);
             }
@@ -161,29 +163,29 @@ namespace ShaderGraph
                                autoName(input)   + " = " +
                                value             + ";  // Input" ;
 
-            code += line + "\n";
+            glslData.generatedCode += line + "\n";
         }
 
-        return code;
+        return glslData;
     }
 
-    std::string Node::toGLSL()
+    GLSLData Node::toGLSL()
     {
-        std::string glslCode;
+        GLSLData glslData;
         std::list<unsigned int> nodes;
 
         nodes.push_back(m_id);
 
-        glslCode += inputsToGLSL(nodes);
-        glslCode += outputsToGLSL();
-        glslCode += nodeToGLSL();
+        glslData = glslData + inputsToGLSL(nodes);
+        glslData = glslData + outputsToGLSL();
+        glslData = glslData + nodeToGLSL();
 
-        return glslCode;
+        return glslData;
     }
 
-    std::string Node::toGLSL(std::list<unsigned int>& nodes)
+    GLSLData Node::toGLSL(std::list<unsigned int>& nodes)
     {
-        std::string glslCode;
+        GLSLData glslData;
 
         bool isFound = std::find(nodes.begin(), nodes.end(), m_id) != nodes.end();
 
@@ -191,12 +193,12 @@ namespace ShaderGraph
         {
             nodes.push_back(m_id);
 
-            glslCode += inputsToGLSL(nodes);
-            glslCode += outputsToGLSL();
-            glslCode += nodeToGLSL();
+            glslData = glslData + inputsToGLSL(nodes);
+            glslData = glslData + outputsToGLSL();
+            glslData = glslData + nodeToGLSL();
         }
 
-        return glslCode;
+        return glslData;
     }
 
     void Node::inputConnectionDeleted(const QtNodes::Connection& c)

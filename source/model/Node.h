@@ -16,19 +16,13 @@
 #include "../pin/PinDecl.h"
 #include "../detail/DetailDecl.h"
 
+#include "Compilation.h"
+
 #define WIDGET_NODE_SIZE    75
 #define IMAGE_NODE_SIZE     150
 
 // Forward declaration of 'QtNodes::Connection'
 namespace QtNodes { class Connection; }
-
-#define GLSL_CODE(_code_, ...) \
-do \
-{ \
-    fmt::memory_buffer membuf; \
-    format_to(membuf, __VA_ARGS__); \
-    _code_ = to_string(membuf); \
-} while (false); \
 
 namespace ShaderGraph
 {
@@ -127,23 +121,23 @@ namespace ShaderGraph
         virtual std::string autoName(PIN& pin);
 
         /// Generate the declarations of this node outputs, for the GLSL code.
-        std::string outputsToGLSL();
+        GLSLData outputsToGLSL();
 
         /// Generate the declarations + initialization of this node inputs, for the GLSL code.
         /// @nodes : A list of nodeID, use to store the visited/generated nodes.
-        std::string inputsToGLSL(std::list<unsigned int>& nodes);
+        GLSLData inputsToGLSL(std::list<unsigned int>& nodes);
 
         /// Generate the "core" of this node, for the GLSL code.
-        virtual std::string nodeToGLSL() = 0;
+        virtual GLSLData nodeToGLSL() = 0;
 
         /// Generate the equivalent in GLSL code.
         /// @warning : Will generate the node that it depends on.
-        virtual std::string toGLSL();
+        virtual GLSLData toGLSL();
 
         /// Generate the equivalent in GLSL code.
         /// @warning : Will generate the node that it depends on.
         /// @nodes : A list of nodeID, use to store the visited/generated nodes.
-        std::string toGLSL(std::list<unsigned int>& nodes);
+        GLSLData toGLSL(std::list<unsigned int>& nodes);
 
         /* ============================== Details ============================== */
 

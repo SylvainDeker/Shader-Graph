@@ -1,4 +1,12 @@
 #include "VectorNode.h"
+#ifndef _APPLE_
+  #define SPINBOXSTEELSHEET \
+  "color:  rgb(200,200,200);" \
+  "opacity: 150;" \
+  "background-color: rgb(75,75,75); "
+#else
+  #define SPINBOXSTEELSHEET ""
+#endif
 
 namespace ShaderGraph
 {
@@ -21,17 +29,24 @@ namespace ShaderGraph
         };
 
         m_layout->addWidget(m_spinBoxX);
+        m_layout->setContentsMargins(0, 0, 0, 0);
+        m_layout->setSpacing(0);
 
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
         m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
+        m_spinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
 
         m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
         m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_detailsPanelSpinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
+        m_detailsPanelSpinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+
 
         connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &ScalarNode::onValueChanged);
         connect(m_detailsPanelSpinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &ScalarNode::onDetailValueChanged);
+
+        m_detailsPanelSpinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
     }
 
     void ScalarNode::showDetails(QTreeWidget * tree)
@@ -93,6 +108,11 @@ namespace ShaderGraph
 
         m_layout->addWidget(m_spinBoxX);
         m_layout->addWidget(m_spinBoxY);
+        m_layout->setSpacing(0);
+
+        m_layout->setContentsMargins(0, 0, 0, 0);
+        m_spinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+        m_spinBoxY->setStyleSheet(SPINBOXSTEELSHEET);
 
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
         m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
@@ -104,6 +124,9 @@ namespace ShaderGraph
 
         connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec2Node::onValueChanged);
         connect(m_spinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec2Node::onValueChanged);
+
+        m_detailsPanelSpinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+        m_detailsPanelSpinBoxY->setStyleSheet(SPINBOXSTEELSHEET);
 
         m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
         m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
@@ -201,6 +224,12 @@ namespace ShaderGraph
         m_layout->addWidget(m_spinBoxY);
         m_layout->addWidget(m_spinBoxZ);
 
+        m_layout->setSpacing(0);
+        m_layout->setContentsMargins(0, 0, 0, 0);
+        m_spinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+        m_spinBoxY->setStyleSheet(SPINBOXSTEELSHEET);
+        m_spinBoxZ->setStyleSheet(SPINBOXSTEELSHEET);
+
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
         m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
@@ -216,6 +245,10 @@ namespace ShaderGraph
         connect(m_spinBoxX, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onValueChanged);
         connect(m_spinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onValueChanged);
         connect(m_spinBoxZ, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec3Node::onValueChanged);
+
+        m_detailsPanelSpinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+        m_detailsPanelSpinBoxY->setStyleSheet(SPINBOXSTEELSHEET);
+        m_detailsPanelSpinBoxZ->setStyleSheet(SPINBOXSTEELSHEET);
 
         m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
         m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);
@@ -333,6 +366,14 @@ namespace ShaderGraph
         m_layout->addWidget(m_spinBoxZ);
         m_layout->addWidget(m_spinBoxW);
 
+        m_layout->setContentsMargins(0, 0, 0, 0);
+        m_layout->setSpacing(0);
+
+        m_spinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+        m_spinBoxY->setStyleSheet(SPINBOXSTEELSHEET);
+        m_spinBoxZ->setStyleSheet(SPINBOXSTEELSHEET);
+        m_spinBoxW->setStyleSheet(SPINBOXSTEELSHEET);
+
         m_spinBoxX->setSingleStep(SPINBOX_STEP);
         m_spinBoxX->setRange(-FLT_MAX, FLT_MAX);
         m_spinBoxX->setFixedWidth(WIDGET_NODE_SIZE);
@@ -353,6 +394,11 @@ namespace ShaderGraph
         connect(m_spinBoxY, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
         connect(m_spinBoxZ, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
         connect(m_spinBoxW, SPINBOX_VALUE_CHANGED_SLOT, this, &Vec4Node::onValueChanged);
+
+        m_detailsPanelSpinBoxX->setStyleSheet(SPINBOXSTEELSHEET);
+        m_detailsPanelSpinBoxY->setStyleSheet(SPINBOXSTEELSHEET);
+        m_detailsPanelSpinBoxZ->setStyleSheet(SPINBOXSTEELSHEET);
+        m_detailsPanelSpinBoxW->setStyleSheet(SPINBOXSTEELSHEET);
 
         m_detailsPanelSpinBoxX->setSingleStep(SPINBOX_STEP);
         m_detailsPanelSpinBoxX->setRange(-FLT_MAX, FLT_MAX);

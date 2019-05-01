@@ -2,6 +2,8 @@
 Software aimed at GLSL code generation
 
 
+![](https://image.noelshack.com/fichiers/2019/18/3/1556734143-screenshot-20190501-200748.png)
+
 ### Purpose
 
 Shader-Graph is a project developpement, suggested by Mathias Paulin a member of STORM team at IRIT (www.irit.fr). This software is a GUI node editor prototype aimed at GLSL code generation.

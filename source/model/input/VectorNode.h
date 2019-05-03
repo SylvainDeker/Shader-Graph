@@ -19,14 +19,6 @@
 
 namespace ShaderGraph
 {
-  template<typename T> std::string to_str(const T a_value, const int precision = 6)
-  {
-      std::ostringstream out;
-      out.precision(precision);
-      out << std::fixed << a_value;
-      return out.str();
-  }
-
   class ScalarNode : public Node
   {
       Q_OBJECT
@@ -59,6 +51,8 @@ namespace ShaderGraph
       GLSLData nodeToGLSL() override
       {
           GLSLData buffer;
+          // function to_str defined in model/Node.h and used to avoid
+          // float to string conversion with comas from french OS
           GLSL_CODE(buffer.generatedCode,
                     "// Input : Scalar \n"
                     "{0} = {1};"
@@ -128,6 +122,8 @@ namespace ShaderGraph
         GLSLData nodeToGLSL() override
         {
             GLSLData buffer;
+            // function to_str defined in model/Node.h and used to avoid
+            // float to string conversion with comas from french OS
             GLSL_CODE(buffer.generatedCode,
                       "// Input : Vec2 \n"
                       "{0} = vec2({1}, {2});"
@@ -207,6 +203,8 @@ namespace ShaderGraph
         GLSLData nodeToGLSL() override
         {
             GLSLData buffer;
+            // function to_str defined in model/Node.h and used to avoid
+            // float to string conversion with comas from french OS
             GLSL_CODE(buffer.generatedCode,
                       "// Input : Vec3 \n"
                       "{0} = vec3({1}, {2}, {3});"
@@ -297,6 +295,8 @@ namespace ShaderGraph
         GLSLData nodeToGLSL() override
         {
             GLSLData buffer;
+            // function to_str defined in model/Node.h and used to avoid
+            // float to string conversion with comas from french OS
             GLSL_CODE(buffer.generatedCode,
                       "// Input : Vec4 \n"
                       "{0} = vec4({1}, {2}, {3}, {4});"

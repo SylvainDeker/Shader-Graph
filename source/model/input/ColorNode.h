@@ -57,11 +57,13 @@ namespace ShaderGraph
         /// @warning : Only valid if @isUniform equals true.
         inline std::string getUniformDefaultValue() override
         {
+            // function to_str defined in model/Node.h and used to avoid
+            // float to string conversion with comas from french OS
             return  "vec4(" +
-                    std::to_string(m_rSpinBox->value()) + ", " +
-                    std::to_string(m_gSpinBox->value()) + ", " +
-                    std::to_string(m_bSpinBox->value()) + ", " +
-                    std::to_string(m_aSpinBox->value()) + ") " ;
+                    to_str(m_rSpinBox->value()) + ", " +
+                    to_str(m_gSpinBox->value()) + ", " +
+                    to_str(m_bSpinBox->value()) + ", " +
+                    to_str(m_aSpinBox->value()) + ") " ;
         };
 
         GLSLData nodeToGLSL() override;

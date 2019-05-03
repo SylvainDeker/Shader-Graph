@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <sstream>
 
 #include <QVBoxLayout>
 #include <QLayoutItem>
@@ -26,6 +27,15 @@ namespace QtNodes { class Connection; }
 
 namespace ShaderGraph
 {
+    // function used to avoid float to string conversion with comas from french OS
+    template<typename T> std::string to_str(const T a_value, const int precision = 6)
+    {
+        std::ostringstream out;
+        out.precision(precision);
+        out << std::fixed << a_value;
+        return out.str();
+    }
+
     /// The node ID factory.
     static unsigned int g_nodeId = 0;
     #define GET_NEW_NODE_ID g_nodeId++
